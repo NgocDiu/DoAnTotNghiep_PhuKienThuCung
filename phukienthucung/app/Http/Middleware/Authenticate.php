@@ -21,7 +21,7 @@ class Authenticate extends Middleware
             }
 
             // Ngược lại là khách → về trang login khách
-            return route('login');
+            return route('publish.login');
         }
     }
 }
