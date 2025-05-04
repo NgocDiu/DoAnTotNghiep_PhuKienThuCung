@@ -1,0 +1,35 @@
+# Laravel folders
+/vendor
+/node_modules
+/public/storage
+/storage/*.key
+/public/hot
+
+# Environment & config
+.env
+.env.*
+.env.backup
+.phpunit.result.cache
+.phpunit.cache
+composer.lock
+
+# Editors & OS
+/.idea
+/.vscode
+.DS_Store
+Thumbs.db
+
+# Logs & debug
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Homestead / Docker
+Homestead.yaml
+Homestead.json
+docker-compose.override.yml
+
+# Laravel Mix / Assets
+/public/mix-manifest.json
+/public/css/*.css
+/public/js/*.js
