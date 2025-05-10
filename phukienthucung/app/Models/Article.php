@@ -3,11 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Article extends Model
 {
-    protected $fillable = ['title', 'slug', 'content'];
+    protected $table = 'articles';
+
+    protected $fillable = [
+        'title',
+        'slug',
+        'description',
+        'content',
+        'image',
+        'views',
+        'is_active',
+        'is_outstanding',
+    ];
+
+    public $timestamps = true;
+
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
 }

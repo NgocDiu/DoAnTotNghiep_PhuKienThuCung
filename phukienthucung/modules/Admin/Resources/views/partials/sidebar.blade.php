@@ -117,10 +117,7 @@
                                                     href="{{ route('admin.products.discounts') }}">Giảm giá sản
                                                     phẩm</a>
                                             </li>
-                                            <li class="pc-item">
-                                                <a class="pc-link" href="{{-- route('admin.product_attribute_values.index') --}}">Giá trị
-                                                    thuộc tính</a>
-                                            </li>
+
                                             <li class="pc-item">
                                                 <a class="pc-link" href="{{-- route('admin.product_reviews.index') --}}">Đánh giá sản
                                                     phẩm</a>
@@ -162,11 +159,13 @@
                                         </a>
                                         <ul class="pc-submenu" style="display: none;">
                                             <li class="pc-item">
-                                                <a class="pc-link" href="{{-- route('admin.articles.index') --}}">Bài
+                                                <a class="pc-link {{ request()->is('admin/articles/*') ? 'pc-trigger' : '' }}"
+                                                    href="{{ route('admin.articles.index') }}">Bài
                                                     viết</a>
                                             </li>
                                             <li class="pc-item">
-                                                <a class="pc-link" href="{{-- route('admin.pages.index') --}}">Trang
+                                                <a class="pc-link {{ request()->is('admin/pages/*') ? 'pc-trigger' : '' }}"
+                                                    href="{{ route('admin.pages.index') }}">Trang
                                                     tĩnh</a>
                                             </li>
                                         </ul>
@@ -260,7 +259,8 @@
                                         </a>
                                         <ul class="pc-submenu" style="display: none;">
                                             <li class="pc-item">
-                                                <a class="pc-link" href="{{-- route('admin.menus.index') --}}">Quản lý
+                                                <a class="pc-link  {{ request()->is('admin/menus/*') ? 'pc-trigger' : '' }}"
+                                                    href="{{ route('admin.menus.index') }}">Quản lý
                                                     Menu</a>
                                             </li>
                                         </ul>

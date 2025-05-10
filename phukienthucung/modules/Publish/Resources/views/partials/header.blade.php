@@ -4,6 +4,8 @@
 @endphp
 
 
+
+
 <header id="masthead" class="site-header" role="banner" itemtype="https://schema.org/WPHeader" itemscope="">
     <div id="main-header" class="site-header-wrap">
         <div class="site-header-inner-wrap" style="height: 150px;">
@@ -27,11 +29,11 @@
                                                 </a><a href="index.html" class="custom-logo-link" rel="home"
                                                     itemprop="url">
                                                     <img loading="lazy" decoding="async" width="210" height="53"
-                                                        src="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/logo.svg"
+                                                        src="{{ asset('modules/publish/images/logo.jpg') }}"
                                                         class="logo" alt="Hùng Lan"
-                                                        srcset="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/logo.svg 479w, https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/logo.svg 200w"
+                                                        srcset="{{ asset('modules/publish/images/logo.jpg') }} 479w, {{ asset('modules/publish/images/logo.jpg') }} 200w"
                                                         sizes="(max-width: 479px) 100vw, 479px"
-                                                        data-src="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/logo.svg"></a>
+                                                        data-src="{{ asset('modules/publish/images/logo.jpg') }}"></a>
                                                 <a href="index.html" class="brand" rel="home" itemprop="url"><img
                                                         loading="lazy" decoding="async" width="210" height="53"
                                                         src="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/dark-logo.svg"
@@ -69,7 +71,8 @@
                                                         <div class="loader-container" style="display:none"><i
                                                                 class="loader"></i></div>
                                                     </div>
-                                                    <button type="submit" class="search-submit ">
+                                                    <button type="submit" class="search-submit "
+                                                        style="background:#cd1818 ">
                                                         <span class="search-btn-icon"><span
                                                                 class="base-svg-iconset"></span></span>
                                                         <span
@@ -97,12 +100,10 @@
                                             data-section="base_customizer_cart">
                                             <div class="header-cart-wrap base-header-cart"><span
                                                     class="header-cart-empty-check header-cart-is-empty-true"></span>
-                                                <div
-                                                    class="header-cart-inner-wrap cart-show-label-true cart-style-slide">
-                                                    <button data-toggle-target="#cart-drawer"
-                                                        class="drawer-toggle header-cart-button"
-                                                        data-toggle-body-class="showing-popup-drawer-from-right"
-                                                        aria-expanded="false" data-set-focus=".cart-toggle-close"><span
+                                                <div class="header-cart-inner-wrap cart-show-label-true cart-style-slide"
+                                                    style="display: flex;flex-direction: row;align-items: center">
+                                                    <a href="{{ route('cart.index') }}" class=" header-cart-button"
+                                                        data-set-focus=".cart-toggle-close"><span
                                                             class="base-svg-iconset"><svg
                                                                 class="thebase-svg-icon thebase-shopping-bag-svg"
                                                                 fill="currentColor" id="Layer_1"
@@ -136,13 +137,36 @@
                                                                     d="M150.74,43.5H22.62A20.33,20.33,0,0,1,2.35,23.23h0A20.33,20.33,0,0,1,22.62,3H150.74"
                                                                     transform="translate(-2.35 -2.72)"></path>
                                                             </svg></span><span
-                                                            class="header-cart-total header-cart-is-empty-true">0</span>
-                                                        <div class="header-cart-content"> <span
-                                                                class="header-cart-label subtotal"><span
-                                                                    class="woocommerce-Price-amount amount"><span
-                                                                        class="woocommerce-Price-currencySymbol">$</span>0</span>.00</span>
-                                                        </div>
-                                                    </button>
+                                                            class="header-cart-total header-cart-is-empty-true">{{ $cartCount }}</span>
+
+                                                    </a>
+                                                    @php
+                                                        $user = Auth::guard('publish')->user();
+                                                    @endphp
+
+                                                    <div class="user-info" style="text-align: right;">
+                                                        @if ($user)
+                                                            <a style="color: #cd1818;font-weight: bold"
+                                                                href="{{ route('information') }}">
+                                                                <strong
+                                                                    style="color: #cd1818">{{ $user->name }}</strong>!</a>
+
+
+                                                            <form action="{{ route('publish.logout') }}"
+                                                                method="POST" style="display: inline;">
+                                                                @csrf
+                                                                <button type="submit"
+                                                                    style="background: none; border: none; color: #cd1818; cursor: pointer;">
+                                                                    Đăng xuất
+                                                                </button>
+                                                            </form>
+                                                        @else
+                                                            <a style="color: #cd1818"
+                                                                href="{{ route('publish.login') }}">Đăng nhập</a>
+                                                        @endif
+                                                    </div>
+
+
                                                 </div>
                                             </div>
                                         </div>
@@ -435,11 +459,17 @@
                                                                     </ul>
                                                                 @endif
                                                             </li>
-                                                        @else
-                                                            {{-- Static page menu --}}
+                                                        @elseif ($menu->type == 'page' && $menu->page)
                                                             <li class="menu-item">
-                                                                <a href="{{ url($menu->url) }}"
-                                                                    class="py-2 block w-full">
+                                                                <a href="{{ route('page.show', $menu->page->slug) }}"
+                                                                    class="py-2 block w-full" aria-current="page">
+                                                                    {{ $menu->title }}
+                                                                </a>
+                                                            </li>
+                                                        @else
+                                                            <li class="menu-item">
+                                                                <a href="{{ $menu->url }}"
+                                                                    class="py-2 block w-full" aria-current="static">
                                                                     {{ $menu->title }}
                                                                 </a>
                                                             </li>
@@ -522,11 +552,11 @@
                                                     itemprop="url">
                                                     <img loading="lazy" decoding="async" width="210"
                                                         height="53"
-                                                        src="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/logo.svg"
+                                                        src="{{ asset('modules/publish/images/logo.jpg') }}"
                                                         class="logo" alt=""
-                                                        srcset="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/logo.svg 479w, https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/logo.svg 200w"
+                                                        srcset="{{ asset('modules/publish/images/logo.jpg') }} 479w, {{ asset('modules/publish/images/logo.jpg') }} 200w"
                                                         sizes="(max-width: 479px) 100vw, 479px"
-                                                        data-src="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/logo.svg">
+                                                        data-src="{{ asset('modules/publish/images/logo.jpg') }}">
                                                 </a>
                                                 <a href="#" class="brand" rel="home" itemprop="url">
                                                     <img loading="lazy" decoding="async" width="210"
@@ -578,8 +608,7 @@
                                                 <span class="header-cart-empty-check header-cart-is-empty-true"></span>
                                                 <div
                                                     class="header-cart-inner-wrap cart-show-label-false cart-style-slide">
-                                                    <button data-toggle-target="#cart-drawer"
-                                                        aria-label="Shopping Cart"
+                                                    <button aria-label="Shopping Cart"
                                                         class="drawer-toggle header-cart-button"
                                                         data-toggle-body-class="showing-popup-drawer-from-right"
                                                         aria-expanded="false" data-set-focus=".cart-toggle-close">
@@ -615,8 +644,9 @@
                                                                 <path
                                                                     d="M150.74,43.5H22.62A20.33,20.33,0,0,1,2.35,23.23h0A20.33,20.33,0,0,1,22.62,3H150.74"
                                                                     transform="translate(-2.35 -2.72)"></path>
-                                                            </svg></span><span class="header-cart-total">0</span>
+                                                            </svg></span>
                                                         <div class="header-cart-content"></div>
+
                                                     </button>
                                                 </div>
                                             </div>
@@ -631,7 +661,6 @@
             </div>
         </div>
     </div>
-
     <div id="mobile-drawer"
         class="popup-drawer popup-drawer-layout-sidepanel popup-drawer-animation-fade popup-drawer-side-left"
         data-drawer-target-string="#mobile-drawer">
@@ -744,12 +773,16 @@
                                                         </ul>
                                                     @endif
                                                 </li>
-                                            @else
-                                                <!-- Cấp 1: Menu không phải catalog -->
-
+                                            @elseif ($menu->type == 'page' && $menu->page)
                                                 <li
                                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-2 current_page_item menu-item-63">
-                                                    <a href="{{ url($menu->url) }}"
+                                                    <a href="{{ route('page.show', $menu->page->slug) }}"
+                                                        aria-current="page">{{ $menu->title }}</a>
+                                                </li>
+                                            @else
+                                                <li
+                                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-2 current_page_item menu-item-63">
+                                                    <a href="{{ $menu->url }}"
                                                         aria-current="page">{{ $menu->title }}</a>
                                                 </li>
                                             @endif
@@ -774,7 +807,6 @@
 
         <!-- data-section="mobile_secondary_navigation" -->
     </div>
-    </div>
-    </div>
+
     <!--End Mobile header-->
 </header>

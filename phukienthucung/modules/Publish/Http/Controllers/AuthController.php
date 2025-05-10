@@ -52,4 +52,14 @@ class AuthController extends Controller
         // Chuyển hướng đến trang chủ (hoặc trang bạn muốn sau khi đăng ký)
         return redirect()->route('publish.index');
     }
+    public function logout(Request $request)
+    {
+        Auth::guard('publish')->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('publish.login');
+    }
+
 }

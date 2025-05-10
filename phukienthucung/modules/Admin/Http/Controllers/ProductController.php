@@ -46,7 +46,7 @@ class ProductController extends Controller
             'attributes'        => 'nullable|array',
             'attributes.*.id'   => 'exists:attributes,id',
             'attributes.*.value'=> 'nullable|string|max:100',
-            'images.*'          => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'images.*'          => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ]);
 
         DB::transaction(function () use ($request) {
@@ -125,7 +125,7 @@ class ProductController extends Controller
         'attributes' => 'nullable|array',
         'attributes.*.id' => 'exists:attributes,id',
         'attributes.*.value' => 'nullable|string|max:100',
-        'images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
     ]);
 
     DB::transaction(function () use ($request, $product) {

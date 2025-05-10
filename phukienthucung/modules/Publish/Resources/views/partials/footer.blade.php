@@ -1,4 +1,4 @@
-<footer id="colophon" class="site-footer" role="contentinfo">
+<footer id="colophon" class="site-footer" role="contentinfo" style="margin: 20px 0">
     <div class="site-footer-wrap">
         <div class="site-top-footer-wrap site-footer-row-container site-footer-focus-item site-footer-row-layout-standard site-footer-row-tablet-layout-default site-footer-row-mobile-layout-default"
             data-section="base_customizer_footer_top">

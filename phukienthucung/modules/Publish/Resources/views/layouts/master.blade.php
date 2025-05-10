@@ -35,6 +35,7 @@
     @yield('schema')
 
     {{-- <link rel="shortcut icon" href="{{ url('storage/' . config('settings.image_favicon')) }}" type="image/ico" /> --}}
+    <link rel="icon" href="{{ asset('modules/publish/images/icon.png') }}" type="image/png">
 
 
 
@@ -752,7 +753,7 @@
     <style id='base-global-inline-css'>
         /* Base Base CSS */
         :root {
-            --global-palette1: #d6975c;
+            --global-palette1: #cd1818;
             --global-palette2: #1e1e1e;
             --global-palette3: #1e1e1e;
             --global-palette4: #666666;
@@ -2322,7 +2323,7 @@
                     padding-top: 0.6em;
                     padding-bottom: 0.6em;
                     color: var(--global-palette9);
-                    background: #c28b57;
+                    background: rgb(155, 10, 10);
                 }
 
                 .vertical-navigation .vertical-navigation-header .base-svg-iconset {
@@ -3048,35 +3049,7 @@
 
 
 
-    <div id="cart-drawer"
-        class="popup-drawer popup-drawer-layout-sidepanel popup-drawer-side-right popup-mobile-drawer-side-right"
-        data-drawer-target-string="#cart-drawer">
-        <div class="drawer-overlay" data-drawer-target-string="#cart-drawer"></div>
-        <div class="drawer-inner">
-            <div class="drawer-header">
-                <h2 class="side-cart-header">Giỏ hàng</h2>
-                <button class="cart-toggle-close drawer-toggle" aria-label="Close Cart"
-                    data-toggle-target="#cart-drawer" data-toggle-body-class="showing-popup-drawer-from-right"
-                    aria-expanded="false" data-set-focus=".header-cart-button">
-                    <span class="base-svg-iconset">
-                        <svg class="base-svg-icon base-close-svg" fill="currentColor" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <title>Toggle Menu Close</title>
-                            <path
-                                d="M5.293 6.707l5.293 5.293-5.293 5.293c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0l5.293-5.293 5.293 5.293c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414l-5.293-5.293 5.293-5.293c0.391-0.391 0.391-1.024 0-1.414s-1.024-0.391-1.414 0l-5.293 5.293-5.293-5.293c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414z">
-                            </path>
-                        </svg>
-                    </span>
-                </button>
-            </div>
-            <div class="drawer-content woocommerce widget_shopping_cart">
-                <div class="mini-cart-container">
-                    <div class="base-mini-cart-refresh">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <script>
         (function() {
             function maybePrefixUrlField() {
@@ -3513,9 +3486,7 @@
             }
         }
     </script>
-    <link rel="preload" as="font" id="rs-icon-set-revicon-woff"
-        href="themes/frontend/hunglan/assets/css/revicons.woff?5510888" type="font/woff" crossorigin="anonymous"
-        media="all" />
+
     <link rel='stylesheet' id='elementor-post-102-css'
         href="{{ asset('modules/publish/css/post-102.css?ver=1740568330') }}" media='all' />
     <link rel='stylesheet' id='elementor-post-399-css'
@@ -3607,7 +3578,7 @@
 
         #rev_slider_1_1_wrapper .ares .tp-bullet.rs-touchhover,
         #rev_slider_1_1_wrapper .ares .tp-bullet.selected {
-            background: #d6975c
+            background: #cd1818
         }
 
         #rev_slider_1_1_wrapper .ares .tp-bullet-title {
@@ -3647,11 +3618,11 @@
         }
 
         #rev_slider_1_1_wrapper .ares .tp-bullet.selected.rs-touchhover .tp-bullet-title {
-            background: #d6975c
+            background: #cd1818
         }
 
         #rev_slider_1_1_wrapper .ares .tp-bullet.selected.rs-touchhover .tp-bullet-title:after {
-            border-color: transparent transparent transparent #d6975c
+            border-color: transparent transparent transparent #cd1818
         }
 
         #rev_slider_1_1_wrapper .ares.tp-bullets.rs-touchhover .tp-bullet-title {
@@ -3679,7 +3650,7 @@
         }
 
         #rev_slider_1_1_wrapper .ares.nav-dir-vertical.nav-pos-hor-left .tp-bullet.selected.rs-touchhover .tp-bullet-title:after {
-            border-color: transparent #d6975c transparent transparent !important
+            border-color: transparent #cd1818 transparent transparent !important
         }
 
         #rev_slider_1_1_wrapper .ares.nav-dir-horizontal.nav-pos-ver-center .tp-bullet-title,
@@ -3704,7 +3675,7 @@
 
         #rev_slider_1_1_wrapper .ares.nav-dir-horizontal.nav-pos-ver-center .tp-bullet.selected.rs-touchhover .tp-bullet-title:after,
         #rev_slider_1_1_wrapper .ares.nav-dir-horizontal.nav-pos-ver-bottom .tp-bullet.selected.rs-touchhover .tp-bullet-title:after {
-            border-color: #d6975c transparent transparent transparent
+            border-color: #cd1818 transparent transparent transparent
         }
 
         #rev_slider_1_1_wrapper .ares.nav-dir-horizontal.nav-pos-ver-center .tp-bullet.rs-touchhover .tp-bullet-title,
@@ -3732,7 +3703,7 @@
         }
 
         #rev_slider_1_1_wrapper .ares.nav-dir-horizontal.nav-pos-ver-top .tp-bullet.selected.rs-touchhover .tp-bullet-title:after {
-            border-color: transparent transparent #d6975c transparent
+            border-color: transparent transparent #cd1818 transparent
         }
 
         #rev_slider_1_1_wrapper .ares.nav-dir-horizontal.nav-pos-ver-top .tp-bullet.rs-touchhover .tp-bullet-title {
@@ -4258,7 +4229,7 @@
         });
     </script> --}}
     <script src="{{ asset('modules/publish/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
+    @stack('scripts')
 </body>
 
 </html>

@@ -3,22 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-
 
 class CartItem extends Model
 {
-    protected $fillable = ['user_id', 'product_id', 'quantity'];
+    protected $fillable = ['cart_id', 'product_id', 'quantity'];
 
-    public function product(): BelongsTo
+    public function cart()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Cart::class);
     }
 
-    public function user(): BelongsTo
+    public function product()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Product::class);
     }
 }

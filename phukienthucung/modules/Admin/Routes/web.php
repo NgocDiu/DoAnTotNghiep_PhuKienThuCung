@@ -11,6 +11,8 @@ use Modules\Admin\Http\Controllers\CategoryController;
 use Modules\Admin\Http\Controllers\BrandController;
 use Modules\Admin\Http\Controllers\AttributeController;
 use Modules\Admin\Http\Controllers\ProductController;
+use Modules\Admin\Http\Controllers\PageController;
+use Modules\Admin\Http\Controllers\Menu;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,7 +85,19 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin')->name('admin.')->group
     Route::post('products/discounts/{product}', [ProductController::class, 'updateDiscount'])
         ->middleware('permission:product')
         ->name('products.updateDiscount');
+        
+    Route::resource('menus', MenuController::class)
+        ->except(['show'])
+        ->middleware('permission:menu')
+        ->names('menus');
 
+    Route::resource('articles', ArticleController::class)
+    ->except(['show'])
+    ->middleware('permission:article')
+    ->names('articles');;
+
+    Route::resource('pages', PageController::class)
+        ->middleware('permission:page');
 
 
 });

@@ -12,8 +12,26 @@ class CartController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-     public function index()
+    public function add(Request $request, $id)
     {
-        return view('admin::cart.index');
+        $request->validate([
+            'quantity' => 'required|integer|min:1'
+        ]);
+
+        $user = auth()->user();
+        $cartItem = CartItem::where('user_id', $user->id)->where('product_id', $id)->first();
+
+        if ($cartItem) {
+            $cartItem->increment('quantity', $request->quantity);
+        } else {
+            CartItem::create([
+                'user_id' => $user->id,
+                'product_id' => $id,
+                'quantity' => $request->quantity,
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Đã thêm vào giỏ hàng!');
     }
+
 }
