@@ -1,6 +1,11 @@
 @extends('admin::layouts.master')
 
 @section('content')
+    <style>
+        .div.dt-container div.dt-length select {
+            width: 62px !important;
+        }
+    </style>
     <div class="container mt-4">
         <div class="pt-4 d-flex flex-row justify-content-between">
             <h4>Danh sách danh mục</h4>
@@ -15,7 +20,7 @@
         @endif
 
         <!-- Bảng danh mục -->
-        <table class="table table-bordered table-hover">
+        <table id="categoriesTable" class="table table-bordered table-hover">
             <thead>
                 <tr>
                     <th>#</th>
@@ -147,3 +152,16 @@
         </div>
     @endforeach
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('modules/admin/datatable/datatables.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#categoriesTable').DataTable({
+                "language": {
+                    "url": "{{ asset('modules/admin/datatable/i18n/vi.json') }}" // nếu bạn có file tiếng Việt local
+                }
+            });
+        });
+    </script>
+@endpush

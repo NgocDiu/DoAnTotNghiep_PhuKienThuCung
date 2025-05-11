@@ -4,13 +4,12 @@
     <div class="container">
         <h1>Gán Vai trò cho Người dùng</h1>
 
-        <table class="table table-bordered">
+        <table id="userRolesTable" class="table table-bordered">
             <thead>
                 <tr>
                     <th>Tên người dùng</th>
                     <th>Email</th>
                     <th>Vai trò</th>
-                    <th>Hành động</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,15 +28,28 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                <button type="submit" class="btn btn-primary btn-sm mt-2">Lưu</button>
+                                <div style="display: flex;justify-content: end">
+                                    <button type="submit" class="btn btn-primary btn-sm mt-2">Lưu</button>
+
+                                </div>
                             </form>
                         </td>
-                        <td>
-                            {{-- Xử lý thêm nếu cần --}}
-                        </td>
+
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
 @endsection
+@push('scripts')
+    <script src="{{ asset('modules/admin/datatable/datatables.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#userRolesTable').DataTable({
+                "language": {
+                    "url": "{{ asset('modules/admin/datatable/i18n/vi.json') }}" // nếu bạn có file tiếng Việt local
+                }
+            });
+        });
+    </script>
+@endpush

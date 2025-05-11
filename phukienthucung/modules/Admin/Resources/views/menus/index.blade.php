@@ -9,7 +9,7 @@
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <table class="table table-bordered">
+        <table id="menusTable" class="table table-bordered">
             <thead>
                 <tr>
                     <th>#</th>
@@ -163,3 +163,16 @@
         }
     </script>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('modules/admin/datatable/datatables.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#menusTable').DataTable({
+                "language": {
+                    "url": "{{ asset('modules/admin/datatable/i18n/vi.json') }}" // nếu bạn có file tiếng Việt local
+                }
+            });
+        });
+    </script>
+@endpush

@@ -11,7 +11,7 @@
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <table class="table table-bordered table-hover">
+        <table id="brandsTable" class="table table-bordered table-hover">
             <thead>
                 <tr>
                     <th>#</th>
@@ -115,3 +115,15 @@
         </div>
     @endforeach
 @endsection
+@push('scripts')
+    <script src="{{ asset('modules/admin/datatable/datatables.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#brandsTable').DataTable({
+                "language": {
+                    "url": "{{ asset('modules/admin/datatable/i18n/vi.json') }}" // nếu bạn có file tiếng Việt local
+                }
+            });
+        });
+    </script>
+@endpush

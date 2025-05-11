@@ -721,6 +721,9 @@
                 pointer-events: none
             }
         </style>
+
+        <link href="{{ asset('modules/admin/datatable/datatables.min.css') }}" rel="stylesheet">
+
     </head>
 </head>
 
@@ -749,6 +752,8 @@
     <script src="{{ asset('modules/admin/js/fonts/custom-font.js') }}"></script>
     <script src="{{ asset('modules/admin/js/pcoded.js') }}"></script>
     <script src="{{ asset('modules/admin/js/plugins/feather.min.js') }}"></script>
+    {{-- <script src="{{ asset('modules/admin/datatable/datatables.min.js') }}"></script> --}}
+    @stack('scripts')
 
 </body>
 

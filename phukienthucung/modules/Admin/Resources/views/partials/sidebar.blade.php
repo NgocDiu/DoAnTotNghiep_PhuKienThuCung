@@ -3,7 +3,7 @@
         <div class="m-header">
             <a href="../dashboard/index.html" class="b-brand text-primary">
                 <!-- ========   Change your logo from here   ============ -->
-                <img src="{{ asset('modules/admin/images/logo-dark.svg') }}" class="img-fluid logo-lg" alt="logo">
+                <img src="{{ asset('modules/publish/images/logoadmin.jpg') }}" class="img-fluid logo-lg" alt="logo">
             </a>
         </div>
         <div class="navbar-content pc-trigger active simplebar-scrollable-y" data-simplebar="init">
