@@ -94,7 +94,6 @@
                 @php
                     $existing = $product->attributeValues->firstWhere('attribute_id', $attr->id);
                 @endphp
-
                 <div class="mb-3">
                     <label class="form-label">{{ $attr->name }}</label>
                     <input type="hidden" name="product_attributes[{{ $loop->index }}][id]" value="{{ $attr->id }}">
@@ -103,30 +102,36 @@
                 </div>
             @endforeach
 
-
             <hr>
             <h5>Ảnh sản phẩm hiện tại</h5>
-            <div class="row">
-                @foreach ($product->images as $img)
-                    <div class="col-2 mb-2">
-                        <img src="{{ asset($img->image_url) }}" class="img-thumbnail" width="100">
-                        @if ($img->is_main)
-                            <span class="badge bg-primary">Ảnh đại diện</span>
-                        @endif
-                    </div>
-                @endforeach
+            <div class="row mb-3">
+                <div class="d-flex flex-wrap gap-3">
+                    @foreach ($product->images as $img)
+                        <div style="position: relative; width: 120px;">
+                            <img src="{{ asset($img->image_url) }}" alt="Ảnh sản phẩm"
+                                style="width: 100%; height: 120px; object-fit: cover; border: 1px solid #ccc; border-radius: 6px;">
+                            @if ($img->is_main)
+                                <span
+                                    style="position: absolute; top: 6px; left: 6px; background: green; color: white; font-size: 12px; padding: 2px 6px; border-radius: 4px;">
+                                    Ảnh chính
+                                </span>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
             </div>
+
             <p class="text-danger small mt-2">Khi chọn ảnh mới, toàn bộ ảnh cũ sẽ bị xóa!</p>
 
-            <div class="mb-3">
+            <div class="mb-4">
                 <label class="form-label">Tải ảnh mới (tùy chọn)</label>
                 <input type="file" name="images[]" class="form-control" multiple>
             </div>
+
             <div class="d-flex flex-row justify-content-end">
                 <button class="btn btn-primary mx-1">Cập nhật sản phẩm</button>
                 <a href="{{ route('admin.products.index') }}" class="btn btn-secondary">Hủy</a>
             </div>
-
         </form>
     </div>
 @endsection

@@ -160,10 +160,12 @@ class ProductController extends Controller
 
 
         // 4. Xóa ảnh cũ
-        foreach ($product->images as $image) {
-            $path = str_replace('storage/', 'public/', $image->image_url);
-            Storage::delete($path);
-            $image->delete();
+        if ($request->hasFile('images')) {
+            foreach ($product->images as $image) {
+                $path = str_replace('storage/', 'public/', $image->image_url);
+                Storage::delete($path);
+                $image->delete();
+            }
         }
 
         // 5. Upload ảnh mới
