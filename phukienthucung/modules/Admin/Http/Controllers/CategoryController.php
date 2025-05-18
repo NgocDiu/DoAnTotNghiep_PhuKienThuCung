@@ -9,9 +9,13 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::with('parent')->orderByDesc('id')->get();
-        return view('admin::categories.index', compact('categories'));
+        $categories = Category::with('children', 'parent')->whereNull('parent_id')->get();
+        $allCategories = Category::all(); // dùng cho dropdown tạo/sửa
+    
+        return view('admin::categories.index', compact('categories', 'allCategories'));
     }
+    
+
 
     public function store(Request $request)
     {

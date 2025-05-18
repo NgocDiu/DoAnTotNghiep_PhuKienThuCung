@@ -53,7 +53,7 @@ class CartController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('success', 'Đã thêm vào giỏ hàng!');
+        return redirect()->back()->with('success', 'Thêm sản phẩm vào giỏ hàng thành công!');
     }
 
     // Xóa sản phẩm khỏi giỏ

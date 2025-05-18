@@ -186,6 +186,27 @@
         <div id="primary" class="content-area">
             <div class="content-container site-container">
                 <main id="main" class="site-main" role="main">
+
+
+                    @if (session('success'))
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="custom-alert-close"
+                                onclick="this.parentElement.style.display='none';">&times;</button>
+                        </div>
+                    @endif
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <button type="button" class="custom-alert-close"
+                                onclick="this.parentElement.style.display='none';">&times;</button>
+                        </div>
+                    @endif
                     <div class="woocommerce base-woo-messages-none-woo-pages woocommerce-notices-wrapper"></div>
                     <div class="content-wrap">
                         <article id="post-2"
@@ -194,7 +215,7 @@
                                 <div class="entry-content single-content">
                                     <div data-elementor-type="wp-page" data-elementor-id="2" class="elementor elementor-2">
                                         <!-- slideshow-->
-                                        
+
 
                                         <!-- End slideshow-->
 
@@ -3265,7 +3286,8 @@
                                                                                         aria-label="1 of 6"
                                                                                         style="width: calc(16.6667%);"
                                                                                         aria-hidden="true">
-                                                                                        <div class="elementor-brand-image">
+                                                                                        <div
+                                                                                            class="elementor-brand-image">
                                                                                             <a href="#"
                                                                                                 title="Brand Name"
                                                                                                 tabindex="-1"><img

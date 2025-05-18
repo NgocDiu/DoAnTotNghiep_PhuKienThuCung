@@ -146,10 +146,10 @@
 
                                                     <div class="user-info" style="text-align: right;">
                                                         @if ($user)
-                                                            <a style="color: #cd1818;font-weight: bold"
+                                                            <a style="color: #cd1818;font-weight: bold !important"
                                                                 href="{{ route('information') }}">
                                                                 <strong
-                                                                    style="color: #cd1818">{{ $user->name }}</strong>!</a>
+                                                                    style="color: #cd1818;font-weight: bold !important">{{ $user->name }}</strong></a>
 
 
                                                             <form action="{{ route('publish.logout') }}"

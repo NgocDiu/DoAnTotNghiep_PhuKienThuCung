@@ -723,7 +723,15 @@
         </style>
 
         <link href="{{ asset('modules/admin/datatable/datatables.min.css') }}" rel="stylesheet">
+        <style>
+            .div.dt-container div.dt-length select {
+                width: 62px !important;
+            }
 
+            .alert-dismissible {
+                transition: opacity 0.5s ease-out;
+            }
+        </style>
     </head>
 </head>
 
@@ -754,6 +762,18 @@
     <script src="{{ asset('modules/admin/js/plugins/feather.min.js') }}"></script>
     {{-- <script src="{{ asset('modules/admin/datatable/datatables.min.js') }}"></script> --}}
     @stack('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                document.querySelectorAll('.alert-dismissible').forEach(function(el) {
+                    el.classList.remove('show');
+                    el.classList.add('fade');
+                    el.style.opacity = '0';
+                });
+            }, 3000);
+        });
+    </script>
+
 
 </body>
 

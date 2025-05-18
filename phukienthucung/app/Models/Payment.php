@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Payment extends Model
 {
+    protected $table = 'payment';
     protected $fillable = ['order_id', 'payment_method', 'amount', 'status', 'payment_time'];
 
     public function order(): BelongsTo

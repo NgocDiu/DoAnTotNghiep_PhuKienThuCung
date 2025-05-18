@@ -22,6 +22,29 @@
         <div id="primary" class="content-area">
             <div class="content-container site-container">
                 <main id="main" class="site-main" role="main">
+                    <div id="toast"
+                        style="display: none; background: #d1e7dd; color: #0f5132; padding: 12px; border-radius: 4px; position: fixed; top: 20px; right: 20px; z-index: 9999;">
+                    </div>
+
+                    @if (session('success'))
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="custom-alert-close"
+                                onclick="this.parentElement.style.display='none';">&times;</button>
+                        </div>
+                    @endif
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <button type="button" class="custom-alert-close"
+                                onclick="this.parentElement.style.display='none';">&times;</button>
+                        </div>
+                    @endif
                     <div class="content-wrap">
                         <article id="post-50"
                             class="entry content-bg single-entry post-footer-area-boxed post-50 page type-page status-publish hentry">
@@ -34,77 +57,101 @@
                                                 <div class="cart-summary">
                                                     <h2>Tóm tắt giỏ hàng</h2>
                                                 </div>
-                                                <table
-                                                    class="shop_table shop_table_responsive cart woocommerce-cart-form__contents"
-                                                    cellspacing="0">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="product-remove">Xóa</th>
-                                                            <th class="product-thumbnail">Ảnh</th>
-                                                            <th class="product-name">Sản phẩm</th>
-                                                            <th class="product-price">Giá</th>
-                                                            <th class="product-quantity">Số lượng</th>
-                                                            <th class="product-subtotal">Thành tiền</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach ($cartItems as $item)
-                                                            <tr class="woocommerce-cart-form__cart-item cart_item"
-                                                                data-item-id="{{ $item->id }}">
-                                                                <td class="product-remove">
-                                                                    <a href="javascript:void(0);" class="remove-cart-item"
-                                                                        data-remove-url="{{ route('cart.remove', $item->id) }}">×</a>
-
-                                                                </td>
-                                                                <td class="product-thumbnail">
-                                                                    <img src="{{ asset($item->product->images->firstWhere('is_main', 1)?->image_url ?? 'images/no-image.png') }}"
-                                                                        style="width: 80px;height: 80px;">
-
-                                                                </td>
-                                                                <td class="product-name">{{ $item->product->name }}</td>
-                                                                <td class="product-price">
-                                                                    {{ number_format($item->product->is_discount ? $item->product->discount_price : $item->product->price) }}₫
-                                                                </td>
-                                                                <td class="product-quantity">
-                                                                    <input type="number" class="cart-qty"
-                                                                        data-update-url="{{ route('cart.update', $item->id) }}"
-                                                                        value="{{ $item->quantity }}" min="1">
-                                                                    <button class="update-cart-item">Cập nhật</button>
-                                                                </td>
-
-                                                                <td class="product-subtotal">
-                                                                    {{ number_format(($item->product->is_discount ? $item->product->discount_price : $item->product->price) * $item->quantity) }}₫
-                                                                </td>
+                                                <div class=""
+                                                    style="width: 100%;display: flex;flex-direction: row;justify-content:space-between">
+                                                    <table
+                                                        class="shop_table shop_table_responsive cart woocommerce-cart-form__contents"
+                                                        cellspacing="0" style="width: 80%;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="product-remove">Xóa</th>
+                                                                <th class="product-thumbnail">Ảnh</th>
+                                                                <th class="product-name">Sản phẩm</th>
+                                                                <th class="product-price">Giá</th>
+                                                                <th class="product-quantity">Số lượng</th>
+                                                                <th class="product-subtotal">Thành tiền</th>
                                                             </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($cartItems as $item)
+                                                                <tr class="woocommerce-cart-form__cart-item cart_item"
+                                                                    data-item-id="{{ $item->id }}">
+                                                                    <td class="product-remove">
+                                                                        <a href="javascript:void(0);"
+                                                                            class="remove-cart-item"
+                                                                            data-remove-url="{{ route('cart.remove', $item->id) }}"
+                                                                            style="font-size:24px;font-weight: bold ">×</a>
 
-                                                <div class="cart-collaterals">
-                                                    <div class="cart_totals">
-                                                        <div class="cart_totals_summary">
-                                                            <h2>Tổng giỏ hàng</h2>
-                                                            <table cellspacing="0" class="shop_table shop_table_responsive">
-                                                                <tbody>
-                                                                    <tr class="cart-subtotal">
-                                                                        <th>Tiền hàng</th>
-                                                                        <td>{{ number_format($total) }}₫</td>
-                                                                    </tr>
-                                                                    <tr class="order-total">
-                                                                        <th>Tổng cộng</th>
-                                                                        <td><strong>{{ number_format($total) }}₫</strong>
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                            <div class="wc-proceed-to-checkout">
-                                                                <a href="#"
-                                                                    class="checkout-button button alt wc-forward">Thanh
-                                                                    toán</a>
+
+                                                                    </td>
+                                                                    <td class="product-thumbnail">
+                                                                        <img src="{{ asset($item->product->images->firstWhere('is_main', 1)?->image_url ?? 'images/no-image.png') }}"
+                                                                            style="width: 80px;height: 80px;">
+
+                                                                    </td>
+                                                                    <td class="product-name"><a
+                                                                            href="{{ route('product.show', $item->product->slug) }}">{{ $item->product->name }}</a>
+                                                                    </td>
+                                                                    <td class="product-price">
+                                                                        {{ number_format($item->product->is_discount ? $item->product->discount_price : $item->product->price) }}₫
+                                                                    </td>
+                                                                    <td class="product-quantity" style="">
+                                                                        <form method="POST"
+                                                                            action="{{ route('cart.update', $item->id) }}"
+                                                                            class="update-form"
+                                                                            style="display: flex; gap: 8px;">
+                                                                            @csrf
+                                                                            @method('PATCH')
+                                                                            <input type="number" name="quantity"
+                                                                                value="{{ $item->quantity }}" min="1"
+                                                                                style="width: 60px; padding: 4px; border: 1px solid #ccc; border-radius: 4px;">
+
+                                                                            <button type="submit"
+                                                                                style="padding: 6px 10px; background: none; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                                                                <i class="fa-solid fa-circle-check"
+                                                                                    style="color:#cd1818"></i>
+                                                                            </button>
+                                                                        </form>
+                                                                    </td>
+
+
+
+                                                                    <td class="product-subtotal">
+                                                                        {{ number_format(($item->product->is_discount ? $item->product->discount_price : $item->product->price) * $item->quantity) }}₫
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+
+                                                    <div class="cart-collaterals" style="width: 17%;">
+                                                        <div class="cart_totals">
+                                                            <div class="cart_totals_summary">
+                                                                <h2>Tổng giỏ hàng</h2>
+                                                                <table cellspacing="0"
+                                                                    class="shop_table shop_table_responsive">
+                                                                    <tbody>
+                                                                        <tr class="cart-subtotal">
+                                                                            <th>Tiền hàng</th>
+                                                                            <td>{{ number_format($total) }}₫</td>
+                                                                        </tr>
+                                                                        <tr class="order-total">
+                                                                            <th>Tổng cộng</th>
+                                                                            <td><strong>{{ number_format($total) }}₫</strong>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <div class="wc-proceed-to-checkout">
+                                                                    <a href="{{ route('checkout.index') }}"
+                                                                        class="checkout-button button alt wc-forward">Thanh
+                                                                        toán</a>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+
 
                                             </div>
                                         </div>
@@ -130,74 +177,154 @@
                 </main><!-- #main -->
             </div>
         </div><!-- #primary -->
+        <form id="deleteCartForm" method="POST" style="display: none;">
+            @csrf
+            @method('DELETE')
+        </form>
+
     </div>
+    <style>
+        .custom-modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .custom-modal {
+            background: #fff;
+            border-radius: 6px;
+            width: 400px;
+            max-width: 90%;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.8s ease;
+        }
+
+        .custom-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .custom-modal-body {
+            margin: 15px 0;
+        }
+
+        .custom-modal-footer {
+            text-align: right;
+        }
+
+        .custom-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .cancel-btn {
+            background: #ccc;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .custom-modal-close {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+
+    <!-- Modal xác nhận xóa -->
+    <div id="customRemoveModal" class="custom-modal-overlay">
+        <div class="custom-modal">
+            <div class="custom-modal-header">
+                <h3>Xác nhận xóa</h3>
+                <button class="custom-modal-close" onclick="closeRemoveModal()">&times;</button>
+            </div>
+            <div class="custom-modal-body">
+                Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng không?
+            </div>
+            <div class="custom-modal-footer">
+                <button class="custom-btn cancel-btn" onclick="closeRemoveModal()">Hủy</button>
+                <button type="button" id="confirmRemoveBtn" class="custom-btn delete-btn"
+                    style="text-decoration: none">Xóa</button>
+            </div>
+        </div>
+    </div>
+
+
 @endsection
 
 @section('scripts')
     <script>
-        document.querySelectorAll('.update-cart-item').forEach(button => {
-            button.addEventListener('click', async (e) => {
-                const row = e.target.closest('tr');
-                const qtyInput = row.querySelector('.cart-qty');
-                const updateUrl = qtyInput.getAttribute('data-update-url');
-                const quantity = qtyInput.value;
+        // ===============================
+        // Xử lý xoá bằng modal xác nhận
+        // ===============================
+        let removeUrl = '';
 
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute(
-                    'content');
+        function openRemoveModal(url) {
+            removeUrl = url;
+            document.getElementById('customRemoveModal').style.display = 'flex';
+        }
 
-                const res = await fetch(updateUrl, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json', // 👈 THÊM DÒNG NÀY
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    body: JSON.stringify({
-                        quantity
-                    })
+        function closeRemoveModal() {
+            document.getElementById('customRemoveModal').style.display = 'none';
+            removeUrl = '';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gán sự kiện mở modal khi click "×"
+            document.querySelectorAll('.remove-cart-item').forEach(function(el) {
+                el.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openRemoveModal(el.getAttribute('data-remove-url'));
                 });
+            });
 
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data.success) {
-                        location.reload();
-                    }
-                } else {
-                    const errorText = await res.text();
-                    console.error(errorText);
-                    alert("Lỗi cập nhật giỏ hàng!");
+            // Gán sự kiện khi bấm nút Xóa trong modal
+            document.getElementById('confirmRemoveBtn').addEventListener('click', function() {
+                if (removeUrl) {
+                    const form = document.getElementById('deleteCartForm');
+                    form.action = removeUrl;
+                    form.submit();
                 }
             });
-        });
 
 
-
-
-
-        document.querySelectorAll('.remove-cart-item').forEach(button => {
-            button.addEventListener('click', async (e) => {
-                e.preventDefault(); // 👈 Quan trọng!
-
-                const url = button.getAttribute('data-remove-url');
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute(
-                    'content');
-
-                const res = await fetch(url, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Accept': 'application/json',
-                    },
+            // ===============================
+            // Tự động ẩn thông báo sau 3 giây
+            // ===============================
+            setTimeout(() => {
+                document.querySelectorAll('.alert-dismissible').forEach(el => {
+                    el.style.opacity = '0';
+                    setTimeout(() => el.remove(), 300);
                 });
-
-                if (res.ok) {
-                    location.reload();
-                } else {
-                    const err = await res.text();
-                    console.error('Error:', err);
-                    alert("Lỗi xóa sản phẩm khỏi giỏ hàng!");
-                }
-            });
+            }, 3000);
         });
     </script>
 @endsection

@@ -32,6 +32,25 @@
         <div id="primary" class="content-area">
             <div class="content-container site-container">
                 <main id="main" class="site-main" role="main">
+                    @if (session('success'))
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="custom-alert-close"
+                                onclick="this.parentElement.style.display='none';">&times;</button>
+                        </div>
+                    @endif
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <button type="button" class="custom-alert-close"
+                                onclick="this.parentElement.style.display='none';">&times;</button>
+                        </div>
+                    @endif
 
                     <div class="woocommerce-notices-wrapper"></div>
                     <div id="product-214"
@@ -77,8 +96,8 @@
                                                                 data-description="">
                                                                 <img loading="lazy" width="600" style="width: 600px"
                                                                     data-thumb="{{ asset($img->image_url) }}"
-                                                                    class="attachment-shop-single skip-lazy" data-caption=""
-                                                                    title="{{ $product->name }}"
+                                                                    class="attachment-shop-single skip-lazy"
+                                                                    data-caption="" title="{{ $product->name }}"
                                                                     data-zoom-image="{{ asset($img->image_url) }}"
                                                                     height="600" src="{{ asset($img->image_url) }}"
                                                                     alt="{{ $product->name }}">

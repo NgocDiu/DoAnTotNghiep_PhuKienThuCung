@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="vi-VN" class="no-js" itemtype="https://schema.org/Blog" itemscope>
+<html lang="vi-VN" class="no-js" itemtype="https://schema.org/WebPage" itemscope>
 
 <head>
     <meta charset="UTF-8">
@@ -21,7 +21,20 @@
     <meta property="fb:app_id" content="{{ config('settings.facebook_app_id') }}" />
     <meta name="twitter:card" content="summary_large_image">
     <link rel="canonical" href="@yield('canonical')" />
-    <link rel='stylesheet' id='base-dark-mode-css' href='{{ asset('modules/publish/css/dark-mode.css?ver=3.4.0') }}'
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta name="facebook-domain-verification" content="mym6ptprkxwned8xl4u0stbns2p72m" />
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "{{config('settings.store_name')}}",
+            "alternateName":  "{{config('settings.meta_title')}}",
+            "url": "{{url('/')}}"
+        }
+    </script>
+    @yield('schema')
+    <link rel="shortcut icon" href="{{ url('storage/' . config('settings.image_favicon')) }}" type="image/ico" />
+    <link rel='stylesheet' id='base-dark-mode-css' href="{{ asset('modules/publish/css/dark-mode.css') }}"
         media='all' />
     <style id='base-dark-mode-inline-css'>
         :root {
@@ -49,7 +62,7 @@
             --global-palette6: #d9d9d9;
             --global-palette7: #212121;
             --global-palette8: #0f0f0f;
-            --global-palette9: #1f1a1a;
+            --global-palette9: #181818;
             --global-palette9rgb: 24, 24, 24;
             --global-palette-highlight: var(--global-palette1);
             --global-palette-highlight-alt: var(--global-palette2);
@@ -139,8 +152,7 @@
     <script>
         document.documentElement.classList.remove('no-js');
     </script>
-
-    <link rel='stylesheet' id='wp-block-library-css' href='{{ asset('modules/publish/css/style.min.css?ver=6.7.2') }}'
+    <link rel='stylesheet' id='wp-block-library-css' href="{{ asset('modules/publish/css/style.min.css?ver=6.7.2') }}"
         media='all' />
     <style id='wp-block-library-inline-css'>
         .wp-block-quote.is-style-blue-quote {
@@ -857,56 +869,58 @@
             line-height: 1.6;
         }
     </style>
-    <link rel='stylesheet' id='contact-form-7-css' href='{{ asset('modules/publish/css/styles.css?ver=6.0.4') }}'
+    <link rel='stylesheet' id='contact-form-7-css' href="{{ asset('modules/publish/css/styles.css?ver=6.0.4') }}"
         media='all' />
     <style id='woocommerce-inline-inline-css'>
         .woocommerce form .form-row .required {
             visibility: visible;
         }
     </style>
-    <link rel='stylesheet' id='menu-addons-css' href='{{ asset('modules/publish/css/menu-addon.css?ver=3.4.0') }}'
+    <link rel='stylesheet' id='menu-addons-css' href="{{ asset('modules/publish/css/menu-addon.css?ver=3.4.0') }}"
         media='all' />
+    <link rel='stylesheet' id='base-sticky-add-to-cart-css'
+        href="{{ asset('modules/publish/css/base-sticky-add-to-cart.css?ver=3.4.0') }}" media='all' />
     <link rel='stylesheet' id='base-min-cart-shipping-notice-css'
-        href='{{ asset('modules/publish/css/mini-cart-notice.css?ver=3.4.0') }}' media='all' />
+        href="{{ asset('modules/publish/css/mini-cart-notice.css?ver=3.4.0') }}" media='all' />
     <link rel='stylesheet' id='vertical-navigation-style-css'
-        href='{{ asset('modules/publish/css/vertical-navigation.css?ver=3.4.0') }}' media='all' />
+        href="{{ asset('modules/publish/css/vertical-navigation.css?ver=3.4.0') }}" media='all' />
     <link rel='stylesheet' id='search-advanced-style-css'
-        href='{{ asset('modules/publish/css/search-advanced.css?ver=3.4.0') }}' media='all' />
+        href="{{ asset('modules/publish/css/search-advanced.css?ver=3.4.0') }}" media='all' />
     <link rel='stylesheet' id='header-wishlist-style-css'
-        href='{{ asset('modules/publish/css/header-wishlist.css?ver=3.4.0') }}' media='all' />
+        href="{{ asset('modules/publish/css/header-wishlist.css?ver=3.4.0') }}" media='all' />
     <link rel='stylesheet' id='tmcore-clever-style-css'
-        href='{{ asset('modules/publish/css/clever.min.css?ver=3.4.0') }}' media='all' />
+        href="{{ asset('modules/publish/css/clever.min.css?ver=3.4.0') }}" media='all' />
     <link rel='stylesheet' id='elementor-frontend-css'
-        href='{{ asset('modules/publish/css/custom-frontend.min.css?ver=1740568330') }}' media='all' />
+        href="{{ asset('modules/publish/css/custom-frontend.min.css?ver=1740568330') }}" media='all' />
     <link rel='stylesheet' id='elementor-post-54-css'
-        href='{{ asset('modules/publish/css/post-54.css?ver=1740568330') }}' media='all' />
+        href="{{ asset('modules/publish/css/post-54.css?ver=1740568330') }}" media='all' />
     <link rel='stylesheet' id='perfect-scrollbar-css'
-        href='{{ asset('modules/publish/css/perfect-scrollbar.min.css?ver=3.4.0') }}' media='all' />
+        href="{{ asset('modules/publish/css/perfect-scrollbar.min.css?ver=3.4.0') }}" media='all' />
     <link rel='stylesheet' id='tmcore-frontend-css'
-        href='{{ asset('modules/publish/css/frontend.min.css?ver=3.4.0') }}' media='all' />
+        href="{{ asset('modules/publish/css/frontend.min.css?ver=3.4.0') }}" media='all' />
     <link rel='stylesheet' id='tmcore-skeleton-css'
-        href='{{ asset('modules/publish/css/skeleton.min.css?ver=3.4.0') }}' media='all' />
-    <link rel='stylesheet' id='hint-css' href='{{ asset('modules/publish/css/hint.min.css?ver=6.7.2') }}'
+        href="{{ asset('modules/publish/css/skeleton.min.css?ver=3.4.0') }}" media='all' />
+    <link rel='stylesheet' id='hint-css' href="{{ asset('modules/publish/css/hint.min.css?ver=6.7.2') }}"
         media='all' />
     <link rel='stylesheet' id='perfect-scrollbar-wpc-css'
-        href='{{ asset('modules/publish/css/custom-theme.css?ver=6.7.2') }}' media='all' />
-    <link rel='stylesheet' id='woosc-icons-css' href='{{ asset('modules/publish/css/icons.css?ver=6.4.4') }}'
+        href="{{ asset('modules/publish/css/custom-theme.css?ver=6.7.2') }}" media='all' />
+    <link rel='stylesheet' id='woosc-icons-css' href="{{ asset('modules/publish/css/icons.css?ver=6.4.4') }}"
         media='all' />
-    <link rel='stylesheet' id='woosc-frontend-css' href='{{ asset('modules/publish/css/frontend.css?ver=6.4.4') }}'
+    <link rel='stylesheet' id='woosc-frontend-css' href="{{ asset('modules/publish/css/frontend.css?ver=6.4.4') }}"
         media='all' />
-    <link rel='stylesheet' id='slick-css' href='{{ asset('modules/publish/css/slick.css?ver=6.7.2') }}'
+    <link rel='stylesheet' id='slick-css' href="{{ asset('modules/publish/css/slick.css?ver=6.7.2') }}"
         media='all' />
     <link rel='stylesheet' id='magnific-popup-css'
-        href='{{ asset('modules/publish/css/magnific-popup.css?ver=6.7.2') }}' media='all' />
-    <link rel='stylesheet' id='woosq-feather-css' href='{{ asset('modules/publish/css/feather.css?ver=6.7.2') }}'
+        href="{{ asset('modules/publish/css/magnific-popup.css?ver=6.7.2') }}" media='all' />
+    <link rel='stylesheet' id='woosq-feather-css' href="{{ asset('modules/publish/css/feather.css?ver=6.7.2') }}"
         media='all' />
-    <link rel='stylesheet' id='woosq-icons-css' href='{{ asset('modules/publish/css/icons.css?ver=4.1.6') }}'
+    <link rel='stylesheet' id='woosq-icons-css' href="{{ asset('modules/publish/css/icons.css?ver=4.1.6') }}"
         media='all' />
-    <link rel='stylesheet' id='woosq-frontend-css' href='{{ asset('modules/publish/css/frontend.css?ver=4.1.6') }}'
+    <link rel='stylesheet' id='woosq-frontend-css' href="{{ asset('modules/publish/css/frontend.css?ver=4.1.6') }}"
         media='all' />
-    <link rel='stylesheet' id='woosw-icons-css' href='{{ asset('modules/publish/css/icons.css?ver=4.9.8') }}'
+    <link rel='stylesheet' id='woosw-icons-css' href="{{ asset('modules/publish/css/icons.css?ver=4.9.8') }}"
         media='all' />
-    <link rel='stylesheet' id='woosw-frontend-css' href='{{ asset('modules/publish/css/frontend.css?ver=4.9.8') }}'
+    <link rel='stylesheet' id='woosw-frontend-css' href="{{ asset('modules/publish/css/frontend.css?ver=4.9.8') }}"
         media='all' />
     <style id='woosw-frontend-inline-css'>
         .woosw-popup .woosw-popup-inner .woosw-popup-content .woosw-popup-content-bot .woosw-notice {
@@ -918,14 +932,14 @@
             border-color: #5fbd74;
         }
     </style>
-    <link rel='stylesheet' id='brands-styles-css' href='{{ asset('modules/publish/css/brands.css?ver=9.7.0') }}'
+    <link rel='stylesheet' id='brands-styles-css' href="{{ asset('modules/publish/css/brands.css?ver=9.7.0') }}"
         media='all' />
-    <link rel='stylesheet' id='base-global-css' href='{{ asset('modules/publish/css/global.min.css?ver=1.5.3') }}'
+    <link rel='stylesheet' id='base-global-css' href="{{ asset('modules/publish/css/global.min.css?ver=1.5.3') }}"
         media='all' />
     <style id='base-global-inline-css'>
         /* Base Base CSS */
         :root {
-            --global-palette1: ##cd1818;
+            --global-palette1: #cd1818;
             --global-palette2: #1e1e1e;
             --global-palette3: #1e1e1e;
             --global-palette4: #666666;
@@ -1203,27 +1217,6 @@
             grid-template-columns: 22% 1fr;
         }
 
-        .primary-sidebar.widget-area .widget {
-            margin-bottom: 1.8em;
-            color: var(--global-palette4);
-        }
-
-        .primary-sidebar.widget-area .widget-title,
-        .primary-sidebar.widget-area .wp-block-heading {
-            font-weight: 500;
-            font-size: 18px;
-            line-height: 1.5;
-            color: var(--global-palette3);
-        }
-
-        .primary-sidebar.widget-area .sidebar-inner-wrap a:where(:not(.button):not(.wp-block-button__link):not(.wp-element-button)) {
-            color: var(--global-palette4);
-        }
-
-        .primary-sidebar.widget-area .sidebar-inner-wrap a:where(:not(.button):not(.wp-block-button__link):not(.wp-element-button)):hover {
-            color: var(--global-palette1);
-        }
-
         button,
         .button,
         .wp-block-button__link,
@@ -1345,36 +1338,7 @@
         #bt-scroll-up-reader:hover,
         #bt-scroll-up:hover {
             color: var(--global-palette9);
-            background: #b50000;
-        }
-
-        .post-archive-hero-section .entry-hero-container-inner {
-            background-color: var(--global-palette8);
-            background-image: url('https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/breadcumb-bkg.jpg');
-            background-repeat: repeat;
-            background-position: center;
-            background-size: cover;
-            background-attachment: scroll;
-        }
-
-        .entry-hero.post-archive-hero-section .entry-header {
-            min-height: 180px;
-        }
-
-        @media all and (max-width: 1024px) {
-            .entry-hero.post-archive-hero-section .entry-header {
-                min-height: 170px;
-            }
-        }
-
-        @media all and (max-width: 767px) {
-            .entry-hero.post-archive-hero-section .entry-header {
-                min-height: 120px;
-            }
-        }
-
-        .post-archive-title .archive-description {
-            color: #1e1e1e;
+            background: #cd1818;
         }
 
         .loop-entry.type-post h2.entry-title {
@@ -1442,7 +1406,7 @@
         #masthead,
         #masthead .base-sticky-header.item-is-fixed:not(.item-at-start):not(.site-header-row-container):not(.site-main-header-wrap),
         #masthead .base-sticky-header.item-is-fixed:not(.item-at-start)>.site-header-row-container-inner {
-            background: var(--global-palette9);
+            background: #cd1818;
         }
 
         .site-main-header-wrap .site-header-row-container-inner {
@@ -1878,7 +1842,7 @@
 
                 .site-footer .site-footer-wrap .site-footer-section .footer-social-wrap .footer-social-inner-wrap .social-button:hover {
                     color: var(--global-palette9);
-                    background: var(--global-palette1);
+                    background: #cd1818;
                 }
 
                 #colophon .footer-html {
@@ -2520,7 +2484,7 @@
                     padding-top: 0.6em;
                     padding-bottom: 0.6em;
                     color: var(--global-palette9);
-                    background: #b50000;
+                    background: #cd1818;
                 }
 
                 .vertical-navigation .vertical-navigation-header .base-svg-iconset {
@@ -2589,7 +2553,7 @@
                 }
 
                 .header-search-advanced form.search-form .search-submit {
-                    background: #cd1818;
+                    background: var(--global-palette1);
                     color: var(--global-palette9);
                     font-weight: 500;
                     font-size: 14px;
@@ -2628,8 +2592,7 @@
 
                 .product-hero-section .entry-hero-container-inner {
                     background-color: var(--global-palette8);
-                    background-image: url('https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/breadcumb-bkg.jpg');
-                    background-repeat: repeat;
+                    background-image: url('https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/breadcumb-bkg.jpg') background-repeat: repeat;
                     background-position: center;
                     background-size: cover;
                     background-attachment: scroll;
@@ -2695,8 +2658,7 @@
 
                 .product-archive-hero-section .entry-hero-container-inner {
                     background-color: var(--global-palette8);
-                    background-image: url('https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/breadcumb-bkg.jpg');
-                    background-repeat: repeat;
+                    background-image: url('https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/breadcumb-bkg.jpg') background-repeat: repeat;
                     background-position: center;
                     background-size: cover;
                     background-attachment: scroll;
@@ -2766,38 +2728,56 @@
                     color: var(--global-palette3);
                 }
     </style>
-    <link rel='stylesheet' id='base-header-css' href='{{ asset('modules/publish/css/header.min.css?ver=1.5.3') }}'
+    <link rel='stylesheet' id='base-header-css' href="{{ asset('modules/publish/css/header.min.css?ver=1.5.3') }}"
         media='all' />
-    <link rel='stylesheet' id='base-content-css' href='{{ asset('modules/publish/css/content.min.css?ver=1.5.3') }}'
+    <link rel='stylesheet' id='base-content-css' href="{{ asset('modules/publish/css/content.min.css?ver=1.5.3') }}"
         media='all' />
-    <link rel='stylesheet' id='base-sidebar-css' href='{{ asset('modules/publish/css/sidebar.min.css?ver=1.5.3') }}'
-        media='all' />
+    <link rel='stylesheet' id='base-comments-css'
+        href="{{ asset('modules/publish/css/comments.min.css?ver=1.5.3') }}" media='all' />
+    <link rel='stylesheet' id='base-related-posts-css'
+        href="{{ asset('modules/publish/css/related-posts.min.css?ver=1.5.3') }}" media='all' />
+    <link rel='stylesheet' id='bst-splide-css'
+        href="{{ asset('modules/publish/css/base-splide.min.css?ver=1.5.3') }}" media='all' />
     <link rel='stylesheet' id='base-woocommerce-css'
-        href='{{ asset('modules/publish/css/woocommerce.min.css?ver=1.5.3') }}' media='all' />
-    <link rel='stylesheet' id='base-footer-css' href='{{ asset('modules/publish/css/footer.min.css?ver=1.5.3') }}'
+        href="{{ asset('modules/publish/css/woocommerce.min.css?ver=1.5.3') }}" media='all' />
+    <link rel='stylesheet' id='base-footer-css' href="{{ asset('modules/publish/css/footer.min.css?ver=1.5.3') }}"
         media='all' />
+    <link rel='stylesheet' id='base_size_chart_css-css'
+        href="{{ asset('modules/publish/css/bt_size_chart.css?ver=3.4.0') }}" media='all' />
     <link rel='stylesheet' id='base-extra-brands-css-css'
-        href='{{ asset('modules/publish/css/bt_extra_brands.css?ver=3.4.0') }}' media='all' />
+        href="{{ asset('modules/publish/css/bt_extra_brands.css?ver=3.4.0') }}" media='all' />
     <link rel='stylesheet' id='tmcore-elementor-css'
-        href='{{ asset('modules/publish/css/elementor.min.css?ver=3.4.0') }}' media='all' />
+        href="{{ asset('modules/publish/css/elementor.min.css?ver=3.4.0') }}" media='all' />
     <link rel='stylesheet' id='tmcore-elementor-editor-icon-css'
-        href='{{ asset('modules/publish/css/elementor-icons.min.css?ver=3.4.0') }}' media='all' />
-    <link rel='stylesheet' id='base-splide-css' href='{{ asset('modules/publish/css/splide.min.css?ver=6.7.2') }}'
+        href="{{ asset('modules/publish/css/elementor-icons.min.css?ver=3.4.0') }}" media='all' />
+    <link rel='stylesheet' id='base-splide-css' href="{{ asset('modules/publish/css/splide.min.css?ver=6.7.2') }}"
         media='all' />
+    <link rel='stylesheet' id='base_reviews_css-css'
+        href="{{ asset('modules/publish/css/bt_woo_reviews.css?ver=3.4.0') }}" media='all' />
     <link rel='stylesheet' id='base_variation_swatches_css-css'
-        href='{{ asset('modules/publish/css/bt_variation_swatches.css?ver=3.4.0') }}' media='all' />
+        href="{{ asset('modules/publish/css/bt_variation_swatches.css?ver=3.4.0') }}" media='all' />
     <link rel='stylesheet' id='base-snackbar-notice-css'
-        href='{{ asset('modules/publish/css/base-snackbar-notice.css?ver=3.4.0') }}' media='all' />
+        href="{{ asset('modules/publish/css/base-snackbar-notice.css?ver=3.4.0') }}" media='all' />
+    <link rel='stylesheet' id='base-product-gallery-css'
+        href="{{ asset('modules/publish/css/base-product-gallery.css?ver=3.4.0') }}" media='all' />
+    <link rel='stylesheet' id='base-kb-splide-css'
+        href="{{ asset('modules/publish/css/base-splide.css?ver=3.4.0') }}" media='all' />
+    <link rel='stylesheet' id='base-glightbox-css' href="{{ asset('modules/publish/css/glightbox.css?ver=3.4.0') }}"
+        media='all' />
     <link rel='stylesheet' id='tmcore-woocommerce-style-css'
-        href='{{ asset('modules/publish/css/woocommerce.min2.css?ver=3.4.0') }}' media='all' />
+        href="{{ asset('modules/publish/css/woocommerce.min.css?ver=3.4.0') }}" media='all' />
     <link rel='stylesheet' id='wc-blocks-style-css'
-        href='{{ asset('modules/publish/css/wc-blocks.css?ver=wc-9.7.0') }}' media='all' />
+        href="{{ asset('modules/publish/css/wc-blocks.css?ver=wc-9.7.0') }}" media='all' />
+    <link rel='stylesheet' id='couchly-layout-style-css' href="{{ asset('modules/publish/css/style.css') }}"
+        media='all' />
     <link rel='stylesheet' id='couchly-layout-style-css'
-        href='{{ asset('modules/publish/css/style.css?ver=1.1.0') }}' media='all' />
+        href="{{ asset('modules/publish/css/style3.css?ver=1.1.0') }}" media='all' />
     <link rel='stylesheet' id='google-fonts-1-css'
         href='https://fonts.googleapis.com/css?family=Roboto%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CRoboto+Slab%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&#038;display=swap&#038;ver=6.7.2'
         media='all' />
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <script type="text/template" id="tmpl-variation-template">
+</script>
     <script type="text/template" id="tmpl-unavailable-variation-template">
 	<p role="alert">Sorry, this product is unavailable. Please choose a different combination.</p>
 </script>
@@ -2816,6 +2796,38 @@
         };
     </script>
     <script src="{{ asset('modules/publish/js/add-to-cart.min.js?ver=9.7.0') }}" id="wc-add-to-cart-js" defer
+        data-wp-strategy="defer"></script>
+    <script id="wc-single-product-js-extra">
+        var wc_single_product_params = {
+            "i18n_required_rating_text": "Please select a rating",
+            "i18n_rating_options": ["1 of 5 stars", "2 of 5 stars", "3 of 5 stars", "4 of 5 stars", "5 of 5 stars"],
+            "i18n_product_gallery_trigger_text": "View full-screen image gallery",
+            "review_rating_required": "yes",
+            "flexslider": {
+                "rtl": false,
+                "animation": "slide",
+                "smoothHeight": true,
+                "directionNav": false,
+                "controlNav": "thumbnails",
+                "slideshow": false,
+                "animationSpeed": 500,
+                "animationLoop": false,
+                "allowOneSlide": false
+            },
+            "zoom_enabled": "",
+            "zoom_options": [],
+            "photoswipe_enabled": "",
+            "photoswipe_options": {
+                "shareEl": false,
+                "closeOnScroll": false,
+                "history": false,
+                "hideAnimationDuration": 0,
+                "showAnimationDuration": 0
+            },
+            "flexslider_enabled": ""
+        };
+    </script>
+    <script src="{{ asset('modules/publish/js/single-product.min.js?ver=9.7.0') }}" id="wc-single-product-js" defer
         data-wp-strategy="defer"></script>
     <script src="{{ asset('modules/publish/js/js.cookie.min.js?ver=2.1.4-wc.9.7.0') }}" id="js-cookie-js"
         data-wp-strategy="defer"></script>
@@ -2878,8 +2890,6 @@
             }
         }
     </style>
-    <meta name="generator"
-        content="Powered by Slider Revolution 6.7.29 - responsive, Mobile-Friendly Slider Plugin for WordPress with comfortable drag and drop interface." />
     <style class='wp-fonts-local'>
         @font-face {
             font-family: Inter;
@@ -2957,6 +2967,8 @@
             //});
         };
     </script>
+
+    @yield('styles')
     <style>
         .alert-dismissible {
             position: relative;
@@ -2996,426 +3008,22 @@
 </head>
 
 <body
-    class="archive tax-product_cat term-beds term-43 wp-embed-responsive theme-avanam woocommerce woocommerce-page woocommerce-no-js color-switch-light has-dark-logo woocommerce-active product-style-1 products-no-gutter hfeed footer-on-bottom hide-focus-outline link-style-no-underline has-sidebar has-left-sidebar content-title-style-above content-width-normal content-style-unboxed content-vertical-padding-show non-transparent-header mobile-non-transparent-header base-elementor-colors tax-woo-product elementor-default elementor-kit-54">
+    class="product-template-default single single-product postid-214 wp-embed-responsive theme-avanam woocommerce woocommerce-page woocommerce-no-js color-switch-light has-dark-logo woocommerce-active product-style-1 products-no-gutter base-sk-variation-above footer-on-bottom hide-focus-outline link-style-no-underline content-title-style-normal content-width-normal content-style-unboxed content-vertical-padding-show non-transparent-header mobile-non-transparent-header base-elementor-colors product-tab-style-center product-variation-style-horizontal base-cart-button-normal elementor-default elementor-kit-54">
     <div id="wrapper" class="site wp-site-blocks">
         <a class="skip-link screen-reader-text scroll-ignore" href="#main">Skip to content</a>
         @include('publish::partials.header')
         @yield('content')
         @include('publish::partials.footer')
-    </div><!-- #wrapper -->
-    <div id="filter-drawer" class="popup-drawer popup-drawer-layout-sidepanel popup-drawer-side-left"
-        data-drawer-target-string="#filter-drawer">
-        <div class="drawer-overlay" data-drawer-target-string="#filter-drawer"></div>
 
-        <div class="drawer-inner">
-            <div class="drawer-header">
-                <button class="filter-toggle-close drawer-toggle" aria-label="Close panel"
-                    data-toggle-target="#filter-drawer" data-toggle-body-class="showing-filter-drawer"
-                    aria-expanded="false" data-set-focus=".filter-toggle-open">
-                    <span class="base-svg-iconset"><svg class="base-svg-icon base-close-svg" fill="currentColor"
-                            version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24">
-                            <title>Toggle Menu Close</title>
-                            <path
-                                d="M5.293 6.707l5.293 5.293-5.293 5.293c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0l5.293-5.293 5.293 5.293c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414l-5.293-5.293 5.293-5.293c0.391-0.391 0.391-1.024 0-1.414s-1.024-0.391-1.414 0l-5.293 5.293-5.293-5.293c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414z">
-                            </path>
-                        </svg></span> </button>
-            </div>
-            <div class="drawer-content">
-                <div class="widget-area product-filter-widgets inner-link-style-plain">
-                    <section id="tmcore-wp-widget-product-categories-layered-nav-4"
-                        class=" widget-scrollable widget tmcore-wp-widget-product-categories-layered-nav tmcore-wp-widget-filter">
-                        <input type="hidden" class="widget-instance"
-                            data-name="TemplateMelaCore_WP_Widget_Product_Categories_Layered_Nav"
-                            data-instance="{&quot;title&quot;:&quot;Shop By Categories&quot;,&quot;orderby&quot;:&quot;name&quot;,&quot;display_type&quot;:&quot;list&quot;,&quot;list_style&quot;:&quot;checkbox&quot;,&quot;items_count&quot;:&quot;on&quot;,&quot;show_hierarchy&quot;:0,&quot;enable_scrollable&quot;:1,&quot;enable_collapsed&quot;:0}" />
-                        <h2 class="widget-title">Shop By Categories</h2>
-                        <div class="widget-content">
-                            <div class="widget-content-inner">
-                                <ul class="show-display-list show-items-count-on list-style-checkbox">
-                                    <li class="wc-layered-nav-term"><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/wooden-table-lamp/"
-                                            class="item-link">Wooden Table Lamp</a></li>
-                                    <li class="wc-layered-nav-term"><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/baroque/"
-                                            class="item-link">Baroque</a></li>
-                                    <li class="wc-layered-nav-term chosen"><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/"
-                                            class="item-link">Beds</a></li>
-                                    <li class="wc-layered-nav-term"><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/dining-room/"
-                                            class="item-link">Dining Room</a></li>
-                                    <li class="wc-layered-nav-term"><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/finished-wood-tables/"
-                                            class="item-link">Finished Wood Tables</a></li>
-                                    <li class="wc-layered-nav-term"><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/sofas/"
-                                            class="item-link">Sofas</a></li>
-                                    <li class="wc-layered-nav-term"><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/special-offer/"
-                                            class="item-link">special offer</a></li>
-                                    <li class="wc-layered-nav-term"><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/storage/"
-                                            class="item-link">Storage</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </section>
-                    <section id="tmcore-wp-widget-product-highlight-filter-4"
-                        class="widget tmcore-wp-widget-product-highlight-filter tmcore-wp-widget-filter"><input
-                            type="hidden" class="widget-instance"
-                            data-name="TemplateMelaCore_WP_Widget_Product_Highlight_Filter"
-                            data-instance="{&quot;title&quot;:&quot;Highlight&quot;,&quot;display_type&quot;:&quot;list&quot;,&quot;list_style&quot;:&quot;normal&quot;,&quot;enable_collapsed&quot;:0}" />
-                        <h2 class="widget-title">Highlight</h2>
-                        <div class="widget-content">
-                            <div class="widget-content-inner">
-                                <ul
-                                    class="tmcore-product-highlight-filter show-display-list list-style-normal single-choice">
-                                    <li class="filter-item chosen">
-                                        <a href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/"
-                                            class="filter-link">All Products </a>
-                                    </li>
-                                    <li class="filter-item">
-                                        <a href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?highlight_filter=best_selling"
-                                            class="filter-link">Best Seller </a>
-                                    </li>
-                                    <li class="filter-item">
-                                        <a href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?highlight_filter=new_arrivals"
-                                            class="filter-link">New Arrivals </a>
-                                    </li>
-                                    <li class="filter-item">
-                                        <a href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?highlight_filter=on_sale"
-                                            class="filter-link">Sale </a>
-                                    </li>
-                                    <li class="filter-item">
-                                        <a href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?highlight_filter=featured"
-                                            class="filter-link">Hot Items </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </section>
-                    <section id="tmcore-wp-widget-product-layered-nav-7"
-                        class="widget tmcore-wp-widget-product-layered-nav tmcore-wp-widget-filter"><input
-                            type="hidden" class="widget-instance"
-                            data-name="TemplateMelaCore_WP_Widget_Product_Layered_Nav"
-                            data-instance="{&quot;title&quot;:&quot;Filter By Color&quot;,&quot;attribute&quot;:&quot;color&quot;,&quot;selection_mode&quot;:&quot;multi&quot;,&quot;query_type&quot;:&quot;and&quot;,&quot;display_type&quot;:&quot;inline&quot;,&quot;list_style&quot;:&quot;swatches&quot;,&quot;labels&quot;:&quot;off&quot;,&quot;items_count&quot;:&quot;off&quot;,&quot;enable_scrollable&quot;:0,&quot;enable_collapsed&quot;:0}" />
-                        <h2 class="widget-title">Filter By Color</h2>
-                        <div class="widget-content">
-                            <div class="widget-content-inner">
-                                <ul
-                                    class="show-labels-off show-display-inline show-items-count-off pa_color list-style-color list-style-image">
-                                    <li class="wc-layered-nav-term "><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?filtering=1&#038;filter_color=black"
-                                            class="filter-link term-link hint--bounce hint--top" aria-label="Black">
-                                            <div class="term-shape"><span style="background: #000000"
-                                                    class="term-shape-bg"></span><span
-                                                    class="term-shape-border"></span></div><span
-                                                class="term-name">Black</span>
-                                        </a></li>
-                                    <li class="wc-layered-nav-term "><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?filtering=1&#038;filter_color=green"
-                                            class="filter-link term-link hint--bounce hint--top" aria-label="Green">
-                                            <div class="term-shape"><span style="background: #228b22"
-                                                    class="term-shape-bg"></span><span
-                                                    class="term-shape-border"></span></div><span
-                                                class="term-name">Green</span>
-                                        </a></li>
-                                    <li class="wc-layered-nav-term "><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?filtering=1&#038;filter_color=latte"
-                                            class="filter-link term-link hint--bounce hint--top" aria-label="Latte">
-                                            <div class="term-shape"><span style="background: #c2ab98"
-                                                    class="term-shape-bg"></span><span
-                                                    class="term-shape-border"></span></div><span
-                                                class="term-name">Latte</span>
-                                        </a></li>
-                                    <li class="wc-layered-nav-term "><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?filtering=1&#038;filter_color=silver"
-                                            class="filter-link term-link hint--bounce hint--top" aria-label="Silver">
-                                            <div class="term-shape"><span style="background: #cccccc"
-                                                    class="term-shape-bg"></span><span
-                                                    class="term-shape-border"></span></div><span
-                                                class="term-name">Silver</span>
-                                        </a></li>
-                                    <li class="wc-layered-nav-term "><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?filtering=1&#038;filter_color=white"
-                                            class="filter-link term-link hint--bounce hint--top" aria-label="White">
-                                            <div class="term-shape"><span style="background: #ffffff"
-                                                    class="term-shape-bg"></span><span
-                                                    class="term-shape-border"></span></div><span
-                                                class="term-name">White</span>
-                                        </a></li>
-                                    <li class="wc-layered-nav-term "><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?filtering=1&#038;filter_color=yellow"
-                                            class="filter-link term-link hint--bounce hint--top" aria-label="Yellow">
-                                            <div class="term-shape"><span style="background: #ffff00"
-                                                    class="term-shape-bg"></span><span
-                                                    class="term-shape-border"></span></div><span
-                                                class="term-name">Yellow</span>
-                                        </a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </section>
-                    <section id="tmcore-wp-widget-product-brand-nav-2"
-                        class="widget tmcore-wp-widget-product-brand-nav tmcore-wp-widget-filter"><input
-                            type="hidden" class="widget-instance"
-                            data-name="TemplateMelaCore_WP_Widget_Product_Brand_Nav"
-                            data-instance="{&quot;title&quot;:&quot;Brands&quot;,&quot;display_type&quot;:&quot;list&quot;,&quot;list_style&quot;:&quot;checkbox&quot;,&quot;items_count&quot;:&quot;on&quot;,&quot;show_hierarchy&quot;:0,&quot;enable_scrollable&quot;:0,&quot;enable_collapsed&quot;:0}" />
-                        <h2 class="widget-title">Brands</h2>
-                        <div class="widget-content">
-                            <div class="widget-content-inner">
-                                <ul class="show-display-list show-items-count-on list-style-checkbox">
-                                    <li class="wc-layered-nav-term"><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?filtering=1&#038;filter_product_brands=98"
-                                            class="filter-link">EcoShop <span class="count">(1)</span></a></li>
-                                    <li class="wc-layered-nav-term"><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?filtering=1&#038;filter_product_brands=95"
-                                            class="filter-link">QuickCart <span class="count">(2)</span></a></li>
-                                    <li class="wc-layered-nav-term"><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?filtering=1&#038;filter_product_brands=96"
-                                            class="filter-link">SmartShop <span class="count">(1)</span></a></li>
-                                    <li class="wc-layered-nav-term"><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?filtering=1&#038;filter_product_brands=94"
-                                            class="filter-link">TrendMart <span class="count">(2)</span></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </section>
-                    <section id="tmcore-wp-widget-product-price-filter-4"
-                        class="widget tmcore-wp-widget-product-price-filter tmcore-wp-widget-filter"><input
-                            type="hidden" class="widget-instance"
-                            data-name="TemplateMelaCore_WP_Widget_Product_Price_Filter"
-                            data-instance="{&quot;title&quot;:&quot;Price Filter&quot;,&quot;display_type&quot;:&quot;list&quot;,&quot;list_style&quot;:&quot;normal&quot;,&quot;enable_collapsed&quot;:0}" />
-                        <h2 class="widget-title">Price Filter</h2>
-                        <div class="widget-content">
-                            <div class="widget-content-inner">
-                                <ul
-                                    class="tmcore-product-price-filter show-display-list list-style-normal single-choice">
-                                    <li class="chosen">
-                                        <a href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/"
-                                            class="filter-link">All </a>
-                                    </li>
-                                    <li class="">
-                                        <a href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?min_price=0&#038;max_price=150&#038;filtering=1"
-                                            class="filter-link"><span
-                                                class="woocommerce-Price-amount amount"><bdi><span
-                                                        class="woocommerce-Price-currencySymbol">&#36;</span>0</bdi></span>
-                                            &ndash; <span class="woocommerce-Price-amount amount"><bdi><span
-                                                        class="woocommerce-Price-currencySymbol">&#36;</span>150</bdi></span>
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?min_price=150&#038;max_price=300&#038;filtering=1"
-                                            class="filter-link"><span
-                                                class="woocommerce-Price-amount amount"><bdi><span
-                                                        class="woocommerce-Price-currencySymbol">&#36;</span>150</bdi></span>
-                                            &ndash; <span class="woocommerce-Price-amount amount"><bdi><span
-                                                        class="woocommerce-Price-currencySymbol">&#36;</span>300</bdi></span>
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?min_price=300&#038;max_price=450&#038;filtering=1"
-                                            class="filter-link"><span
-                                                class="woocommerce-Price-amount amount"><bdi><span
-                                                        class="woocommerce-Price-currencySymbol">&#36;</span>300</bdi></span>
-                                            &ndash; <span class="woocommerce-Price-amount amount"><bdi><span
-                                                        class="woocommerce-Price-currencySymbol">&#36;</span>450</bdi></span>
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?min_price=450&#038;max_price=600&#038;filtering=1"
-                                            class="filter-link"><span
-                                                class="woocommerce-Price-amount amount"><bdi><span
-                                                        class="woocommerce-Price-currencySymbol">&#36;</span>450</bdi></span>
-                                            &ndash; <span class="woocommerce-Price-amount amount"><bdi><span
-                                                        class="woocommerce-Price-currencySymbol">&#36;</span>600</bdi></span>
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?min_price=600&#038;max_price=750&#038;filtering=1"
-                                            class="filter-link"><span
-                                                class="woocommerce-Price-amount amount"><bdi><span
-                                                        class="woocommerce-Price-currencySymbol">&#36;</span>600</bdi></span>
-                                            &ndash; <span class="woocommerce-Price-amount amount"><bdi><span
-                                                        class="woocommerce-Price-currencySymbol">&#36;</span>750</bdi></span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </section>
-                    <section id="tmcore-wp-widget-product-rating-filter-4"
-                        class="widget tmcore-wp-widget-product-rating-filter tmcore-wp-widget-filter"><input
-                            type="hidden" class="widget-instance"
-                            data-name="TemplateMelaCore_WP_Widget_Product_Rating_Filter"
-                            data-instance="{&quot;title&quot;:&quot;Average Rating&quot;,&quot;enable_collapsed&quot;:0}" />
-                        <h2 class="widget-title">Average Rating</h2>
-                        <div class="widget-content">
-                            <div class="widget-content-inner">
-                                <ul class="show-display-list list-style-normal">
-                                    <li class="wc-layered-nav-rating"><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?rating_filter=5&#038;filtering=1"
-                                            class="js-product-filter-link">
-                                            <div class="tm-star-rating style-02"><svg
-                                                    xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-full">
-                                                    <path fill="#000000"
-                                                        d="M512,197.816L325.961 185.585 255.898 9.569 185.835 185.585 0 197.816 142.534 318.842 95.762 502.431 255.898 401.21 416.035 502.431 369.263 318.842z">
-                                                    </path>
-                                                </svg><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-full">
-                                                    <path fill="#000000"
-                                                        d="M512,197.816L325.961 185.585 255.898 9.569 185.835 185.585 0 197.816 142.534 318.842 95.762 502.431 255.898 401.21 416.035 502.431 369.263 318.842z">
-                                                    </path>
-                                                </svg><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-full">
-                                                    <path fill="#000000"
-                                                        d="M512,197.816L325.961 185.585 255.898 9.569 185.835 185.585 0 197.816 142.534 318.842 95.762 502.431 255.898 401.21 416.035 502.431 369.263 318.842z">
-                                                    </path>
-                                                </svg><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-full">
-                                                    <path fill="#000000"
-                                                        d="M512,197.816L325.961 185.585 255.898 9.569 185.835 185.585 0 197.816 142.534 318.842 95.762 502.431 255.898 401.21 416.035 502.431 369.263 318.842z">
-                                                    </path>
-                                                </svg><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-full">
-                                                    <path fill="#000000"
-                                                        d="M512,197.816L325.961 185.585 255.898 9.569 185.835 185.585 0 197.816 142.534 318.842 95.762 502.431 255.898 401.21 416.035 502.431 369.263 318.842z">
-                                                    </path>
-                                                </svg></div> <span class="count">(4)</span>
-                                        </a></li>
-                                    <li class="wc-layered-nav-rating"><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?rating_filter=4&#038;filtering=1"
-                                            class="js-product-filter-link">
-                                            <div class="tm-star-rating style-02"><svg
-                                                    xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-full">
-                                                    <path fill="#000000"
-                                                        d="M512,197.816L325.961 185.585 255.898 9.569 185.835 185.585 0 197.816 142.534 318.842 95.762 502.431 255.898 401.21 416.035 502.431 369.263 318.842z">
-                                                    </path>
-                                                </svg><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-full">
-                                                    <path fill="#000000"
-                                                        d="M512,197.816L325.961 185.585 255.898 9.569 185.835 185.585 0 197.816 142.534 318.842 95.762 502.431 255.898 401.21 416.035 502.431 369.263 318.842z">
-                                                    </path>
-                                                </svg><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-full">
-                                                    <path fill="#000000"
-                                                        d="M512,197.816L325.961 185.585 255.898 9.569 185.835 185.585 0 197.816 142.534 318.842 95.762 502.431 255.898 401.21 416.035 502.431 369.263 318.842z">
-                                                    </path>
-                                                </svg><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-full">
-                                                    <path fill="#000000"
-                                                        d="M512,197.816L325.961 185.585 255.898 9.569 185.835 185.585 0 197.816 142.534 318.842 95.762 502.431 255.898 401.21 416.035 502.431 369.263 318.842z">
-                                                    </path>
-                                                </svg><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-empty">
-                                                    <path fill="#000000 "
-                                                        d="M512,197.819l-185.933-12.228L256,9.571l-70.067,176.021L0,197.82l142.658,120.93L95.856,502.429L256,401.214 l160.144,101.215l-46.8-183.671L512,197.819z M256,365.724l-112.464,71.08l32.827-128.831L75.829,222.888l130.971-8.603 L256,90.687l49.2,123.599l131.124,8.602l-100.689,85.077l32.829,128.839L256,365.724z">
-                                                    </path>
-                                                </svg></div> <span class="count">(3)</span>
-                                        </a></li>
-                                    <li class="wc-layered-nav-rating"><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?rating_filter=3&#038;filtering=1"
-                                            class="js-product-filter-link disabled">
-                                            <div class="tm-star-rating style-02"><svg
-                                                    xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-full">
-                                                    <path fill="#000000"
-                                                        d="M512,197.816L325.961 185.585 255.898 9.569 185.835 185.585 0 197.816 142.534 318.842 95.762 502.431 255.898 401.21 416.035 502.431 369.263 318.842z">
-                                                    </path>
-                                                </svg><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-full">
-                                                    <path fill="#000000"
-                                                        d="M512,197.816L325.961 185.585 255.898 9.569 185.835 185.585 0 197.816 142.534 318.842 95.762 502.431 255.898 401.21 416.035 502.431 369.263 318.842z">
-                                                    </path>
-                                                </svg><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-full">
-                                                    <path fill="#000000"
-                                                        d="M512,197.816L325.961 185.585 255.898 9.569 185.835 185.585 0 197.816 142.534 318.842 95.762 502.431 255.898 401.21 416.035 502.431 369.263 318.842z">
-                                                    </path>
-                                                </svg><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-empty">
-                                                    <path fill="#000000 "
-                                                        d="M512,197.819l-185.933-12.228L256,9.571l-70.067,176.021L0,197.82l142.658,120.93L95.856,502.429L256,401.214 l160.144,101.215l-46.8-183.671L512,197.819z M256,365.724l-112.464,71.08l32.827-128.831L75.829,222.888l130.971-8.603 L256,90.687l49.2,123.599l131.124,8.602l-100.689,85.077l32.829,128.839L256,365.724z">
-                                                    </path>
-                                                </svg><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-empty">
-                                                    <path fill="#000000 "
-                                                        d="M512,197.819l-185.933-12.228L256,9.571l-70.067,176.021L0,197.82l142.658,120.93L95.856,502.429L256,401.214 l160.144,101.215l-46.8-183.671L512,197.819z M256,365.724l-112.464,71.08l32.827-128.831L75.829,222.888l130.971-8.603 L256,90.687l49.2,123.599l131.124,8.602l-100.689,85.077l32.829,128.839L256,365.724z">
-                                                    </path>
-                                                </svg></div> <span class="count">(0)</span>
-                                        </a></li>
-                                    <li class="wc-layered-nav-rating"><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?rating_filter=2&#038;filtering=1"
-                                            class="js-product-filter-link disabled">
-                                            <div class="tm-star-rating style-02"><svg
-                                                    xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-full">
-                                                    <path fill="#000000"
-                                                        d="M512,197.816L325.961 185.585 255.898 9.569 185.835 185.585 0 197.816 142.534 318.842 95.762 502.431 255.898 401.21 416.035 502.431 369.263 318.842z">
-                                                    </path>
-                                                </svg><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-full">
-                                                    <path fill="#000000"
-                                                        d="M512,197.816L325.961 185.585 255.898 9.569 185.835 185.585 0 197.816 142.534 318.842 95.762 502.431 255.898 401.21 416.035 502.431 369.263 318.842z">
-                                                    </path>
-                                                </svg><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-empty">
-                                                    <path fill="#000000 "
-                                                        d="M512,197.819l-185.933-12.228L256,9.571l-70.067,176.021L0,197.82l142.658,120.93L95.856,502.429L256,401.214 l160.144,101.215l-46.8-183.671L512,197.819z M256,365.724l-112.464,71.08l32.827-128.831L75.829,222.888l130.971-8.603 L256,90.687l49.2,123.599l131.124,8.602l-100.689,85.077l32.829,128.839L256,365.724z">
-                                                    </path>
-                                                </svg><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-empty">
-                                                    <path fill="#000000 "
-                                                        d="M512,197.819l-185.933-12.228L256,9.571l-70.067,176.021L0,197.82l142.658,120.93L95.856,502.429L256,401.214 l160.144,101.215l-46.8-183.671L512,197.819z M256,365.724l-112.464,71.08l32.827-128.831L75.829,222.888l130.971-8.603 L256,90.687l49.2,123.599l131.124,8.602l-100.689,85.077l32.829,128.839L256,365.724z">
-                                                    </path>
-                                                </svg><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-empty">
-                                                    <path fill="#000000 "
-                                                        d="M512,197.819l-185.933-12.228L256,9.571l-70.067,176.021L0,197.82l142.658,120.93L95.856,502.429L256,401.214 l160.144,101.215l-46.8-183.671L512,197.819z M256,365.724l-112.464,71.08l32.827-128.831L75.829,222.888l130.971-8.603 L256,90.687l49.2,123.599l131.124,8.602l-100.689,85.077l32.829,128.839L256,365.724z">
-                                                    </path>
-                                                </svg></div> <span class="count">(0)</span>
-                                        </a></li>
-                                    <li class="wc-layered-nav-rating"><a
-                                            href="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/product-category/beds/?rating_filter=1&#038;filtering=1"
-                                            class="js-product-filter-link disabled">
-                                            <div class="tm-star-rating style-02"><svg
-                                                    xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-full">
-                                                    <path fill="#000000"
-                                                        d="M512,197.816L325.961 185.585 255.898 9.569 185.835 185.585 0 197.816 142.534 318.842 95.762 502.431 255.898 401.21 416.035 502.431 369.263 318.842z">
-                                                    </path>
-                                                </svg><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-empty">
-                                                    <path fill="#000000 "
-                                                        d="M512,197.819l-185.933-12.228L256,9.571l-70.067,176.021L0,197.82l142.658,120.93L95.856,502.429L256,401.214 l160.144,101.215l-46.8-183.671L512,197.819z M256,365.724l-112.464,71.08l32.827-128.831L75.829,222.888l130.971-8.603 L256,90.687l49.2,123.599l131.124,8.602l-100.689,85.077l32.829,128.839L256,365.724z">
-                                                    </path>
-                                                </svg><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-empty">
-                                                    <path fill="#000000 "
-                                                        d="M512,197.819l-185.933-12.228L256,9.571l-70.067,176.021L0,197.82l142.658,120.93L95.856,502.429L256,401.214 l160.144,101.215l-46.8-183.671L512,197.819z M256,365.724l-112.464,71.08l32.827-128.831L75.829,222.888l130.971-8.603 L256,90.687l49.2,123.599l131.124,8.602l-100.689,85.077l32.829,128.839L256,365.724z">
-                                                    </path>
-                                                </svg><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-empty">
-                                                    <path fill="#000000 "
-                                                        d="M512,197.819l-185.933-12.228L256,9.571l-70.067,176.021L0,197.82l142.658,120.93L95.856,502.429L256,401.214 l160.144,101.215l-46.8-183.671L512,197.819z M256,365.724l-112.464,71.08l32.827-128.831L75.829,222.888l130.971-8.603 L256,90.687l49.2,123.599l131.124,8.602l-100.689,85.077l32.829,128.839L256,365.724z">
-                                                    </path>
-                                                </svg><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 512 512" xml:space="preserve" class="tm-star-empty">
-                                                    <path fill="#000000 "
-                                                        d="M512,197.819l-185.933-12.228L256,9.571l-70.067,176.021L0,197.82l142.658,120.93L95.856,502.429L256,401.214 l160.144,101.215l-46.8-183.671L512,197.819z M256,365.724l-112.464,71.08l32.827-128.831L75.829,222.888l130.971-8.603 L256,90.687l49.2,123.599l131.124,8.602l-100.689,85.077l32.829,128.839L256,365.724z">
-                                                    </path>
-                                                </svg></div> <span class="count">(0)</span>
-                                        </a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </div>
-    </div>
+    </div><!-- #wrapper -->
+
+
+
+
+
+
+
+
 
     <style id='base_mega_menu_inline-inline-css'>
         #menu-item-384.base-menu-mega-enabled>.sub-menu{width:730px;}.header-navigation[class*="header-navigation-dropdown-animation-fade"] #menu-item-384.base-menu-mega-enabled>.sub-menu {
@@ -3510,27 +3118,20 @@
                 <button class="cart-toggle-close drawer-toggle" aria-label="Close Cart"
                     data-toggle-target="#cart-drawer" data-toggle-body-class="showing-popup-drawer-from-right"
                     aria-expanded="false" data-set-focus=".header-cart-button">
-                    <span class="base-svg-iconset"><svg class="base-svg-icon base-close-svg" fill="currentColor"
-                            version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24">
+                    <span class="base-svg-iconset">
+                        <svg class="base-svg-icon base-close-svg" fill="currentColor" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                             <title>Toggle Menu Close</title>
                             <path
                                 d="M5.293 6.707l5.293 5.293-5.293 5.293c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0l5.293-5.293 5.293 5.293c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414l-5.293-5.293 5.293-5.293c0.391-0.391 0.391-1.024 0-1.414s-1.024-0.391-1.414 0l-5.293 5.293-5.293-5.293c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414z">
                             </path>
-                        </svg></span> </button>
+                        </svg>
+                    </span>
+                </button>
             </div>
             <div class="drawer-content woocommerce widget_shopping_cart">
                 <div class="mini-cart-container">
                     <div class="base-mini-cart-refresh">
-
-
-                        <div class="woocommerce-mini-cart__empty-message">
-                            <h4>Giỏ hàng trống</h4>
-                            <p>Không có sản phẩm nào trong giỏ hàng của bạn.</p>
-                            <a class="button" href="#">Bắt đầu mua hàng</a>
-                        </div>
-
-
                     </div>
                 </div>
             </div>
@@ -3551,96 +3152,23 @@
             }
         })();
     </script>
+
     <div class="woosc-popup woosc-search">
         <div class="woosc-popup-inner">
             <div class="woosc-popup-content">
                 <div class="woosc-popup-content-inner">
                     <div class="woosc-popup-close"></div>
                     <div class="woosc-search-input">
-                        <label for="woosc_search_input"></label><input type="search" id="woosc_search_input"
-                            placeholder="Type any keyword to search..." />
+                        <label for="woosc_search_input"></label>
+                        <input type="search" id="woosc_search_input" placeholder="Type any keyword to search..." />
                     </div>
                     <div class="woosc-search-result"></div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="woosc-popup woosc-settings">
-        <div class="woosc-popup-inner">
-            <div class="woosc-popup-content">
-                <div class="woosc-popup-content-inner">
-                    <div class="woosc-popup-close"></div>
-                    <ul class="woosc-settings-tools">
-                        <li>
-                            <label><input type="checkbox" class="woosc-settings-tool" value="hide_similarities"
-                                    id="woosc_hide_similarities" /> Hide similarities </label>
-                        </li>
-                        <li>
-                            <label><input type="checkbox" class="woosc-settings-tool" value="highlight_differences"
-                                    id="woosc_highlight_differences" /> Highlight differences </label>
-                        </li>
-                    </ul>
-                    Select the fields to be shown. Others will be hidden. Drag and drop to rearrange the order. <ul
-                        class="woosc-settings-fields">
-                        <li class="woosc-settings-field-li"><input type="checkbox" class="woosc-settings-field"
-                                value="88izex" checked /><span class="move">Image</span></li>
-                        <li class="woosc-settings-field-li"><input type="checkbox" class="woosc-settings-field"
-                                value="u0cjjd" checked /><span class="move">Rating</span></li>
-                        <li class="woosc-settings-field-li"><input type="checkbox" class="woosc-settings-field"
-                                value="fmfd" checked /><span class="move">Price</span></li>
-                        <li class="woosc-settings-field-li"><input type="checkbox" class="woosc-settings-field"
-                                value="79or" checked /><span class="move">Add to cart</span></li>
-                        <li class="woosc-settings-field-li"><input type="checkbox" class="woosc-settings-field"
-                                value="4bqu" checked /><span class="move">Availability</span></li>
-                        <li class="woosc-settings-field-li"><input type="checkbox" class="woosc-settings-field"
-                                value="a3c4" checked /><span class="move">Additional information</span></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="woosc-popup woosc-share">
-        <div class="woosc-popup-inner">
-            <div class="woosc-popup-content">
-                <div class="woosc-popup-content-inner">
-                    <div class="woosc-popup-close"></div>
-                    <div class="woosc-share-content"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="woosc-area"
-        class="woosc-area woosc-bar-bottom woosc-bar-right woosc-bar-click-outside-yes woosc-hide-checkout"
-        data-bg-color="#292a30" data-btn-color="#00a0d2">
-        <div class="woosc-inner">
-            <div class="woosc-table">
-                <div class="woosc-table-inner">
-                    <a href="#close" id="woosc-table-close" class="woosc-table-close hint--left"
-                        aria-label="Close"><span class="woosc-table-close-icon"></span></a>
-                    <div class="woosc-table-items"></div>
-                </div>
-            </div>
 
-            <div class="woosc-bar">
-                <div class="woosc-bar-notice">
-                    Click outside to hide the comparison bar </div>
-                <a href="#print" class="woosc-bar-print hint--top" aria-label="Print"></a>
-                <a href="#share" class="woosc-bar-share hint--top" aria-label="Share"></a>
-                <a href="#search" class="woosc-bar-search hint--top" aria-label="Add product"></a>
-                <div class="woosc-bar-items"></div>
-                <div class="woosc-bar-btn woosc-bar-btn-text">
-                    <div class="woosc-bar-btn-icon-wrapper">
-                        <div class="woosc-bar-btn-icon-inner"><span></span><span></span><span></span>
-                        </div>
-                    </div>
-                    Compare
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div id="woosw_wishlist" class="woosw-popup woosw-popup-center"></div><a id="bt-scroll-up" tabindex="-1"
-        aria-hidden="true" aria-label="Scroll to top" href="#wrapper"
+    <a id="bt-scroll-up" tabindex="-1" aria-hidden="true" aria-label="Scroll to top" href="#wrapper"
         class="base-scroll-to-top scroll-up-wrap scroll-ignore scroll-up-side-right scroll-up-style-filled vs-lg-true vs-md-true vs-sm-true"><span
             class="base-svg-iconset"><svg aria-hidden="true" class="base-svg-icon base-arrow-up-svg"
                 fill="currentColor" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -3649,16 +3177,23 @@
                 <path
                     d="M5.707 12.707l5.293-5.293v11.586c0 0.552 0.448 1 1 1s1-0.448 1-1v-11.586l5.293 5.293c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414l-7-7c-0.092-0.092-0.202-0.166-0.324-0.217s-0.253-0.076-0.383-0.076c-0.256 0-0.512 0.098-0.707 0.293l-7 7c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0z">
                 </path>
-            </svg></span></a><button id="bt-scroll-up-reader" href="#wrapper" aria-label="Scroll to top"
-        class="base-scroll-to-top scroll-up-wrap scroll-ignore scroll-up-side-right scroll-up-style-filled vs-lg-true vs-md-true vs-sm-true"><span
-            class="base-svg-iconset"><svg aria-hidden="true" class="base-svg-icon base-arrow-up-svg"
-                fill="currentColor" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                viewBox="0 0 24 24">
+            </svg></span></a>
+
+    <button id="bt-scroll-up-reader" href="#wrapper" aria-label="Scroll to top"
+        class="base-scroll-to-top scroll-up-wrap scroll-ignore scroll-up-side-right scroll-up-style-filled vs-lg-true vs-md-true vs-sm-true">
+        <span class="base-svg-iconset">
+            <svg aria-hidden="true" class="base-svg-icon base-arrow-up-svg" fill="currentColor" version="1.1"
+                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                 <title>Scroll to top</title>
                 <path
                     d="M5.707 12.707l5.293-5.293v11.586c0 0.552 0.448 1 1 1s1-0.448 1-1v-11.586l5.293 5.293c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414l-7-7c-0.092-0.092-0.202-0.166-0.324-0.217s-0.253-0.076-0.383-0.076c-0.256 0-0.512 0.098-0.707 0.293l-7 7c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0z">
                 </path>
-            </svg></span></button>
+            </svg>
+        </span>
+    </button>
+
+
+
 
     <script>
         const lazyloadRunObserver = () => {
@@ -3696,35 +3231,49 @@
         })();
     </script>
 
+
+
+
     <link rel='stylesheet' id='elementor-post-102-css'
-        href='{{ asset('modules/publish/css/post-102.css?ver=1740568330') }}' media='all' />
+        href="{{ asset('modules/publish/css/post-102.css?ver=1740568330') }}" media='all' />
     <link rel='stylesheet' id='elementor-post-399-css'
-        href='{{ asset('modules/publish/css/post-399.css?ver=1740568331') }}' media='all' />
+        href="{{ asset('modules/publish/css/post-399.css?ver=1740568331') }}" media='all' />
     <link rel='stylesheet' id='widget-heading-css'
-        href='{{ asset('modules/publish/css/widget-heading.min.css?ver=3.27.6') }}' media='all' />
+        href="{{ asset('modules/publish/css/widget-heading.min.css?ver=3.27.6') }}" media='all' />
     <link rel='stylesheet' id='elementor-post-101-css'
-        href='{{ asset('modules/publish/css/post-101.css?ver=1740568331') }}' media='all' />
+        href="{{ asset('modules/publish/css/post-101.css?ver=1740568331') }}" media='all' />
     <link rel='stylesheet' id='widget-image-css'
-        href='{{ asset('modules/publish/css/widget-image.min.css?ver=3.27.6') }}' media='all' />
+        href="{{ asset('modules/publish/css/widget-image.min.css?ver=3.27.6') }}" media='all' />
     <link rel='stylesheet' id='elementor-post-246-css'
-        href='{{ asset('modules/publish/css/post-246.css?ver=1740568331') }}' media='all' />
+        href="{{ asset('modules/publish/css/post-246.css?ver=1740568331') }}" media='all' />
     <link rel='stylesheet' id='elementor-post-96-css'
-        href='{{ asset('modules/publish/css/post-96.css?ver=1740568331') }}' media='all' />
+        href="{{ asset('modules/publish/css/post-96.css?ver=1740568331') }}" media='all' />
     <link rel='stylesheet' id='elementor-post-97-css'
-        href='{{ asset('modules/publish/css/post-97.css?ver=1740568331') }}' media='all' />
+        href="{{ asset('modules/publish/css/post-97.css?ver=1740568331') }}" media='all' />
     <link rel='stylesheet' id='elementor-post-247-css'
-        href='{{ asset('modules/publish/css/post-247.css?ver=1740568331') }}' media='all' />
+        href="{{ asset('modules/publish/css/post-247.css?ver=1740568331') }}" media='all' />
+    <link rel='stylesheet' id='elementor-post-1585-css'
+        href="{{ asset('modules/publish/css/post-1585.css?ver=1740650384') }}" media='all' />
+    <link rel='stylesheet' id='widget-icon-box-css'
+        href="{{ asset('modules/publish/css/custom-widget-icon-box.min.css?ver=1740568330') }}" media='all' />
     <link rel='stylesheet' id='elementor-post-1003-css'
-        href='{{ asset('modules/publish/css/post-1003.css?ver=1740568331') }}' media='all' />
+        href="{{ asset('modules/publish/css/post-1003.css?ver=1740568331') }}" media='all' />
     <link rel='stylesheet' id='elementor-post-1004-css'
-        href='{{ asset('modules/publish/css/post-1004.css?ver=1740568331') }}' media='all' />
+        href="{{ asset('modules/publish/css/post-1004.css?ver=1740568331') }}" media='all' />
+    <link rel='stylesheet' id='elementor-post-1584-css'
+        href="{{ asset('modules/publish/css/post-1584.css?ver=1740650239') }}" media='all' />
     <link rel='stylesheet' id='elementor-icons-css'
-        href='{{ asset('modules/publish/css/elementor-icons.min.css?ver=5.35.0') }}' media='all' />
-    <link rel='stylesheet' id='rs-plugin-settings-css' href='{{ asset('modules/publish/css/rs6.css?ver=6.7.29') }}'
-        media='all' />
-    <style id='rs-plugin-settings-inline-css'>
-        #rs-demo-id {}
-    </style>
+        href="{{ asset('modules/publish/css/elementor-icons.min.css?ver=5.35.0') }}" media='all' />
+    <link rel='stylesheet' id='elementor-icons-shared-0-css'
+        href="{{ asset('modules/publish/css/fontawesome.min.css?ver=5.15.3') }}" media='all' />
+    <link rel='stylesheet' id='elementor-icons-fa-solid-css'
+        href="{{ asset('modules/publish/css/solid.min.css?ver=5.15.3') }}" media='all' />
+    <link rel='stylesheet' id='elementor-icons-fa-brands-css'
+        href="{{ asset('modules/publish/css/brands.min.css?ver=5.15.3') }}" media='all' />
+    <link rel='stylesheet' id='elementor-icons-fa-brands-css'
+        href="{{ asset('modules/publish/css/brands.min.css?ver=5.15.3') }}" media='all' />
+
+    <script src="{{ asset('modules/publish/js/product-cls.min.js?ver=1.5.3') }}" id="base-product-cls-js"></script>
     <script src="{{ asset('modules/publish/js/hooks.min.js?ver=4d63a3d491d11ffd8ac6') }}" id="wp-hooks-js"></script>
     <script src="{{ asset('modules/publish/js/i18n.min.js?ver=5e580eb46a90c2b997e6') }}" id="wp-i18n-js"></script>
     <script id="wp-i18n-js-after">
@@ -3744,6 +3293,10 @@
     <script src="{{ asset('modules/publish/js/index.js?ver=6.0.4') }}" id="contact-form-7-js"></script>
     <script src="{{ asset('modules/publish/js/rbtools.min.js?ver=6.7.29') }}" defer async id="tp-tools-js"></script>
     <script src="{{ asset('modules/publish/js/rs6.min.js?ver=6.7.29') }}" defer async id="revmin-js"></script>
+    <script src="{{ asset('modules/publish/js/single-ajax-add-to-cart.min.js?ver=3.4.0') }}" id="base-single-ajax-add-js">
+    </script>
+    <script src="{{ asset('modules/publish/js/base-sticky-add-to-cart.min.js?ver=3.4.0') }}"
+        id="base-sticky-add-to-cart-js"></script>
     <script src="{{ asset('modules/publish/js/perfect-scrollbar.min.js?ver=3.4.0') }}" id="perfect-scrollbar-js"></script>
     <script src="{{ asset('modules/publish/js/countdown.min.js?ver=3.4.0') }}" id="tmcore-countdown-js"></script>
     <script src="{{ asset('modules/publish/js/frontend.min.js?ver=3.4.0') }}" id="tmcore-frontend-js-js"></script>
@@ -3752,10 +3305,29 @@
     <script src="{{ asset('modules/publish/js/core.min.js?ver=1.13.3') }}" id="jquery-ui-core-js"></script>
     <script src="{{ asset('modules/publish/js/mouse.min.js?ver=1.13.3') }}" id="jquery-ui-mouse-js"></script>
     <script src="{{ asset('modules/publish/js/sortable.min.js?ver=1.13.3') }}" id="jquery-ui-sortable-js"></script>
+
+    <script src="{{ asset('modules/publish/js/product-cls.min.js?ver=1.5.3') }}" id="base-product-cls-js"></script>
+    <script src="{{ asset('modules/publish/js/single-ajax-add-to-cart.min.js?ver=3.4.0') }}" id="base-single-ajax-add-js">
+    </script>
+    <script src="{{ asset('modules/publish/js/base-sticky-add-to-cart.min.js?ver=3.4.0') }}"
+        id="base-sticky-add-to-cart-js"></script>
+    <script src="{{ asset('modules/publish/js/single-product.min.js?ver=9.7.0') }}" id="wc-single-product-js" defer
+        data-wp-strategy="defer"></script>
+    <script src="{{ asset('modules/publish/js/jquery.elevateZoom.min.js?ver=3.4.0') }}" id="base-product-gallery-zoom-js">
+    </script>
+    <script src="{{ asset('modules/publish/js/bt_woo_reviews-min.js?ver=3.4.0') }}" id="bt_woo_reviews-js"></script>
+    <script src="{{ asset('modules/publish/js/bt-modal-init.min.js?ver=3.4.0') }}" id="base-modal-js"></script>
+    <script src="{{ asset('modules/publish/js/comment-reply.min.js?ver=6.7.2') }}" id="comment-reply-js" async
+        data-wp-strategy="async"></script>
+    <script src="{{ asset('modules/publish/js/glightbox.min.js?ver=3.4.0') }}" id="base-glightbox-js"></script>
+    <script src="{{ asset('modules/publish/js/global-tabs.js?ver=3.4.0') }}" id="base-global-tabs-js"></script>
+    <script src="{{ asset('modules/publish/js/jquery.elevateZoom.min.js?ver=3.4.0') }}" id="base-product-gallery-zoom-js">
+    </script>
+
     <script id="woosc-frontend-js-extra">
         var woosc_vars = {
             "wc_ajax_url": "\/wordpress\/WCM08\/WCM080193\/default\/?wc-ajax=%%endpoint%%",
-            "nonce": "f90ac441cb",
+            "nonce": "92e03b4118",
             "hash": "pa5t",
             "user_id": "0cdb64fab32a05bd393b20c8c351de9f",
             "page_url": "#",
@@ -3802,14 +3374,15 @@
             "i18n_reset_alert_text": "Your selection has been reset. Please select some product options before adding this product to your cart."
         };
     </script>
-    <script src="{{ asset('modules/publish/js/add-to-cart-variation.min.js?ver=9.7.0') }}" id="wc-add-to-cart-variation-js"
-        data-wp-strategy="defer"></script>
+    <script src="{{ asset('modules/publish/js/add-to-cart-variation.min.js?ver=9.7.0') }}"
+        id="wc-add-to-cart-variation-js" data-wp-strategy="defer"></script>
     <script src="{{ asset('modules/publish/js/slick.min.js?ver=4.1.6') }}" id="slick-js"></script>
-    <script src="{{ asset('modules/publish/js/jquery.magnific-popup.min.js?ver=4.1.6') }}" id="magnific-popup-js"></script>
+    <script src="{{ asset('modules/publish/js/jquery.magnific-popup.min.js?ver=4.1.6') }}" id="magnific-popup-js">
+    </script>
     <script id="woosq-frontend-js-extra">
         var woosq_vars = {
             "wc_ajax_url": "\/wordpress\/WCM08\/WCM080193\/default\/?wc-ajax=%%endpoint%%",
-            "nonce": "449a93ba36",
+            "nonce": "71aab2c3d1",
             "view": "popup",
             "effect": "mfp-3d-unfold",
             "scrollbar": "yes",
@@ -3832,7 +3405,7 @@
     <script id="woosw-frontend-js-extra">
         var woosw_vars = {
             "wc_ajax_url": "\/wordpress\/WCM08\/WCM080193\/default\/?wc-ajax=%%endpoint%%",
-            "nonce": "0b5be1eca7",
+            "nonce": "8b8c5aced4",
             "added_to_cart": "no",
             "auto_remove": "no",
             "page_myaccount": "yes",
@@ -3855,6 +3428,8 @@
         };
     </script>
     <script src="{{ asset('modules/publish/js/frontend.js?ver=4.9.8') }}" id="woosw-frontend-js"></script>
+    <script src="{{ asset('modules/publish/js/comment-reply.min.js?ver=6.7.2') }}" id="comment-reply-js" async
+        data-wp-strategy="async"></script>
     <script id="base-navigation-js-extra">
         var baseConfig = {
             "screenReader": {
@@ -3872,6 +3447,7 @@
     </script>
     <script src="{{ asset('modules/publish/js/navigation.min.js?ver=1.5.3') }}" id="base-navigation-js"></script>
     <script src="{{ asset('modules/publish/js/shop-spinner.min.js?ver=1.5.3') }}" id="base-shop-spinner-js"></script>
+    <script src="{{ asset('modules/publish/js/bt-modal-init.min.js?ver=3.4.0') }}" id="base-modal-js"></script>
     <script src="{{ asset('modules/publish/js/sourcebuster.min.js?ver=9.7.0') }}" id="sourcebuster-js-js"></script>
     <script id="wc-order-attribution-js-extra">
         var wc_order_attribution = {
@@ -3908,6 +3484,18 @@
     <script src="{{ asset('modules/publish/js/splide.min.js?ver=3.4.0') }}" id="base-splide-js"></script>
     <script src="{{ asset('modules/publish/js/splide-extension-grid.min.js?ver=3.4.0') }}" id="base-splide-grid-js">
     </script>
+    <script id="bt_woo_reviews-js-extra">
+        var bt_product_reviews = {
+            "is_user_logged_in": "",
+            "user_id": "0",
+            "product_id": "214",
+            "nonce": "d29d6e7651",
+            "error": "An error occurred, please try again later",
+            "nomoreviews": "There are no more reviews",
+            "required_consent_text": "Please check required consent checkbox"
+        };
+    </script>
+    <script src="{{ asset('modules/publish/js/bt_woo_reviews-min.js?ver=3.4.0') }}" id="bt_woo_reviews-js"></script>
     <script src="{{ asset('modules/publish/js/bt_variation_swatches.js?ver=3.4.0') }}" id="base_variation_swatches-js">
     </script>
     <script id="base-snackbar-notice-js-extra">
@@ -3917,17 +3505,35 @@
     </script>
     <script src="{{ asset('modules/publish/js/base-snackbar-notice.min.js?ver=3.4.0') }}" id="base-snackbar-notice-js">
     </script>
+    <script src="{{ asset('modules/publish/js/splide.min.js?ver=3.4.0') }}" id="base-update-splide-js"></script>
+    <script src="{{ asset('modules/publish/js/jquery.elevateZoom.min.js?ver=3.4.0') }}" id="base-product-gallery-zoom-js">
+    </script>
+    <script src="{{ asset('modules/publish/js/glightbox.min.js?ver=3.4.0') }}" id="base-glightbox-js"></script>
+    <script id="base_product_gallery-js-extra">
+        var base_pg = {
+            "plyr_js": "https:\/\/demos.codezeel.com\/wordpress\/WCM08\/WCM080193\/default\/wp-content\/plugins\/templatemela-core\/includes\/woocommerce\/lib\/gallery\/js\/min\/plyr.js",
+            "plyr_css": "https:\/\/demos.codezeel.com\/wordpress\/WCM08\/WCM080193\/default\/wp-content\/plugins\/templatemela-core\/includes\/woocommerce\/lib\/gallery\/css\/plyr.css",
+            "ajax_nonce": "60d92283b2",
+            "ajax_url": "https:\/\/demos.codezeel.com\/wordpress\/WCM08\/WCM080193\/default\/wp-admin\/admin-ajax.php",
+            "lightbox": "1",
+            "lightbox_style": "base-dark"
+        };
+    </script>
+    <script src="{{ asset('modules/publish/js/base-product-gallery.js?ver=3.4.0') }}" id="base_product_gallery-js">
+    </script>
+    <script src="{{ asset('modules/publish/js/global-tabs.js?ver=3.4.0') }}" id="base-global-tabs-js"></script>
     <script src="{{ asset('modules/publish/js/main.min.js?ver=3.4.0') }}" id="tmcore-woocommerce-main-js"></script>
     <script id="tmcore-common-archive-js-extra">
         var tmCoreShop = {
-            "total": "8",
-            "per_page": "20",
+            "total": "0",
+            "per_page": "0",
             "current": "1",
             "pagination_type": "load-more",
             "is_collapsable": "1"
         };
     </script>
-    <script src="{{ asset('modules/publish/js/common-archive.min.js?ver=3.4.0') }}" id="tmcore-common-archive-js"></script>
+    <script src="{{ asset('modules/publish/js/common-archive.min.js?ver=3.4.0') }}" id="tmcore-common-archive-js">
+    </script>
     <script id="tmc-notifications-js-before">
         var tmcore_notification_count = 2;
         var tmcore_notification = [{
@@ -4065,10 +3671,11 @@
                 "uploadUrl": "https:\/\/demos.codezeel.com\/wordpress\/WCM08\/WCM080193\/default\/wp-content\/uploads"
             },
             "nonces": {
-                "floatingButtonsClickTracking": "fd057bb363"
+                "floatingButtonsClickTracking": "135eca5b30"
             },
             "swiperClass": "swiper",
             "settings": {
+                "page": [],
                 "editorPreferences": []
             },
             "kit": {
@@ -4082,9 +3689,10 @@
                 "lightbox_description_src": "description"
             },
             "post": {
-                "id": 0,
-                "title": "Beds - Couchly Demo",
-                "excerpt": ""
+                "id": 214,
+                "title": "Ferm%20Living%20Isola%20Comfortable%20Storage%20Table%20-%20Couchly%20Demo",
+                "excerpt": "Characterised by its soft, organic shape and practical lid, the Isola Storage Table is both suitable as a spacious storage container and a bedside table. The table make it ready for new adventures.",
+                "featuredImage": "https:\/\/demos.codezeel.com\/wordpress\/WCM08\/WCM080193\/default\/wp-content\/uploads\/2023\/12\/13-1.jpg"
             }
         };
     </script>
@@ -4092,12 +3700,6 @@
     <script src="{{ asset('modules/publish/js/products.min.js?ver=3.4.0') }}" id="tmcore-elementor-products-js"></script>
     <script src="{{ asset('modules/publish/js/product-tab.min.js?ver=3.4.0') }}" id="tmcore-elementor-product-tab-js">
     </script>
-    <script id="base-shop-toggle-js-extra">
-        var baseShopConfig = {
-            "siteSlug": "couchly-demo"
-        };
-    </script>
-    <script src="{{ asset('modules/publish/js/shop-toggle.min.js?ver=1.5.3') }}" id="base-shop-toggle-js"></script>
     <script defer src="{{ asset('modules/publish/js/forms.js?ver=4.10.1') }}" id="mc4wp-forms-api-js"></script>
     <script id="base-pro-woocommerce-js-extra">
         var baseProWooConfig = {
@@ -4114,43 +3716,12 @@
     <script src="{{ asset('modules/publish/js/search-advanced.min.js?ver=3.4.0') }}" id="search-advanced-js"></script>
     <script src="{{ asset('modules/publish/js/elementor-frontend.min.js?ver=3.4.0') }}" id="tmcore-elementor-frontend-js">
     </script>
-    <div id="search-drawer" class="popup-drawer popup-drawer-layout-fullwidth"
-        data-drawer-target-string="#search-drawer">
-        <div class="drawer-overlay" data-drawer-target-string="#search-drawer"></div>
-        <div class="drawer-inner">
-            <div class="drawer-header">
-                <button class="search-toggle-close drawer-toggle" aria-label="Close search"
-                    data-toggle-target="#search-drawer" data-toggle-body-class="showing-popup-drawer-from-full"
-                    aria-expanded="false" data-set-focus=".search-toggle-open">
-                    <span class="base-svg-iconset"><svg class="base-svg-icon base-close-svg" fill="currentColor"
-                            version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24">
-                            <title>Toggle Menu Close</title>
-                            <path
-                                d="M5.293 6.707l5.293 5.293-5.293 5.293c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0l5.293-5.293 5.293 5.293c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414l-5.293-5.293 5.293-5.293c0.391-0.391 0.391-1.024 0-1.414s-1.024-0.391-1.414 0l-5.293 5.293-5.293-5.293c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414z">
-                            </path>
-                        </svg></span> </button>
-            </div>
-            <div class="drawer-content">
-                <form role="search" method="get" class="woocommerce-product-search" action="#">
-                    <label class="screen-reader-text" for="woocommerce-product-search-field-0">Search for:</label>
-                    <input type="search" id="woocommerce-product-search-field-0" class="search-field"
-                        placeholder="Search products&hellip;" value="" name="s" />
-                    <button type="submit" value="Search" class="">Search</button>
-                    <input type="hidden" name="post_type" value="product" />
-                    <div class="base-search-icon-wrap"><span class="base-svg-iconset"><svg
-                                class="thebase-svg-icon thebase-search-svg" fill="currentColor" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24">
-                                <title>Search</title>
-                                <path
-                                    d="M16.041 15.856c-0.034 0.026-0.067 0.055-0.099 0.087s-0.060 0.064-0.087 0.099c-1.258 1.213-2.969 1.958-4.855 1.958-1.933 0-3.682-0.782-4.95-2.050s-2.050-3.017-2.050-4.95 0.782-3.682 2.050-4.95 3.017-2.050 4.95-2.050 3.682 0.782 4.95 2.050 2.050 3.017 2.050 4.95c0 1.886-0.745 3.597-1.959 4.856zM21.707 20.293l-3.675-3.675c1.231-1.54 1.968-3.493 1.968-5.618 0-2.485-1.008-4.736-2.636-6.364s-3.879-2.636-6.364-2.636-4.736 1.008-6.364 2.636-2.636 3.879-2.636 6.364 1.008 4.736 2.636 6.364 3.879 2.636 6.364 2.636c2.125 0 4.078-0.737 5.618-1.968l3.675 3.675c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414z">
-                                </path>
-                            </svg></span></div>
-                </form>
-            </div>
-        </div>
-    </div>
+
+
+
+
+
+    @yield('scripts')
     @stack('scripts')
     <script>
         document.addEventListener("DOMContentLoaded", function() {

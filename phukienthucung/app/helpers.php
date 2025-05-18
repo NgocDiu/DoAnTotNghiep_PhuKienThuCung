@@ -3,8 +3,8 @@ use App\Models\Menu;
 use App\Models\Category;
 use App\Models\Article;
 use App\Models\Product;
-
-
+use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 
 
 if (!function_exists('module_asset')) {
@@ -107,6 +107,23 @@ if (!function_exists('get_related_products')) {
             ->with('brand', 'categories')
             ->distinct()
             ->take($limit)
+            ->get();
+    }
+}
+
+
+if (!function_exists('getAllOrdersWithPayment')) {
+    function getAllOrdersWithPayment()
+    {
+        $user = Auth::guard('publish')->user(); 
+
+        if (!$user) {
+            return collect(); // Trả về danh sách rỗng nếu chưa đăng nhập
+        }
+
+        return \App\Models\Order::with(['user', 'payment', 'items.product'])
+            ->where('user_id', $user->id)
+            ->orderByDesc('created_at')
             ->get();
     }
 }

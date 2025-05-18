@@ -29,5 +29,11 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'ghn' => [
+        'token' => env('TOKEN_DEV'),
+        'shop_id' => env('SHOP_ID_DEV'),
+        'from_district' => env('SHOP_DISTRICT_ID'),
+        'from_ward' => env('SHOP_WARD_ID'),
+    ]
 
 ];

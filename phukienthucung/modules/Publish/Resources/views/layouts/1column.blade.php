@@ -2972,6 +2972,43 @@
     </script>
 
     @yield('styles')
+    <style>
+        .alert-dismissible {
+            position: relative;
+            padding-right: 2.5rem;
+            border: 1px solid transparent;
+            border-radius: 0.375rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .alert-success {
+            background-color: #d1e7dd;
+            color: #0f5132;
+            border-color: #badbcc;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #842029;
+            border-color: #f5c2c7;
+        }
+
+        .custom-alert-close {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.75rem;
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            line-height: 1;
+            color: inherit;
+            cursor: pointer;
+        }
+    </style>
+
 </head>
 
 <body
@@ -3704,6 +3741,18 @@
 
     @yield('scripts')
     @stack('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                document.querySelectorAll('.alert-dismissible').forEach(function(el) {
+                    el.style.opacity = '0';
+                    setTimeout(() => el.remove(), 500);
+                });
+            }, 3000);
+        });
+    </script>
+
+
 </body>
 
 </html>

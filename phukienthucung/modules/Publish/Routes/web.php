@@ -8,19 +8,14 @@ use Modules\Publish\Http\Controllers\PageController;
 use Modules\Publish\Http\Controllers\ProductController;
 use Modules\Publish\Http\Controllers\CartController;
 use Modules\Publish\Http\Controllers\InformationController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes - Module Publish
-|--------------------------------------------------------------------------
-*/
+use Modules\Publish\Http\Controllers\CheckoutController;
 
 Route::middleware('web')->group(function () {
 
     // Trang chủ
     Route::get('/', [PublishController::class, 'index'])->name('publish.index');
 
-    // Đăng nhập/Đăng ký
+    // Đăng nhập/Đăng ký (không cần auth)
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('publish.login');
     Route::post('/login', [AuthController::class, 'login']);
     Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('publish.register');
@@ -33,22 +28,33 @@ Route::middleware('web')->group(function () {
     Route::get('/trang/{slug}', [PageController::class, 'show'])->name('page.show');
     Route::get('/san-pham/{slug}', [ProductController::class, 'show'])->name('product.show');
 
-    // Giỏ hàng (cần đăng nhập bằng guard publish)
+    // API địa chỉ
+    Route::post('/api/get-districts', [InformationController::class, 'getDistricts']);
+    Route::post('/api/get-wards', [InformationController::class, 'getWards']);
+
+    // ✅ Nhóm route cần đăng nhập với guard publish
     Route::middleware('auth:publish')->group(function () {
+
+        // Giỏ hàng
         Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
         Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
         Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
         Route::patch('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
-    //Thông tin
-    Route::get('information', [InformationController::class, 'index'])->name('information');
 
-    Route::post('information/address/store', [InformationController::class, 'storeAddress'])->name('address.store');
-    Route::post('information/address/update/{id}', [InformationController::class, 'updateAddress'])->name('address.update');
-    Route::delete('information/address/delete/{id}', [InformationController::class, 'deleteAddress'])->name('address.delete');
-    // routes/web.php
+        // Thông tin người dùng
+        Route::get('/information', [InformationController::class, 'index'])->name('information');
+        Route::post('/information/address/store', [InformationController::class, 'storeAddress'])->name('address.store');
+        Route::post('/information/address/update/{id}', [InformationController::class, 'updateAddress'])->name('address.update');
+        Route::delete('/information/address/delete/{id}', [InformationController::class, 'deleteAddress'])->name('address.delete');
 
+        // Thanh toán
+        Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+        Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
+        Route::get('/checkout/retry-vnpay/{order}', [CheckoutController::class, 'retryVnpay'])->name('checkout.vnpay.retry');
+        Route::get('/checkout/success/{id}', [CheckoutController::class, 'success'])->name('checkout.success');
     });
-    Route::post('/api/get-districts', [InformationController::class, 'getDistricts']);
-    Route::post('/api/get-wards', [InformationController::class, 'getWards']);
 
+    // ✅ Không cần đăng nhập - callback từ VNPAY
+    Route::get('/checkout/vnpay-return', [CheckoutController::class, 'vnpayReturn'])
+        ->name('checkout.vnpay.return');
 });

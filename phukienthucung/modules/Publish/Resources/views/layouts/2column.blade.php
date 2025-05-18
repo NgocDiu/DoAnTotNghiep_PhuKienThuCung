@@ -2958,7 +2958,43 @@
     </script>
     @yield('styles')
     {!! config('settings.custom_header') !!}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('modules/publish/bootstrap/css/bootstrap.min.css') }}">
+    <style>
+        .alert-dismissible {
+            position: relative;
+            padding-right: 2.5rem;
+            border: 1px solid transparent;
+            border-radius: 0.375rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .alert-success {
+            background-color: #d1e7dd;
+            color: #0f5132;
+            border-color: #badbcc;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #842029;
+            border-color: #f5c2c7;
+        }
+
+        .custom-alert-close {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.75rem;
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            line-height: 1;
+            color: inherit;
+            cursor: pointer;
+        }
+    </style>
 
 </head>
 
@@ -4229,9 +4265,20 @@
 
         });
     </script> --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('modules/publish/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
     @stack('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                document.querySelectorAll('.alert-dismissible').forEach(function(el) {
+                    el.style.opacity = '0';
+                    setTimeout(() => el.remove(), 500);
+                });
+            }, 3000);
+        });
+    </script>
+
 </body>
 
 </html>

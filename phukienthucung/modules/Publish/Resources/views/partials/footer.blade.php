@@ -39,7 +39,7 @@
                                                 <div class="newsletter-form">
                                                     <input type="email" name="EMAIL" placeholder="Email"
                                                         required=""><input type="submit" class="newsletter-color"
-                                                        value="Đăng ký">
+                                                        value="Đăng ký" style="background-color: #cd1818">
                                                 </div>
                                             </div><label style="display: none !important;">Để trống trường này nếu bạn
                                                 là người: <input type="text" name="_mc4wp_honeypot" value=""

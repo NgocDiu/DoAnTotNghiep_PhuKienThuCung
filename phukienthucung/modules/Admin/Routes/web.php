@@ -19,8 +19,7 @@ use Modules\Admin\Http\Controllers\Menu;
 | Web Routes
 |--------------------------------------------------------------------------
 */
-
-// Đăng nhập và đăng ký (không cần auth)
+// Đăng nhập và đăng ký admin (không cần auth)
 Route::middleware('web')->group(function () {
     Route::get('admin/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
     Route::post('admin/login', [AuthController::class, 'login']);
@@ -28,35 +27,29 @@ Route::middleware('web')->group(function () {
     Route::post('admin/register', [AuthController::class, 'register']);
 });
 
-// Các route yêu cầu đã đăng nhập với guard 'admin'
+// Sau khi đăng nhập bằng guard 'admin'
 Route::middleware(['web', 'auth:admin'])->prefix('admin')->name('admin.')->group(function () {
 
-    // Logout
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/', [AdminController::class, 'index'])->middleware('permission:order')->name('index');
 
-    // Dashboard
-    Route::get('/', [AdminController::class, 'index'])->name('index');
-
-    // Quản lý đơn hàng (có thêm middleware permission riêng)
     Route::get('orders', [CartController::class, 'index'])
         ->middleware('permission:order')
         ->name('orders.index');
 
-    // Permissions
     Route::resource('permissions', PermissionController::class)
         ->except(['show', 'create', 'edit'])
         ->middleware('permission:roles')
         ->names('permissions');
 
-    // Roles
     Route::resource('roles', RoleController::class)
-         ->middleware('permission:roles')
+        ->middleware('permission:roles')
         ->names('roles');
 
-    // Phân quyền người dùng
     Route::get('users/roles', [UserRoleController::class, 'index'])
         ->middleware('permission:roles')
         ->name('users.roles');    
+
     Route::post('users/roles/{user}', [UserRoleController::class, 'update'])->name('users.roles.update');
 
     Route::resource('categories', CategoryController::class)
@@ -72,7 +65,7 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin')->name('admin.')->group
         ->except(['show', 'create', 'edit'])
         ->middleware('permission:attribute')
         ->names('attributes');
-        
+
     Route::resource('products', ProductController::class)
         ->except(['show'])    
         ->middleware('permission:product')
@@ -85,19 +78,18 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin')->name('admin.')->group
     Route::post('products/discounts/{product}', [ProductController::class, 'updateDiscount'])
         ->middleware('permission:product')
         ->name('products.updateDiscount');
-        
+
     Route::resource('menus', MenuController::class)
         ->except(['show'])
         ->middleware('permission:menu')
         ->names('menus');
 
     Route::resource('articles', ArticleController::class)
-    ->except(['show'])
-    ->middleware('permission:article')
-    ->names('articles');;
+        ->except(['show'])
+        ->middleware('permission:article')
+        ->names('articles');
 
     Route::resource('pages', PageController::class)
         ->middleware('permission:page');
-
-
 });
+

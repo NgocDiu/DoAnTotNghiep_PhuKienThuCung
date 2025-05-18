@@ -23,48 +23,192 @@
     </style>
     <div class="container mt-4">
         @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <div class="alert alert-success alert-dismissible" role="alert">
                 {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <button type="button" class="custom-alert-close"
+                    onclick="this.parentElement.style.display='none';">&times;</button>
             </div>
         @endif
 
         @if ($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div class="alert alert-danger alert-dismissible" role="alert">
                 <ul class="mb-0">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <button type="button" class="custom-alert-close"
+                    onclick="this.parentElement.style.display='none';">&times;</button>
             </div>
         @endif
 
         <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin: 20px 0">
-            <li class="nav-item" role="presentation">
+            <li class="nav-item mx-1" role="presentation">
                 <button class="nav-link active" id="tab1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button"
                     role="tab" aria-controls="tab1" aria-selected="true">
-                    Thông tin cá nhân
+                    Đơn hàng của bạn
                 </button>
             </li>
-            <li class="nav-item" role="presentation">
+            <li class="nav-item mx-1" role="presentation">
                 <button class="nav-link" id="tab2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button"
                     role="tab" aria-controls="tab2" aria-selected="false">
                     Địa chỉ giao hàng
                 </button>
             </li>
-            <li class="nav-item" role="presentation">
+            <li class="nav-item mx-1" role="presentation">
                 <button class="nav-link" id="tab3-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button"
                     role="tab" aria-controls="tab3" aria-selected="false">
-                    Lịch sử đơn hàng
+                    Thông tin cá nhân
+
                 </button>
             </li>
         </ul>
 
         <div class="tab-content mt-3" id="myTabContent">
             <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                <h5 class="mb-3">🧾 Lịch sử đơn hàng</h5>
+                <p>Danh sách đơn hàng bạn đã đặt.</p>
 
+                @php
+                    $orders = getAllOrdersWithPayment();
+                @endphp
+
+                @if ($orders->isEmpty())
+                    <div class="alert alert-warning">Bạn chưa có đơn hàng nào.</div>
+                @else
+                    <table class="table table-bordered table-hover mt-3">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Mã đơn</th>
+                                <th>Ngày đặt</th>
+                                <th>Sản phẩm đầu tiên</th>
+                                <th>Tổng tiền</th>
+                                <th>Phương thức</th>
+                                <th>Trạng thái</th>
+                                <th>Chi tiết</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($orders as $order)
+                                @php
+                                    $payment = $order->payment;
+                                    $firstItem = $order->items->first();
+                                    $isUnpaidVnpay =
+                                        $payment &&
+                                        $payment->payment_method === 'vnpay' &&
+                                        $payment->status !== 'success';
+                                @endphp
+                                <tr>
+                                    <td class="text-center">{{ $order->id }}</td>
+                                    <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
+                                    <td>
+                                        @if ($firstItem)
+                                            {{ $firstItem->product->name }} x {{ $firstItem->quantity }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>{{ number_format($order->grand_total) }} đ</td>
+                                    <td>{{ strtoupper(optional($payment)->payment_method ?? '-') }}</td>
+                                    <td>
+                                        @if ($isUnpaidVnpay)
+                                            <span class="badge bg-danger mb-1">Chưa thanh toán</span>
+                                        @else
+                                            @switch($order->status)
+                                                @case('pending')
+                                                    <span class="badge bg-warning text-dark">Chờ tiếp nhận</span>
+                                                @break
+
+                                                @case('confirmed')
+                                                    <span class="badge bg-info text-dark">Đã xác nhận</span>
+                                                @break
+
+                                                @case('shipping')
+                                                    <span class="badge bg-primary">Đang vận chuyển</span>
+                                                @break
+
+                                                @case('delivered')
+                                                    <span class="badge bg-success">Đã giao hàng</span>
+                                                @break
+
+                                                @case('cancelled')
+                                                    <span class="badge bg-danger">Đã huỷ</span>
+                                                @break
+
+                                                @case('returned')
+                                                    <span class="badge bg-dark">Trả hàng</span>
+                                                @break
+
+                                                @default
+                                                    <span class="badge bg-secondary">Không xác định</span>
+                                            @endswitch
+                                        @endif
+                                    </td>
+
+                                    <td>
+
+                                        @if ($isUnpaidVnpay)
+                                            <a href="{{ route('checkout.vnpay.retry', $order) }}"
+                                                class="btn btn-sm btn-outline-danger">
+                                                Thanh toán
+                                            </a>
+                                        @else
+                                            <button type="button" class="btn btn-sm btn-outline-primary"
+                                                data-bs-toggle="modal" data-bs-target="#orderModal{{ $order->id }}">
+                                                Xem chi tiết
+                                            </button>
+                                        @endif
+
+                                        <!-- Button trigger modal -->
+
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="orderModal{{ $order->id }}" tabindex="-1"
+                                            aria-labelledby="orderModalLabel{{ $order->id }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="orderModalLabel{{ $order->id }}">
+                                                            Đơn hàng {{ $order->id }}</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Sản phẩm</th>
+                                                                    <th>Số lượng</th>
+                                                                    <th>Giá</th>
+                                                                    <th>Tổng</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($order->items as $item)
+                                                                    <tr>
+                                                                        <td>{{ $item->product->name }}</td>
+                                                                        <td>{{ $item->quantity }}</td>
+                                                                        <td>{{ number_format($item->price) }} đ</td>
+                                                                        <td>{{ number_format($item->line_total) }} đ</td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                        <div class="text-end fw-bold">
+                                                            Tổng đơn: {{ number_format($order->grand_total) }} đ
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @endif
             </div>
+
             <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
                 <div class="d-flex justify-content-end">
                     <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addAddressModal">Thêm địa
@@ -128,9 +272,12 @@
                 @endforeach
             </div>
             <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
-                <h5>Lịch sử đơn hàng</h5>
-                <p>Danh sách đơn hàng đã mua.</p>
+
             </div>
+
+
+
+
         </div>
 
 
@@ -231,7 +378,8 @@
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const GHN_TOKEN = '2e8adeb0-1a81-11f0-9f4c-529f157d1a4f';
+            //const GHN_TOKEN = '2e8adeb0-1a81-11f0-9f4c-529f157d1a4f';
+            const GHN_TOKEN = 'c59c15ca-30b3-11f0-a8f3-e2b76f821110';
 
             // ===================== JS cho nút sửa =====================
             document.querySelectorAll('.edit-address').forEach(button => {
