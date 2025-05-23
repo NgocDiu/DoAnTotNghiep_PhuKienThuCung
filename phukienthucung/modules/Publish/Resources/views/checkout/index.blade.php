@@ -291,13 +291,25 @@
     ) !!};
 </script>
 
-
-
 @push('scripts')
     <script>
+        const DEFAULT_SHIP_FEE = 24000;
+
         function formatVNDWithComma(amount) {
             return amount.toLocaleString('vi-VN').replace(/\./g, ',') + ' đ';
         }
+
+        function updateShippingUI(shipFee) {
+            const grandTotal = CART_TOTAL + shipFee;
+            document.getElementById('ship_fee_value').textContent = formatVNDWithComma(shipFee);
+            document.getElementById('grand_total').textContent = formatVNDWithComma(grandTotal);
+
+            const feeInput = document.getElementById('ship_fee');
+            if (feeInput) feeInput.value = shipFee;
+        }
+
+        // Dùng mặc định ban đầu
+        updateShippingUI(DEFAULT_SHIP_FEE);
 
         document.addEventListener("DOMContentLoaded", function() {
             const selectAddress = document.querySelector('select[name="address_id"]');
@@ -310,14 +322,12 @@
                     width: 0,
                     weight: 0
                 };
-
                 items.forEach(item => {
                     total.height += item.height * item.quantity;
                     total.length += item.length * item.quantity;
                     total.width += item.width * item.quantity;
                     total.weight += item.weight * item.quantity;
                 });
-
                 return total;
             }
 
@@ -327,8 +337,8 @@
                 const body = {
                     from_district_id: GHN_CONFIG.from_district,
                     from_ward_code: GHN_CONFIG.from_ward,
-                    service_id: service_id,
-                    service_type_id: service_type_id,
+                    service_id,
+                    service_type_id,
                     to_district_id: parseInt(toDistrictId),
                     to_ward_code: toWardCode,
                     height: totals.height,
@@ -352,27 +362,14 @@
                     })
                     .then(res => res.json())
                     .then(data => {
-                        if (data.code == 200) {
-                            const shipFee = data.data.total;
-
-                            // Cập nhật giao diện
-
-
-                            const grandTotal = CART_TOTAL + shipFee;
-                            document.getElementById('ship_fee_value').textContent = formatVNDWithComma(shipFee);
-                            document.getElementById('grand_total').textContent = formatVNDWithComma(grandTotal);
-
-                            // Gán vào input ẩn
-                            const feeInput = document.getElementById('ship_fee');
-                            if (feeInput) {
-                                feeInput.value = shipFee;
-                            }
+                        if (data.code == 200 && data.data?.total) {
+                            updateShippingUI(data.data.total);
                         } else {
-                            console.warn("Không tính được phí GHN.");
+                            console.warn("GHN trả về không hợp lệ. Giữ nguyên phí mặc định.");
                         }
                     })
                     .catch(err => {
-                        console.error("Lỗi khi gọi API GHN phí:", err);
+                        console.error("Lỗi khi gọi API GHN:", err);
                     });
             }
 
@@ -391,12 +388,12 @@
                     })
                     .then(res => res.json())
                     .then(data => {
-                        if (data.code === 200 && Array.isArray(data.data)) {
+                        if (data.code === 200 && Array.isArray(data.data) && data.data.length > 0) {
                             const service = data.data[0];
                             fetchShippingFee(service.service_id, service.service_type_id, toDistrictId,
                                 toWardCode);
                         } else {
-                            console.warn("Không có dịch vụ GHN phù hợp.");
+                            console.warn("Không có dịch vụ GHN phù hợp. Giữ phí mặc định.");
                         }
                     })
                     .catch(err => {
@@ -404,7 +401,6 @@
                     });
             }
 
-            // Gọi khi vừa load
             const defaultOption = selectAddress.selectedOptions[0];
             if (defaultOption) {
                 const district = defaultOption.getAttribute('data-district');
@@ -414,7 +410,6 @@
                 }
             }
 
-            // Gọi lại khi chọn địa chỉ khác
             selectAddress.addEventListener('change', function() {
                 const selected = this.selectedOptions[0];
                 const district = selected.getAttribute('data-district');

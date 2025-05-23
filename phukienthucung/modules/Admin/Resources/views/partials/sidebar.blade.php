@@ -267,7 +267,8 @@
                                     </li>
 
                                     <li class="pc-item">
-                                        <a href="{{-- route('admin.settings.index') --}}" class="pc-link">
+                                        <a href="{{ route('admin.settings.edit') }}"
+                                            class="pc-link {{ request()->is('admin/settings/*') ? 'pc-trigger' : '' }}">
                                             <span class="pc-micon"><i class="ti ti-settings"></i></span>
                                             <span class="pc-mtext">Cài đặt hệ thống</span>
                                         </a>
@@ -414,16 +415,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                                <div class="card text-center">
-                                    <div class="card-body">
-                                        <img src="{{ asset('modules/admin/images/img-navbar-card.png') }}"
-                                            alt="images" class="img-fluid mb-2">
-                                        <h5>Upgrade To Pro</h5>
-                                        <p>To get more features and components</p>
-                                        <a href="https://codedthemes.com/item/berry-bootstrap-5-admin-template/"
-                                            target="_blank" class="btn btn-success">Buy Now</a>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                     </div>

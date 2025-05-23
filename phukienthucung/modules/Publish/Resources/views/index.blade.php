@@ -140,6 +140,33 @@
                 flex: 0 0 48%;
                 margin-bottom: 0.5rem;
             }
+
+            .swiper-slide {
+                max-height: 200px;
+            }
+
+            .swiper .mySwiper {
+                max-height: 200px;
+            }
+
+            #slide {
+                max-height: 200px;
+            }
+        }
+
+        #slide {
+            max-height: 600px;
+        }
+
+        .swiper-slide {
+            max-height: 600px;
+        }
+        .swiper-slide img {
+            max-height: 600px;
+        }
+
+        .swiper .mySwiper {
+            max-height: 600px;
         }
 
         .countdown-digits {
@@ -216,7 +243,34 @@
                                     <div data-elementor-type="wp-page" data-elementor-id="2" class="elementor elementor-2">
                                         <!-- slideshow-->
 
+                                        <section id="slide"
+                                            class="elementor-section elementor-top-section elementor-element elementor-element-ae92270 elementor-section-stretched full_width_section elementor-section-boxed elementor-section-height-default elementor-section-height-default"
+                                            data-id="ae92270" data-element_type="section"
+                                            data-settings="{&quot;stretch_section&quot;:&quot;section-stretched&quot;,&quot;background_background&quot;:&quot;classic&quot;}"
+                                            style="width: 2932px; left: 15.2px;">
 
+                                            <div class="swiper mySwiper" style=" width: 100%; max-width: 1200px;">
+                                                <div class="swiper-wrapper">
+                                                    <div class="swiper-slide">
+                                                        <img src="{{ asset('modules/publish/images/banner1.jpg') }}"
+                                                            alt="Banner 1" style="width: 100%;max-width: 1200px;">
+                                                    </div>
+                                                    <div class="swiper-slide">
+                                                        <img src="{{ asset('modules/publish/images/banner2.jpg') }}"
+                                                            alt="Banner 2" style="width: 100%;max-width: 1200px;">
+                                                    </div>
+                                                    <div class="swiper-slide">
+                                                        <img src="{{ asset('modules/publish/images/banner3.jpg') }}"
+                                                            alt="Banner 3" style="width: 100%;max-width: 1200px;">
+                                                    </div>
+                                                </div>
+
+                                                <!-- Nút điều hướng -->
+                                                <div class="swiper-button-next" style="color: #fff"></div>
+                                                <div class="swiper-button-prev" style="color: #fff"></div>
+                                            </div>
+
+                                        </section>
                                         <!-- End slideshow-->
 
                                         <!-- Block 1-->
@@ -457,12 +511,7 @@
                                                                                 aria-controls="elementor-tab-content-4851">
                                                                                 Sản phẩm mới </div>
 
-                                                                            <div id="elementor-tab-title-4852"
-                                                                                class="elementor-tab-title elementor-tab-desktop-title  elementor-repeater-item-5850c0e"
-                                                                                data-tab="2" tabindex="4852"
-                                                                                role="tab"
-                                                                                aria-controls="elementor-tab-content-4852">
-                                                                                Quan tâm nhiều </div>
+
 
                                                                             <div id="elementor-tab-title-4853"
                                                                                 class="elementor-tab-title elementor-tab-desktop-title  elementor-repeater-item-43f1a37"
@@ -629,158 +678,7 @@
                                                                             </div>
                                                                         </div>
 
-                                                                        <div id="elementor-tab-content-4852"
-                                                                            class="elementor-tab-content elementor-clearfix  elementor-repeater-item-5850c0e"
-                                                                            data-tab="2" role="tabpanel"
-                                                                            aria-labelledby="elementor-tab-title-4852"
-                                                                            hidden="">
-                                                                            <div class="woocommerce columns-5 ">
-                                                                                <div class="woocommerce-carousel splide is-initialized splide--loop splide--ltr splide--draggable is-active"
-                                                                                    data-settings="" id="splide02"
-                                                                                    role="region"
-                                                                                    aria-roledescription="carousel">
-                                                                                    <div
-                                                                                        class="splide__arrows splide__arrows--ltr">
-                                                                                        <button
-                                                                                            class="splide__arrow splide__arrow--prev"
-                                                                                            type="button"
-                                                                                            aria-label="Previous slide"
-                                                                                            aria-controls="splide02-track"><svg
-                                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                                viewBox="0 0 40 40"
-                                                                                                width="40"
-                                                                                                height="40"
-                                                                                                focusable="false">
-                                                                                                <path
-                                                                                                    d="m15.5 0.932-4.3 4.38 14.5 14.6-14.5 14.5 4.3 4.4 14.6-14.6 4.4-4.3-4.4-4.4-14.6-14.6z">
-                                                                                                </path>
-                                                                                            </svg></button><button
-                                                                                            class="splide__arrow splide__arrow--next"
-                                                                                            type="button"
-                                                                                            aria-label="Next slide"
-                                                                                            aria-controls="splide02-track"><svg
-                                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                                viewBox="0 0 40 40"
-                                                                                                width="40"
-                                                                                                height="40"
-                                                                                                focusable="false">
-                                                                                                <path
-                                                                                                    d="m15.5 0.932-4.3 4.38 14.5 14.6-14.5 14.5 4.3 4.4 14.6-14.6 4.4-4.3-4.4-4.4-14.6-14.6z">
-                                                                                                </path>
-                                                                                            </svg></button>
-                                                                                    </div>
-                                                                                    <div class="splide__track splide__track--loop splide__track--ltr splide__track--draggable"
-                                                                                        id="splide02-track"
-                                                                                        style="padding-left: 0px; padding-right: 0px;"
-                                                                                        aria-live="polite"
-                                                                                        aria-atomic="true">
-                                                                                        <ul class="products content-wrap product-archive grid-ss-col-2 grid-sm-col-3 grid-md-col-4 grid-lg-col-5 woo-archive-always-visible woo-archive-btn-button align-buttons-bottom woo-archive-image-hover-fade splide__list"
-                                                                                            id="splide02-list"
-                                                                                            role="presentation"
-                                                                                            style="transform: translateX(0px);">
 
-                                                                                            @foreach (getActiveProductsWithImage(10) as $product)
-                                                                                                @php
-                                                                                                    $mainImage = $product->images->first();
-                                                                                                    $secondaryImage = $product->images
-                                                                                                        ->skip(1)
-                                                                                                        ->first();
-                                                                                                    $image =
-                                                                                                        $mainImage &&
-                                                                                                        file_exists(
-                                                                                                            public_path(
-                                                                                                                $mainImage->image_url,
-                                                                                                            ),
-                                                                                                        )
-                                                                                                            ? asset(
-                                                                                                                $mainImage->image_url,
-                                                                                                            )
-                                                                                                            : asset(
-                                                                                                                'modules/publish/images/no-images.jpg',
-                                                                                                            );
-                                                                                                    $secondary =
-                                                                                                        $secondaryImage &&
-                                                                                                        file_exists(
-                                                                                                            public_path(
-                                                                                                                $secondaryImage->image_url,
-                                                                                                            ),
-                                                                                                        )
-                                                                                                            ? asset(
-                                                                                                                $secondaryImage->image_url,
-                                                                                                            )
-                                                                                                            : $image;
-                                                                                                    $discountPercent = $product->discount_price
-                                                                                                        ? round(
-                                                                                                            100 -
-                                                                                                                ($product->discount_price /
-                                                                                                                    $product->price) *
-                                                                                                                    100,
-                                                                                                        )
-                                                                                                        : 0;
-                                                                                                @endphp
-                                                                                                <li
-                                                                                                    class="entry content-bg loop-entry product splide__slide">
-                                                                                                    <div
-                                                                                                        class="product-thumbnail">
-                                                                                                        <a href="{{ url('san-pham/' . $product->slug) }}"
-                                                                                                            class="woocommerce-loop-image-link">
-                                                                                                            @if ($product->discount_price)
-                                                                                                                <div
-                                                                                                                    class="product-onsale">
-                                                                                                                    <span
-                                                                                                                        class="onsale">-{{ $discountPercent }}%</span>
-                                                                                                                </div>
-                                                                                                            @endif
-                                                                                                            <img loading="lazy"
-                                                                                                                width="300"
-                                                                                                                height="300"
-                                                                                                                src="{{ $image }}"
-                                                                                                                class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail">
-                                                                                                            <img loading="lazy"
-                                                                                                                width="300"
-                                                                                                                height="300"
-                                                                                                                src="{{ $secondary }}"
-                                                                                                                class="secondary-product-image">
-                                                                                                        </a>
-                                                                                                    </div>
-                                                                                                    <div class="product-details content-bg entry-content-wrap"
-                                                                                                        style="display:flex;flex-direction;column;flex-direction: column;justify-content: space-between;">
-                                                                                                        <h2
-                                                                                                            class="woocommerce-loop-product__title">
-                                                                                                            <a href="{{ url('san-pham/' . $product->slug) }} "
-                                                                                                                style="text-align:start">{{ $product->name }}</a>
-                                                                                                        </h2>
-                                                                                                        <span
-                                                                                                            class="price">
-                                                                                                            @if ($product->discount_price)
-                                                                                                                <span
-                                                                                                                    class="woocommerce-Price-amount amount">
-                                                                                                                    <bdi><span
-                                                                                                                            class="woocommerce-Price-currencySymbol">₫</span>{{ number_format($product->discount_price) }}</bdi>
-                                                                                                                </span>
-                                                                                                                <del>
-                                                                                                                    <span
-                                                                                                                        class="woocommerce-Price-amount amount">
-                                                                                                                        <bdi><span
-                                                                                                                                class="woocommerce-Price-currencySymbol">₫</span>{{ number_format($product->price) }}</bdi>
-                                                                                                                    </span>
-                                                                                                                </del>
-                                                                                                            @else
-                                                                                                                <span
-                                                                                                                    class="woocommerce-Price-amount amount">
-                                                                                                                    <bdi><span
-                                                                                                                            class="woocommerce-Price-currencySymbol">₫</span>{{ number_format($product->price) }}</bdi>
-                                                                                                                </span>
-                                                                                                            @endif
-                                                                                                        </span>
-                                                                                                    </div>
-                                                                                                </li>
-                                                                                            @endforeach
-                                                                                        </ul>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
 
                                                                         <div id="elementor-tab-content-4853"
                                                                             class="elementor-tab-content elementor-clearfix  elementor-repeater-item-43f1a37"
@@ -833,7 +731,7 @@
                                                                                             style="transform: translateX(0px);">
 
 
-                                                                                            @foreach (getActiveProductsWithImage(10) as $product)
+                                                                                            @foreach (getBestSellingProductsWithImage(10) as $product)
                                                                                                 @php
                                                                                                     $mainImage = $product->images->first();
                                                                                                     $secondaryImage = $product->images
@@ -2512,7 +2410,7 @@
                                                                                                 role="presentation"
                                                                                                 style="transform: translateX(0px);">
 
-                                                                                                @foreach (getNewProductsWithImage(10) as $product)
+                                                                                                @foreach (getFeaturedProductsWithImage(10) as $product)
                                                                                                     @php
                                                                                                         $mainImage = $product->images->first();
                                                                                                         $secondaryImage = $product->images
@@ -3286,8 +3184,7 @@
                                                                                         aria-label="1 of 6"
                                                                                         style="width: calc(16.6667%);"
                                                                                         aria-hidden="true">
-                                                                                        <div
-                                                                                            class="elementor-brand-image">
+                                                                                        <div class="elementor-brand-image">
                                                                                             <a href="#"
                                                                                                 title="Brand Name"
                                                                                                 tabindex="-1"><img
@@ -3307,8 +3204,7 @@
                                                                                         aria-label="2 of 6"
                                                                                         style="width: calc(16.6667%);"
                                                                                         aria-hidden="true">
-                                                                                        <div
-                                                                                            class="elementor-brand-image">
+                                                                                        <div class="elementor-brand-image">
                                                                                             <a href="#"
                                                                                                 title="Brand Name"
                                                                                                 tabindex="-1"><img
@@ -3328,8 +3224,7 @@
                                                                                         aria-label="3 of 6"
                                                                                         style="width: calc(16.6667%);"
                                                                                         aria-hidden="true">
-                                                                                        <div
-                                                                                            class="elementor-brand-image">
+                                                                                        <div class="elementor-brand-image">
                                                                                             <a href="#"
                                                                                                 title="Brand Name"
                                                                                                 tabindex="-1"><img
@@ -3438,3 +3333,19 @@
 
 
 @endsection
+
+@push('scripts')
+    <script>
+        const swiper = new Swiper(".mySwiper", {
+            loop: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            }
+        });
+    </script>
+@endpush

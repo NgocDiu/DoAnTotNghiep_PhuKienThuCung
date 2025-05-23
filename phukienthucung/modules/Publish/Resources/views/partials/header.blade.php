@@ -24,20 +24,19 @@
                                         <div class="site-header-item site-header-focus-item"
                                             data-section="title_tagline">
                                             <div class="site-branding branding-layout-standard site-brand-logo-only">
-                                                <a class="brand" href="index.html" rel="home"
-                                                    aria-label="Hùng Lan">
-                                                </a><a href="index.html" class="custom-logo-link" rel="home"
+                                                <a class="brand" href="/" rel="home" aria-label="Paradise">
+                                                </a><a href="/" class="custom-logo-link" rel="home"
                                                     itemprop="url">
                                                     <img loading="lazy" decoding="async" width="210" height="53"
                                                         src="{{ asset('modules/publish/images/logo.jpg') }}"
-                                                        class="logo" alt="Hùng Lan"
+                                                        class="logo" alt="Paradise"
                                                         srcset="{{ asset('modules/publish/images/logo.jpg') }} 479w, {{ asset('modules/publish/images/logo.jpg') }} 200w"
                                                         sizes="(max-width: 479px) 100vw, 479px"
                                                         data-src="{{ asset('modules/publish/images/logo.jpg') }}"></a>
-                                                <a href="index.html" class="brand" rel="home" itemprop="url"><img
+                                                <a href="/" class="brand" rel="home" itemprop="url"><img
                                                         loading="lazy" decoding="async" width="210" height="53"
                                                         src="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/dark-logo.svg"
-                                                        class="base-dark-mode-logo svg-logo-image logo" alt="Hùng Lan"
+                                                        class="base-dark-mode-logo svg-logo-image logo" alt="Paradise"
                                                         srcset="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/dark-logo.svg 479w, https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/dark-logo.svg 200w"
                                                         sizes="(max-width: 479px) 100vw, 479px"
                                                         data-src="https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/dark-logo.svg"></a>
@@ -604,51 +603,92 @@
 
                                         <div class="site-header-item site-header-focus-item"
                                             data-section="base_customizer_mobile_cart">
-                                            <div class="header-mobile-cart-wrap base-header-cart">
-                                                <span class="header-cart-empty-check header-cart-is-empty-true"></span>
-                                                <div
-                                                    class="header-cart-inner-wrap cart-show-label-false cart-style-slide">
-                                                    <button aria-label="Shopping Cart"
-                                                        class="drawer-toggle header-cart-button"
-                                                        data-toggle-body-class="showing-popup-drawer-from-right"
-                                                        aria-expanded="false" data-set-focus=".cart-toggle-close">
-                                                        <span class="base-svg-iconset"><svg
-                                                                class="thebase-svg-icon thebase-shopping-bag-svg"
-                                                                fill="currentColor" id="Layer_1"
-                                                                data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-                                                                viewBox="0 0 762.47 673.5">
-                                                                <path
-                                                                    d="M603.22,492.58A91.82,91.82,0,1,0,695,584.4,91.82,91.82,0,0,0,603.22,492.58Zm-.05,142.93a51.11,51.11,0,1,1,51.11-51.11A51.11,51.11,0,0,1,603.17,635.51Z"
-                                                                    transform="translate(-2.35 -2.72)"></path>
-                                                                <path
-                                                                    d="M306.11,492.58a91.82,91.82,0,1,0,91.81,91.82A91.82,91.82,0,0,0,306.11,492.58Zm-.05,142.93a51.11,51.11,0,1,1,51.11-51.11A51.12,51.12,0,0,1,306.06,635.51Z"
-                                                                    transform="translate(-2.35 -2.72)"></path>
-                                                                <path
-                                                                    d="M394.43,564.06H461a20.51,20.51,0,0,1,20.45,20.45h0A20.52,20.52,0,0,1,461,605H394.43"
-                                                                    transform="translate(-2.35 -2.72)"></path>
-                                                                <path
-                                                                    d="M700.54,453.87H208.28a23.11,23.11,0,0,1-23.08-22c0-.86-.1-1.72-.2-2.57l-1.82-16.36H725.86l-2.21,17.85A23.11,23.11,0,0,1,700.54,453.87Z"
-                                                                    transform="translate(-2.35 -2.72)"></path>
-                                                                <path
-                                                                    d="M761.51,156.52H249.29L246,132.13a17.25,17.25,0,0,1,17.26-17.25H747.57a17.25,17.25,0,0,1,17.25,17.25Z"
-                                                                    transform="translate(-2.35 -2.72)"></path>
-                                                                <path
-                                                                    d="M273.91,348.28l-31.16-208a20.5,20.5,0,0,1,16.73-23.59h0a20.51,20.51,0,0,1,23.6,16.73l31.16,208A20.52,20.52,0,0,1,297.5,365h0A20.52,20.52,0,0,1,273.91,348.28Z"
-                                                                    transform="translate(-2.35 -2.72)"></path>
-                                                                <path
-                                                                    d="M678.37,453.87l48.7-337.74,22.9.07a17.26,17.26,0,0,1,14.54,19.59L722.42,439a17.27,17.27,0,0,1-19.6,14.55Z"
-                                                                    transform="translate(-2.35 -2.72)"></path>
-                                                                <path
-                                                                    d="M186.6,439,126.06,2.84l23.71,0A17.24,17.24,0,0,1,169.1,17.78l60.56,436.35-23.74-.25A17.24,17.24,0,0,1,186.6,439Z"
-                                                                    transform="translate(-2.35 -2.72)"></path>
-                                                                <path
-                                                                    d="M150.74,43.5H22.62A20.33,20.33,0,0,1,2.35,23.23h0A20.33,20.33,0,0,1,22.62,3H150.74"
-                                                                    transform="translate(-2.35 -2.72)"></path>
-                                                            </svg></span>
-                                                        <div class="header-cart-content"></div>
+                                            <div class="header-cart-inner-wrap cart-show-label-true cart-style-slide"
+                                                style="display: flex;flex-direction: row;align-items: center">
+                                                <a href="{{ route('cart.index') }}" class="header-cart-button"
+                                                    data-set-focus=".cart-toggle-close" style="position: relative">
+                                                    <span class="base-svg-iconset">
+                                                        <svg class="thebase-svg-icon thebase-shopping-bag-svg"
+                                                            fill="currentColor" id="Layer_1" data-name="Layer 1"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 762.47 673.5">
+                                                            <path
+                                                                d="M603.22,492.58A91.82,91.82,0,1,0,695,584.4,91.82,91.82,0,0,0,603.22,492.58Zm-.05,142.93a51.11,51.11,0,1,1,51.11-51.11A51.11,51.11,0,0,1,603.17,635.51Z"
+                                                                transform="translate(-2.35 -2.72)"></path>
+                                                            <path
+                                                                d="M306.11,492.58a91.82,91.82,0,1,0,91.81,91.82A91.82,91.82,0,0,0,306.11,492.58Zm-.05,142.93a51.11,51.11,0,1,1,51.11-51.11A51.12,51.12,0,0,1,306.06,635.51Z"
+                                                                transform="translate(-2.35 -2.72)"></path>
+                                                            <path
+                                                                d="M394.43,564.06H461a20.51,20.51,0,0,1,20.45,20.45h0A20.52,20.52,0,0,1,461,605H394.43"
+                                                                transform="translate(-2.35 -2.72)"></path>
+                                                            <path
+                                                                d="M700.54,453.87H208.28a23.11,23.11,0,0,1-23.08-22c0-.86-.1-1.72-.2-2.57l-1.82-16.36H725.86l-2.21,17.85A23.11,23.11,0,0,1,700.54,453.87Z"
+                                                                transform="translate(-2.35 -2.72)"></path>
+                                                            <path
+                                                                d="M761.51,156.52H249.29L246,132.13a17.25,17.25,0,0,1,17.26-17.25H747.57a17.25,17.25,0,0,1,17.25,17.25Z"
+                                                                transform="translate(-2.35 -2.72)"></path>
+                                                            <path
+                                                                d="M273.91,348.28l-31.16-208a20.5,20.5,0,0,1,16.73-23.59h0a20.51,20.51,0,0,1,23.6,16.73l31.16,208A20.52,20.52,0,0,1,297.5,365h0A20.52,20.52,0,0,1,273.91,348.28Z"
+                                                                transform="translate(-2.35 -2.72)"></path>
+                                                            <path
+                                                                d="M678.37,453.87l48.7-337.74,22.9.07a17.26,17.26,0,0,1,14.54,19.59L722.42,439a17.27,17.27,0,0,1-19.6,14.55Z"
+                                                                transform="translate(-2.35 -2.72)"></path>
+                                                            <path
+                                                                d="M186.6,439,126.06,2.84l23.71,0A17.24,17.24,0,0,1,169.1,17.78l60.56,436.35-23.74-.25A17.24,17.24,0,0,1,186.6,439Z"
+                                                                transform="translate(-2.35 -2.72)"></path>
+                                                            <path
+                                                                d="M150.74,43.5H22.62A20.33,20.33,0,0,1,2.35,23.23h0A20.33,20.33,0,0,1,22.62,3H150.74"
+                                                                transform="translate(-2.35 -2.72)"></path>
+                                                        </svg>
+                                                    </span>
+                                                    <span class="header-cart-total header-cart-is-empty-true"
+                                                        style="
+                                                            position: absolute;
+                                                            top: 10px;
+                                                            right: -15px;
+                                                            background: #cd1818;
+                                                            color: white;
+                                                            font-size: 12px;
+                                                            font-weight: bold;
+                                                            width: 20px;
+                                                            height: 20px;
+                                                            text-align: center;
+                                                            line-height: 20px;
+                                                            border-radius: 50%;
+                                                            z-index: 10;
+                                                        ">
+                                                        {{ $cartCount }}
+                                                    </span>
+                                                </a>
 
-                                                    </button>
+                                                @php
+                                                    $user = Auth::guard('publish')->user();
+                                                @endphp
+
+                                                <div class="user-info" style="text-align: right;margin-left: 10px">
+                                                    @if ($user)
+                                                        <a style="color: #cd1818;font-weight: bold !important"
+                                                            href="{{ route('information') }}">
+                                                            <strong
+                                                                style="color: #cd1818;font-weight: bold !important"><i
+                                                                    class="fa-solid fa-user"></i></strong></a>
+
+
+                                                        <form action="{{ route('publish.logout') }}" method="POST"
+                                                            style="display: inline;">
+                                                            @csrf
+                                                            <button type="submit"
+                                                                style="background: none; border: none; color: #cd1818; cursor: pointer;">
+                                                                <i class="fa-solid fa-right-from-bracket"></i>
+                                                            </button>
+                                                        </form>
+                                                    @else
+                                                        <a style="color: #cd1818"
+                                                            href="{{ route('publish.login') }}">Đăng nhập</a>
+                                                    @endif
                                                 </div>
+
+
                                             </div>
                                         </div>
                                         <!-- data-section="mobile_cart" -->

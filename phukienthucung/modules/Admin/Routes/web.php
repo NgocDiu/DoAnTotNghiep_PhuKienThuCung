@@ -13,6 +13,8 @@ use Modules\Admin\Http\Controllers\AttributeController;
 use Modules\Admin\Http\Controllers\ProductController;
 use Modules\Admin\Http\Controllers\PageController;
 use Modules\Admin\Http\Controllers\Menu;
+use Modules\Admin\Http\Controllers\OrderController;
+use Modules\Admin\Http\Controllers\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,5 +93,24 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin')->name('admin.')->group
 
     Route::resource('pages', PageController::class)
         ->middleware('permission:page');
+
+    Route::resource('order', PageController::class)
+        ->middleware('permission:page');
+
+    Route::get('orders', [OrderController::class, 'index'])
+    ->middleware('permission:order')
+    ->name('orders.index');
+    
+    Route::prefix('settings')->name('settings.')->middleware('permission:order')->group(function () {
+        Route::get('/', [SettingController::class, 'edit'])->name('edit');       // Hiển thị form cấu hình
+        Route::put('/', [SettingController::class, 'update'])->name('update');   // Lưu thay đổi
+        Route::delete('/', [SettingController::class, 'destroy'])->name('destroy'); // Xóa cấu hình (nếu cần)
+    });
+    
+    Route::post('orders/{order}/create-ghn', [OrderController::class, 'createGhnOrder'])
+    ->middleware('permission:order')
+    ->name('orders.ghn.create');
+    Route::put('/orders/{order}/change-status', [OrderController::class, 'changeStatus'])->name('orders.change-status');
+
 });
 

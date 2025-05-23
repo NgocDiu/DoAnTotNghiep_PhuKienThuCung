@@ -20,6 +20,29 @@
             color: #cd1818;
             background-color: #e9ecef;
         }
+
+        .rating {
+            direction: rtl;
+            unicode-bidi: bidi-override;
+            font-size: 1.5rem;
+            display: inline-flex;
+        }
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label {
+            color: #ccc;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .rating input:checked~label,
+        .rating label:hover,
+        .rating label:hover~label {
+            color: #ffc107;
+        }
     </style>
     <div class="container mt-4">
         @if (session('success'))
@@ -116,19 +139,19 @@
                                         @else
                                             @switch($order->status)
                                                 @case('pending')
-                                                    <span class="badge bg-warning text-dark">Chờ tiếp nhận</span>
+                                                    <span class="badge bg-warning text-dark">Chờ xác nhận</span>
                                                 @break
 
                                                 @case('confirmed')
-                                                    <span class="badge bg-info text-dark">Đã xác nhận</span>
+                                                    <span class="badge bg-success  text-white">Đã xác nhận</span>
                                                 @break
 
                                                 @case('shipping')
-                                                    <span class="badge bg-primary">Đang vận chuyển</span>
+                                                    <span class="badge bg-info">Đang vận chuyển</span>
                                                 @break
 
                                                 @case('delivered')
-                                                    <span class="badge bg-success">Đã giao hàng</span>
+                                                    <span class="badge bg-info">Đã giao hàng</span>
                                                 @break
 
                                                 @case('cancelled')
@@ -136,7 +159,7 @@
                                                 @break
 
                                                 @case('returned')
-                                                    <span class="badge bg-dark">Trả hàng</span>
+                                                    <span class="badge bg-secondary">Trả hàng</span>
                                                 @break
 
                                                 @default
@@ -152,12 +175,18 @@
                                                 class="btn btn-sm btn-outline-danger">
                                                 Thanh toán
                                             </a>
+                                        @elseif ($order->status === 'delivered')
+                                            <button type="button" class="btn btn-sm btn-outline-success"
+                                                data-bs-toggle="modal" data-bs-target="#orderModal{{ $order->id }}">
+                                                Đánh giá
+                                            </button>
                                         @else
                                             <button type="button" class="btn btn-sm btn-outline-primary"
                                                 data-bs-toggle="modal" data-bs-target="#orderModal{{ $order->id }}">
                                                 Xem chi tiết
                                             </button>
                                         @endif
+
 
                                         <!-- Button trigger modal -->
 
@@ -177,6 +206,7 @@
                                                         <table class="table table-bordered">
                                                             <thead>
                                                                 <tr>
+                                                                    <th>Ảnh</th> {{-- 🆕 --}}
                                                                     <th>Sản phẩm</th>
                                                                     <th>Số lượng</th>
                                                                     <th>Giá</th>
@@ -186,6 +216,11 @@
                                                             <tbody>
                                                                 @foreach ($order->items as $item)
                                                                     <tr>
+                                                                        <td>
+                                                                            <img src="{{ asset($item->product->images->firstWhere('is_main', 1)?->image_url ?? 'images/no-image.png') }}"
+                                                                                style="width: 60px;height: 60px;">
+
+                                                                        </td>
                                                                         <td>{{ $item->product->name }}</td>
                                                                         <td>{{ $item->quantity }}</td>
                                                                         <td>{{ number_format($item->price) }} đ</td>
@@ -194,9 +229,77 @@
                                                                 @endforeach
                                                             </tbody>
                                                         </table>
+
                                                         <div class="text-end fw-bold">
                                                             Tổng đơn: {{ number_format($order->grand_total) }} đ
                                                         </div>
+                                                        {{-- Nếu đơn chưa xác nhận, hiển thị nút hủy --}}
+                                                        @if ($order->status === 'pending')
+                                                            <div class="text-end"> <button
+                                                                    class="btn btn-outline-danger btn-sm"
+                                                                    onclick="confirmCancelOrder('{{ route('orders.cancel', $order->id) }}')">
+                                                                    Hủy đơn hàng
+                                                                </button></div>
+                                                        @endif
+                                                        @foreach ($order->items as $item)
+                                                            @php
+                                                                $alreadyRated = \App\Models\ProductReview::where(
+                                                                    'product_id',
+                                                                    $item->product_id,
+                                                                )
+                                                                    ->where('user_id', auth()->id())
+                                                                    ->exists();
+                                                            @endphp
+
+                                                            @if (!$alreadyRated)
+                                                                <form action="{{ route('product-reviews.store') }}"
+                                                                    method="POST" class="mb-3">
+                                                                    @csrf
+                                                                    <input type="hidden" name="product_id"
+                                                                        value="{{ $item->product_id }}">
+                                                                    <div class="d-flex align-items-center mb-1">
+                                                                        <strong>{{ $item->product->name }}</strong>
+                                                                    </div>
+
+                                                                    <div class="mb-2">
+                                                                        <div class="rating">
+                                                                            @for ($i = 5; $i >= 1; $i--)
+                                                                                <input type="radio"
+                                                                                    id="star{{ $i }}-{{ $item->product_id }}"
+                                                                                    name="rating"
+                                                                                    value="{{ $i }}" required>
+                                                                                <label
+                                                                                    for="star{{ $i }}-{{ $item->product_id }}"
+                                                                                    title="{{ $i }} sao">★</label>
+                                                                            @endfor
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="mb-2">
+                                                                        <label class="form-label">Nhận xét:</label>
+                                                                        <textarea name="comment" class="form-control" rows="2" maxlength="1000" placeholder="Viết nhận xét..."
+                                                                            required></textarea>
+                                                                    </div>
+
+                                                                    <div class="text-end">
+                                                                        <button type="submit"
+                                                                            class="btn btn-sm btn-success">Gửi đánh
+                                                                            giá</button>
+                                                                    </div>
+                                                                </form>
+                                                            @else
+                                                                <div class="d-flex align-items-center mb-1">
+                                                                    <strong><i class="fa-solid fa-circle-check"
+                                                                            style="color: #63E6BE;"></i> Sản phẩm
+                                                                        {{ $item->product->name }} đã được
+                                                                        đánh
+                                                                        giá </strong>
+                                                                </div>
+                                                            @endif
+                                                        @endforeach
+
+
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -211,7 +314,8 @@
 
             <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
                 <div class="d-flex justify-content-end">
-                    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addAddressModal">Thêm địa
+                    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addAddressModal">Thêm
+                        địa
                         chỉ</button>
                 </div>
                 @foreach ($addresses as $address)
@@ -371,6 +475,28 @@
 
 
 
+    <!-- Modal xác nhận hủy đơn -->
+    <div class="modal fade" id="cancelOrderModal" tabindex="-1">
+        <div class="modal-dialog">
+            <form method="POST" id="cancelOrderForm">
+                @csrf
+                @method('PUT')
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Xác nhận hủy đơn hàng</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Bạn có chắc chắn muốn hủy đơn hàng này?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-danger">Xác nhận hủy</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
 
 
@@ -630,5 +756,11 @@
                     .textContent;
             });
         });
+
+        function confirmCancelOrder(url) {
+            const form = document.getElementById('cancelOrderForm');
+            form.action = url;
+            new bootstrap.Modal(document.getElementById('cancelOrderModal')).show();
+        }
     </script>
 @endpush

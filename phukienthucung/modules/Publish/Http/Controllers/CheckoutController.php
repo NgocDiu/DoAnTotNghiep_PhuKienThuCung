@@ -86,14 +86,17 @@ class CheckoutController extends Controller
                     'price' => $unitPrice,
                     'line_total' => $item->quantity * $unitPrice,
                 ]);
+                $item->product->decrement('stock_quantity', $item->quantity);
+
             }
 
             Payment::create([
                 'order_id' => $order->id,
                 'payment_method' => $request->payment_method,
                 'amount' => $grandTotal,
-                'status' => 'waiting',
+                'status' => $request->payment_method === 'vnpay' ? 'waiting' : 'pending',
             ]);
+            
 
             $cart->items()->delete();
             $cart->delete();

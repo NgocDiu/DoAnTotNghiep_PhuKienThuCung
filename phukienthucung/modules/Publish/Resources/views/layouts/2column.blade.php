@@ -1156,7 +1156,7 @@
 
         .page-hero-section .entry-hero-container-inner {
             background-color: var(--global-palette8);
-            background-image: url('https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/breadcumb-bkg.jpg');
+            background-image: url({{ asset('modules/publish/images/breadcumb-bkg.jpg') }});
             background-repeat: repeat;
             background-position: center;
             background-size: cover;
@@ -1584,7 +1584,7 @@
                 }
 
                 .site-top-footer-wrap .site-footer-row-container-inner {
-                    background-image: url('https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/footer-bkg.jpg');
+                    background-image: url({{ asset('modules/publish/images/footer-bkg.jpg') }});
                     background-repeat: no-repeat;
                     background-position: center;
                     background-size: cover;
@@ -2430,7 +2430,7 @@
 
                 .product-hero-section .entry-hero-container-inner {
                     background-color: var(--global-palette8);
-                    background-image: url('https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/breadcumb-bkg.jpg');
+                    background-image: url({{ asset('modules/publish/images/breadcumb-bkg.jpg') }});
                     background-repeat: repeat;
                     background-position: center;
                     background-size: cover;
@@ -2497,7 +2497,7 @@
 
                 .product-archive-hero-section .entry-hero-container-inner {
                     background-color: var(--global-palette8);
-                    background-image: url('https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/breadcumb-bkg.jpg');
+                    background-image: url({{ asset('modules/publish/images/breadcumb-bkg.jpg') }});
                     background-repeat: repeat;
                     background-position: center;
                     background-size: cover;

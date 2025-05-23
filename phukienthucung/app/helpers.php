@@ -4,6 +4,7 @@ use App\Models\Category;
 use App\Models\Article;
 use App\Models\Product;
 use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -89,6 +90,39 @@ if (!function_exists('getNewProductsWithImage')) {
     }
 }
 
+if (!function_exists('getBestSellingProductsWithImage')) {
+    function getBestSellingProductsWithImage($limit = 8)
+    {
+        return \App\Models\Product::with(['images' => function ($query) {
+                $query->orderBy('is_main', 'desc');
+            }])
+            ->where('is_active', 1)
+            ->where('stock_quantity', '>', 0)
+            ->withCount(['orderItems as total_sold' => function ($query) {
+                $query->select(\DB::raw("SUM(quantity)"));
+            }])
+            ->orderByDesc('total_sold')
+            ->take($limit)
+            ->get();
+    }
+}
+
+if (!function_exists('getFeaturedProductsWithImage')) {
+    function getFeaturedProductsWithImage($limit = 8)
+    {
+        return \App\Models\Product::with(['images' => function ($query) {
+                $query->orderBy('is_main', 'desc');
+            }])
+            ->withAvg('reviews', 'rating') // 📌 Laravel tự join bảng reviews
+            ->where('is_active', 1)
+            ->where('stock_quantity', '>', 0)
+            ->orderByDesc('reviews_avg_rating') // sắp xếp theo rating trung bình
+            ->take($limit)
+            ->get();
+    }
+}
+
+
 
 
 if (!function_exists('get_related_products')) {
@@ -125,5 +159,11 @@ if (!function_exists('getAllOrdersWithPayment')) {
             ->where('user_id', $user->id)
             ->orderByDesc('created_at')
             ->get();
+    }
+}
+if (!function_exists('ghn_setting')) {
+    function ghn_setting()
+    {
+        return \App\Models\Setting::first();
     }
 }

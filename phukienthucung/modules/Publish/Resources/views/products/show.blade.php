@@ -3,6 +3,17 @@
 
 
 @section('content')
+    <style>
+        .fa-star {
+            color: #FFD700;
+            /* Vàng đẹp mắt */
+        }
+
+        .fa-star-o {
+            color: #ccc;
+        }
+    </style>
+
     <div id="inner-wrap" class="wrap hfeed bt-clear">
         <section role="banner" class="entry-hero product-hero-section entry-hero-layout-standard">
             <div class="entry-hero-container-inner">
@@ -328,6 +339,30 @@
 
                         </section>
                     </div>
+                    @if ($reviews->count())
+                        <div class="mt-4">
+                            <h5>Đánh giá của khách hàng</h5>
+                            @foreach ($reviews as $review)
+                                <div class="border rounded p-3 mb-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <strong><i class="fa-solid fa-user" style="color: #cd1818;"></i>
+                                            {{ $review->user->name ?? 'Người dùng' }}</strong>
+                                        <small class="text-muted">{{ $review->created_at->format('d/m/Y H:i') }}</small>
+                                    </div>
+                                    <div class="text-warning my-1">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <i class="fas fa-star{{ $i <= $review->rating ? '' : '-o' }}"></i>
+                                        @endfor
+                                        <span class="text-muted">({{ $review->rating }} sao)</span>
+                                    </div>
+                                    <div class="" style="font-weight: bold">{{ $review->comment }}</div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <p class="text-muted mt-4">Chưa có đánh giá nào cho sản phẩm này.</p>
+                    @endif
+
 
 
 

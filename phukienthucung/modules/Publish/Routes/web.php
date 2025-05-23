@@ -9,6 +9,8 @@ use Modules\Publish\Http\Controllers\ProductController;
 use Modules\Publish\Http\Controllers\CartController;
 use Modules\Publish\Http\Controllers\InformationController;
 use Modules\Publish\Http\Controllers\CheckoutController;
+use Modules\Admin\Http\Controllers\OrderController;
+use Modules\Publish\Http\Controllers\ProductReviewController;
 
 Route::middleware('web')->group(function () {
 
@@ -57,4 +59,11 @@ Route::middleware('web')->group(function () {
     // ✅ Không cần đăng nhập - callback từ VNPAY
     Route::get('/checkout/vnpay-return', [CheckoutController::class, 'vnpayReturn'])
         ->name('checkout.vnpay.return');
+    Route::put('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+    
+    Route::post('/product-reviews', [ProductReviewController::class, 'store'])->name('product-reviews.store');
+    //category
+    Route::get('cat/{slug}', [ProductController::class, 'category'])
+    ->name('products.by-category');
+
 });

@@ -1350,7 +1350,7 @@
 
         .post-archive-hero-section .entry-hero-container-inner {
             background-color: var(--global-palette8);
-            background-image: url('https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/breadcumb-bkg.jpg');
+            background-image: url({{ asset('modules/publish/images/breadcumb-bkg.jpg') }});
             background-repeat: repeat;
             background-position: center;
             background-size: cover;
@@ -1539,6 +1539,15 @@
                 .header-navigation .header-menu-container ul ul.submenu {
                     background: var(--global-palette9);
                     box-shadow: 0px 2px 13px 0px rgba(0, 0, 0, 0.1);
+                }
+
+                .page-hero-section .entry-hero-container-inner {
+                    background-color: var(--global-palette8);
+                    background-image: url({{ asset('modules/publish/images/breadcumb-bkg.jpg') }});
+                    background-repeat: repeat;
+                    background-position: center;
+                    background-size: cover;
+                    background-attachment: scroll;
                 }
 
                 .header-navigation .header-menu-container ul ul li.menu-item>a {
@@ -1782,7 +1791,7 @@
                 }
 
                 .site-top-footer-wrap .site-footer-row-container-inner {
-                    background-image: url('https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/footer-bkg.jpg');
+                    background-image: url({{ asset('modules/publish/images/footer-bkg.jpg') }});
                     background-repeat: no-repeat;
                     background-position: center;
                     background-size: cover;
@@ -2628,7 +2637,7 @@
 
                 .product-hero-section .entry-hero-container-inner {
                     background-color: var(--global-palette8);
-                    background-image: url('https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/breadcumb-bkg.jpg');
+                    background-image: url({{ asset('modules/publish/images/breadcumb-bkg.jpg') }});
                     background-repeat: repeat;
                     background-position: center;
                     background-size: cover;
@@ -2695,7 +2704,7 @@
 
                 .product-archive-hero-section .entry-hero-container-inner {
                     background-color: var(--global-palette8);
-                    background-image: url('https://demos.codezeel.com/wordpress/WCM08/WCM080193/default/wp-content/plugins/templatemela-plugin-couchly/layouts/default/img/breadcumb-bkg.jpg');
+                    background-image: url({{ asset('modules/publish/images/breadcumb-bkg.jpg') }});
                     background-repeat: repeat;
                     background-position: center;
                     background-size: cover;
@@ -3927,7 +3936,8 @@
             "is_collapsable": "1"
         };
     </script>
-    <script src="{{ asset('modules/publish/js/common-archive.min.js?ver=3.4.0') }}" id="tmcore-common-archive-js"></script>
+    <script src="{{ asset('modules/publish/js/common-archive.min.js?ver=3.4.0') }}" id="tmcore-common-archive-js">
+    </script>
     <script id="tmc-notifications-js-before">
         var tmcore_notification_count = 2;
         var tmcore_notification = [{
