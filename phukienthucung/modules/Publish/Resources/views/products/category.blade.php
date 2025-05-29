@@ -1,9 +1,21 @@
 @extends('publish::layouts.3column')
+@php
+    $category_parents = getParentCategories();
+@endphp
+
 
 @section('content')
     <style>
         .product_title:hover {
             color: #cd1818 !important;
+        }
+
+        .base-toggle-shop-layout {
+            background-color: #dad4d4 !important;
+        }
+
+        .toggle-active {
+            background-color: #cd1818 !important;
         }
     </style>
 
@@ -61,14 +73,24 @@
                         </div>
                         <div class="base-shop-top-item base-woo-ordering">
                             <form class="woocommerce-ordering" method="get">
-                                <select name="orderby" class="orderby" aria-label="Shop order">
-
-                                    <option value="date" selected="selected">Sản phẩm mới</option>
-                                    <option value="price">Giá tăng dần</option>
-                                    <option value="price-desc">Giá giảm dần</option>
+                                <select name="orderby" class="orderby" aria-label="Shop order"
+                                    onchange="this.form.submit()">
+                                    <option value="date" {{ request('orderby') == 'date' ? 'selected' : '' }}>Sản phẩm mới
+                                    </option>
+                                    <option value="price" {{ request('orderby') == 'price' ? 'selected' : '' }}>Giá tăng
+                                        dần</option>
+                                    <option value="price-desc" {{ request('orderby') == 'price-desc' ? 'selected' : '' }}>
+                                        Giá giảm dần</option>
                                 </select>
+
+                                {{-- Giữ lại các query khác như price, min/max --}}
+                                @foreach (request()->except(['orderby', 'paged']) as $name => $value)
+                                    <input type="hidden" name="{{ $name }}" value="{{ $value }}">
+                                @endforeach
+
                                 <input type="hidden" name="paged" value="1">
                             </form>
+
                         </div>
                         <div class="base-shop-top-item base-woo-toggle">
                             <div class="base-product-toggle-container base-product-toggle-outer"><button title="Grid View"
@@ -103,11 +125,12 @@
                         <div class="active-filters-list"></div>
                     </div>
 
-                    <ul
-                        class="products content-wrap product-archive grid-cols grid-ss-col-2 grid-sm-col-3 grid-lg-col-4 woo-archive-always-visible woo-archive-btn-button woo-archive-loop align-buttons-bottom  woo-archive-image-hover-fade">
-                        @if ($products->isEmpty())
-                            <p>Không có sản phẩm nào trong danh mục này.</p>
-                        @else
+                    @if ($products->isEmpty())
+                        <h3 style="text-align: center">Không có sản phẩm nào trong danh mục này.</h3>
+                    @else
+                        <ul
+                            class="products content-wrap product-archive grid-cols grid-ss-col-2 grid-sm-col-3 grid-lg-col-4 woo-archive-always-visible woo-archive-btn-button woo-archive-loop align-buttons-bottom  woo-archive-image-hover-fade">
+
                             @foreach ($products as $product)
                                 <li class="entry content-bg loop-entry product splide__slide">
                                     <div class="product-thumbnail">
@@ -158,6 +181,9 @@
                                                 </span>
                                             @endif
                                         </span>
+                                        <div class="product-excerpt">
+                                            <p>{{ $product->description }}</p>
+                                        </div>
 
                                         @if (!empty($product->short_description))
                                             <div class="product-excerpt">
@@ -167,10 +193,10 @@
                                     </div>
                                 </li>
                             @endforeach
-                        @endif
+                        </ul>
+                    @endif
 
 
-                    </ul>
                     <style>
                         .bt-loader-ellips {
                             font-size: 20px;
@@ -290,23 +316,29 @@
                             <div class="widget-content">
                                 <div class="widget-content-inner ps ps--active-y">
                                     <ul class="show-display-list show-items-count-on list-style-checkbox">
-                                        <li class="wc-layered-nav-term"><a href="#" class="item-link">Wooden Table
-                                                Lamp</a></li>
-                                        <li class="wc-layered-nav-term"><a href="#" class="item-link">Baroque</a>
-                                        </li>
-                                        <li class="wc-layered-nav-term chosen selected"><a href="#"
-                                                class="item-link">Beds</a></li>
-                                        <li class="wc-layered-nav-term"><a href="#" class="item-link">Dining
-                                                Room</a></li>
-                                        <li class="wc-layered-nav-term"><a href="#" class="item-link">Finished Wood
-                                                Tables</a></li>
-                                        <li class="wc-layered-nav-term"><a href="#" class="item-link">Sofas</a>
-                                        </li>
-                                        <li class="wc-layered-nav-term"><a href="#" class="item-link">special
-                                                offer</a></li>
-                                        <li class="wc-layered-nav-term"><a href="#" class="item-link">Storage</a>
-                                        </li>
+                                        @if ($category_parents)
+                                            @foreach ($category_parents as $category_parent)
+                                                @php
+                                                    $isSelected =
+                                                        isset($category, $topParent) &&
+                                                        ($category_parent->id == $category->id ||
+                                                            $category_parent->id == $topParent->id);
+                                                @endphp
+                                                <li
+                                                    class="wc-layered-nav-term{{ $isSelected ? ' chosen selected' : '' }}">
+                                                    <a href="{{ url('cat/' . $category_parent->slug) }}"
+                                                        class="item-link">
+                                                        {{ $category_parent->name }}
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        @endif
                                     </ul>
+
+
+
+
+
                                     <div class="ps__rail-x" style="left: 0px; bottom: -17px;">
                                         <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
                                     </div>
@@ -328,27 +360,7 @@
 
 
 
-                        <div id="tmcore-wp-widget-product-brand-nav-3"
-                            class="widget tmcore-wp-widget-product-brand-nav tmcore-wp-widget-filter"><input
-                                type="hidden" class="widget-instance"
-                                data-name="TemplateMelaCore_WP_Widget_Product_Brand_Nav"
-                                data-instance="{&quot;title&quot;:&quot;Brands&quot;,&quot;display_type&quot;:&quot;list&quot;,&quot;list_style&quot;:&quot;checkbox&quot;,&quot;items_count&quot;:&quot;on&quot;,&quot;show_hierarchy&quot;:0,&quot;enable_scrollable&quot;:0,&quot;enable_collapsed&quot;:0}"><span
-                                class="gamma widget-title">Thương hiệu</span>
-                            <div class="widget-content">
-                                <div class="widget-content-inner">
-                                    <ul class="show-display-list show-items-count-on list-style-checkbox">
-                                        <li class="wc-layered-nav-term"><a href="#" class="filter-link">EcoShop
-                                                <span class="count">(1)</span></a></li>
-                                        <li class="wc-layered-nav-term"><a href="#" class="filter-link">QuickCart
-                                                <span class="count">(2)</span></a></li>
-                                        <li class="wc-layered-nav-term"><a href="#" class="filter-link">SmartShop
-                                                <span class="count">(1)</span></a></li>
-                                        <li class="wc-layered-nav-term"><a href="#" class="filter-link">TrendMart
-                                                <span class="count">(2)</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+
                         <div id="tmcore-wp-widget-product-price-filter-2"
                             class="widget tmcore-wp-widget-product-price-filter tmcore-wp-widget-filter"><input
                                 type="hidden" class="widget-instance"
@@ -357,52 +369,40 @@
                                 class="gamma widget-title">Giá</span>
                             <div class="widget-content">
                                 <div class="widget-content-inner">
+                                    <style>
+                                        .price-item-link {
+                                            font-weight: bold;
+                                        }
+                                    </style>
                                     <ul
                                         class="tmcore-product-price-filter show-display-list list-style-normal single-choice">
-                                        <li class="chosen">
-                                            <a href="#" class="filter-link">Tất cả </a>
+                                        <li
+                                            class="{{ is_null($minFilter) && is_null($maxFilter) ? 'price-item-link' : '' }}">
+                                            <a href="{{ request()->url() }}" class="item-link">Tất cả</a>
                                         </li>
-                                        <li class="">
-                                            <a href="#" class="filter-link"><span
-                                                    class="woocommerce-Price-amount amount"><bdi><span
-                                                            class="woocommerce-Price-currencySymbol">$</span>0</bdi></span>
-                                                – <span class="woocommerce-Price-amount amount"><bdi><span
-                                                            class="woocommerce-Price-currencySymbol">$</span>150</bdi></span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="#" class="filter-link"><span
-                                                    class="woocommerce-Price-amount amount"><bdi><span
-                                                            class="woocommerce-Price-currencySymbol">$</span>150</bdi></span>
-                                                – <span class="woocommerce-Price-amount amount"><bdi><span
-                                                            class="woocommerce-Price-currencySymbol">$</span>300</bdi></span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="#" class="filter-link"><span
-                                                    class="woocommerce-Price-amount amount"><bdi><span
-                                                            class="woocommerce-Price-currencySymbol">$</span>300</bdi></span>
-                                                – <span class="woocommerce-Price-amount amount"><bdi><span
-                                                            class="woocommerce-Price-currencySymbol">$</span>450</bdi></span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="#" class="filter-link"><span
-                                                    class="woocommerce-Price-amount amount"><bdi><span
-                                                            class="woocommerce-Price-currencySymbol">$</span>450</bdi></span>
-                                                – <span class="woocommerce-Price-amount amount"><bdi><span
-                                                            class="woocommerce-Price-currencySymbol">$</span>600</bdi></span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="#" class="filter-link"><span
-                                                    class="woocommerce-Price-amount amount"><bdi><span
-                                                            class="woocommerce-Price-currencySymbol">$</span>600</bdi></span>
-                                                – <span class="woocommerce-Price-amount amount"><bdi><span
-                                                            class="woocommerce-Price-currencySymbol">$</span>750</bdi></span>
-                                            </a>
-                                        </li>
+
+                                        @foreach ($priceRanges as $range)
+                                            @php
+                                                $isActive = $minFilter == $range['min'] && $maxFilter == $range['max'];
+                                                $url = request()->fullUrlWithQuery([
+                                                    'min' => $range['min'],
+                                                    'max' => $range['max'],
+                                                ]);
+                                            @endphp
+                                            <li class="{{ $isActive ? 'price-item-link' : '' }}">
+                                                <a href="{{ $url }}" class="item-link">
+                                                    <span class="woocommerce-Price-amount amount">
+                                                        <bdi>{{ number_format($range['min']) }}đ</bdi>
+                                                    </span> –
+                                                    <span class="woocommerce-Price-amount amount">
+                                                        <bdi>{{ number_format($range['max']) }}đ</bdi>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        @endforeach
                                     </ul>
+
+
                                 </div>
                             </div>
                         </div>

@@ -39,6 +39,7 @@
         <!-- [Template CSS Files] -->
         <link rel="stylesheet" href="{{ asset('modules/admin/css/style.css') }}" id="main-style-link">
         <link rel="stylesheet" href="{{ asset('modules/admin/css/style-preset.css') }}">
+        <link rel="stylesheet" href="{{ asset('modules/admin/css/select2.min.css') }}" rel="stylesheet" />
 
         <style id="apexcharts-css">
             @keyframes opaque {

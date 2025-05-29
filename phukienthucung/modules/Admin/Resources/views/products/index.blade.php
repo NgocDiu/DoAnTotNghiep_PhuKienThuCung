@@ -1,7 +1,7 @@
 @extends('admin::layouts.master')
 
 @section('content')
-    <div class="container mt-4">
+    <div class="container">
         <div class="pt-4 d-flex flex-row justify-content-between">
             <h4>Danh sách sản phẩm</h4>
             <a href="{{ route('admin.products.create') }}" class="btn btn-primary mb-3">+ Thêm sản phẩm</a>

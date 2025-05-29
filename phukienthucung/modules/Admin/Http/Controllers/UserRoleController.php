@@ -11,7 +11,7 @@ class UserRoleController extends Controller
 {
     public function index()
     {
-        $users = User::with('roles')->get();
+        $users = User::with('roles')->where('group', 'employee')->get();
         $roles = Role::all();
         return view('admin::users.roles', compact('users', 'roles'));
     }

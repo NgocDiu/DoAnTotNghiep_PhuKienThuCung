@@ -14,7 +14,7 @@ if (!function_exists('module_asset')) {
         return asset('modules/' . str_replace('::', '/', $path));
     }
 }
-
+//Lấy menu cha
 if (!function_exists('getParentMenusWithCategory')) {
     function getParentMenusWithCategory()
     {
@@ -24,7 +24,7 @@ if (!function_exists('getParentMenusWithCategory')) {
             ->get();
     }
 }
-
+//Lấy category cha
 
 if (!function_exists('getParentCategories')) {
     function getParentCategories()
@@ -32,7 +32,7 @@ if (!function_exists('getParentCategories')) {
     return Category::whereNull('parent_id')->orderBy('id')->get();
     }
 }
-
+//Lấy category con
 if (!function_exists('getChildCategories')) {
     function getChildCategories($parentId)
     {

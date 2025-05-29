@@ -6,7 +6,7 @@
             width: 62px !important;
         }
     </style>
-    <div class="container mt-4">
+    <div class="container">
         <div class="pt-4 d-flex flex-row justify-content-between">
             <h4>Danh sách danh mục</h4>
             <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">Thêm danh mục</button>
@@ -104,7 +104,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Tên</label>
-                        <input name="name" class="form-control" required>
+                        <input name="name" class="form-control" required title="Vui lòng điền vào trường này">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Slug</label>
@@ -139,7 +139,8 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label">Tên</label>
-                            <input name="name" value="{{ $cat->name }}" class="form-control" required>
+                            <input name="name" value="{{ $cat->name }}" class="form-control" required
+                                title="Vui lòng điền vào trường này">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Slug</label>

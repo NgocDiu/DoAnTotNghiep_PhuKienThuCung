@@ -1,6 +1,5 @@
 <?php
 return [
-  
   'ghn' => [
       'token' => env('TOKEN_DEV'),
       'shop_id' => env('SHOP_ID_DEV'),

@@ -1,7 +1,7 @@
 @extends('admin::layouts.master')
 
 @section('content')
-    <div class="container mt-4">
+    <div class="container">
         <h4>Quản lý giảm giá sản phẩm</h4>
 
         @if (session('success'))

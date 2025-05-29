@@ -4190,44 +4190,7 @@
             window.RS_MODULES.checkMinimal();
         };
     </script>
-    <div id="search-drawer" class="popup-drawer popup-drawer-layout-fullwidth"
-        data-drawer-target-string="#search-drawer">
-        <div class="drawer-overlay" data-drawer-target-string="#search-drawer"></div>
-        <div class="drawer-inner">
-            <div class="drawer-header">
-                <button class="search-toggle-close drawer-toggle" aria-label="Close search"
-                    data-toggle-target="#search-drawer" data-toggle-body-class="showing-popup-drawer-from-full"
-                    aria-expanded="false" data-set-focus=".search-toggle-open">
-                    <span class="base-svg-iconset"><svg class="base-svg-icon base-close-svg" fill="currentColor"
-                            version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24">
-                            <title>Toggle Menu Close</title>
-                            <path
-                                d="M5.293 6.707l5.293 5.293-5.293 5.293c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0l5.293-5.293 5.293 5.293c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414l-5.293-5.293 5.293-5.293c0.391-0.391 0.391-1.024 0-1.414s-1.024-0.391-1.414 0l-5.293 5.293-5.293-5.293c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414z">
-                            </path>
-                        </svg></span>
-                </button>
-            </div>
-            <div class="drawer-content">
-                <form role="search" method="get" class="woocommerce-product-search" action="#">
-                    <label class="screen-reader-text" for="woocommerce-product-search-field-0">Search for:</label>
-                    <input type="search" id="woocommerce-product-search-field-0" class="search-field"
-                        placeholder="Tìm kiếm&hellip;" value="" name="s" />
-                    <button type="submit" value="Search" class="">Search</button>
-                    <input type="hidden" name="post_type" value="product" />
-                    <div class="base-search-icon-wrap"><span class="base-svg-iconset"><svg
-                                class="thebase-svg-icon thebase-search-svg" fill="currentColor" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24">
-                                <title>Search</title>
-                                <path
-                                    d="M16.041 15.856c-0.034 0.026-0.067 0.055-0.099 0.087s-0.060 0.064-0.087 0.099c-1.258 1.213-2.969 1.958-4.855 1.958-1.933 0-3.682-0.782-4.95-2.050s-2.050-3.017-2.050-4.95 0.782-3.682 2.050-4.95 3.017-2.050 4.95-2.050 3.682 0.782 4.95 2.050 2.050 3.017 2.050 4.95c0 1.886-0.745 3.597-1.959 4.856zM21.707 20.293l-3.675-3.675c1.231-1.54 1.968-3.493 1.968-5.618 0-2.485-1.008-4.736-2.636-6.364s-3.879-2.636-6.364-2.636-4.736 1.008-6.364 2.636-2.636 3.879-2.636 6.364 1.008 4.736 2.636 6.364 3.879 2.636 6.364 2.636c2.125 0 4.078-0.737 5.618-1.968l3.675 3.675c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414z">
-                                </path>
-                            </svg></span></div>
-                </form>
-            </div>
-        </div>
-    </div>
+    
     @yield('scripts')
     {{-- @if ((new \Jenssegers\Agent\Agent())->isDesktop())
         {!! config('settings.custom_footer') !!}

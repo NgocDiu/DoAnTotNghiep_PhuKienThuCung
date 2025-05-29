@@ -1,7 +1,7 @@
 @extends('admin::layouts.master')
 
 @section('content')
-    <div class="container mt-4">
+    <div class="container">
         <div class="pt-4 d-flex flex-row justify-content-between">
             <h4>Danh sách thương hiệu</h4>
             <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">Thêm thương hiệu</button>

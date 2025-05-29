@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\View; // ✅ Đây là dòng bạn cần
 use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
 use Illuminate\Pagination\Paginator;
-
+use Illuminate\Support\Facades\URL;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -34,6 +34,9 @@ class AppServiceProvider extends ServiceProvider
             $userId = Auth::guard('publish')->id();
             $cart = Cart::where('user_id', $userId)->withCount('items')->first();
             $count = $cart ? $cart->items_count : 0;
+        }
+        if (request()->header('x-forwarded-proto') === 'https') {
+            URL::forceScheme('https');
         }
 
         $view->with('cartCount', $count);

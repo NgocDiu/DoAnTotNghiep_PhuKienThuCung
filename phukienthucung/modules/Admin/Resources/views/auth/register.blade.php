@@ -3,6 +3,7 @@
 @section('content')
 
     <div class="auth-main">
+
         <div class="auth-wrapper v3"
             style="background-image: url('{{ asset('modules/admin/images/authentication/adminbg.jpg') }}');
            background-size: cover;
@@ -11,13 +12,19 @@
            backdrop-filter: blur(1px);
            background-color: rgba(0, 0, 0, 0.4);">
             <div class="auth-form">
+
                 <div class="card my-5">
                     <div class="card-body">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                {{ $errors->first() }}
+                            </div>
+                        @endif
                         <div class="d-flex justify-content-between align-items-end mb-4">
                             <h3 class="mb-0"><b>Đăng ký</b></h3>
                             <a href="{{ route('admin.login') }}" class="link-primary">Bạn đã có tài khoản?</a>
                         </div>
-                        <form action="{{ route('publish.register') }}" method="POST">
+                        <form action="{{ route('admin.register') }}" method="POST">
                             @csrf
 
                             <div class="form-group mb-3">

@@ -8,10 +8,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-use Spatie\Permission\Models\Permission;
+
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable,HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -21,7 +21,10 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
+        'group',         // tên cột trong DB là "group" (SQL Server dùng [] khi tạo table)
         'password',
+        'is_active',
     ];
 
     /**
@@ -41,10 +44,27 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_active' => 'boolean',
     ];
+
+    /**
+     * Mỗi user có thể có nhiều địa chỉ.
+     */
     public function addresses()
     {
         return $this->hasMany(Address::class, 'user_id');
     }
+
+    /**
+     * Mỗi user là 1 nhân viên (nếu có).
+     */
+    public function employee()
+    {
+        return $this->hasOne(Employee::class, 'user_id');
+    }
+    public function stockImports()
+{
+    return $this->hasMany(StockImport::class, 'user_id');
+}
 
 }

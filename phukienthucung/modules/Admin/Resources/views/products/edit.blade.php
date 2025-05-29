@@ -1,7 +1,7 @@
 @extends('admin::layouts.master')
 
 @section('content')
-    <div class="container mt-4">
+    <div class="container">
         <h4>Sửa sản phẩm: {{ $product->name }}</h4>
 
         @if ($errors->any())

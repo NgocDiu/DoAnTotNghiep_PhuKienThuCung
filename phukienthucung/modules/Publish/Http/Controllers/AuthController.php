@@ -44,13 +44,13 @@ class AuthController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => bcrypt($validated['password']),
+            'group' => 'customer',
         ]);
 
-        // Đăng nhập người dùng ngay sau khi đăng ký
-        Auth::guard('publish')->login($user);
+        
 
         // Chuyển hướng đến trang chủ (hoặc trang bạn muốn sau khi đăng ký)
-        return redirect()->route('publish.index');
+        return redirect()->route('publish.login')->with('success', 'Đăng ký thành công!');
     }
     public function logout(Request $request)
     {

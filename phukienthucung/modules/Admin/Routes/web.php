@@ -15,6 +15,8 @@ use Modules\Admin\Http\Controllers\PageController;
 use Modules\Admin\Http\Controllers\Menu;
 use Modules\Admin\Http\Controllers\OrderController;
 use Modules\Admin\Http\Controllers\SettingController;
+use Modules\Admin\Http\Controllers\StockImportController;
+use Modules\Admin\Http\Controllers\InventoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +35,7 @@ Route::middleware('web')->group(function () {
 Route::middleware(['web', 'auth:admin'])->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
-    Route::get('/', [AdminController::class, 'index'])->middleware('permission:order')->name('index');
+    Route::get('/', [AdminController::class, 'index'])->name('index');
 
     Route::get('orders', [CartController::class, 'index'])
         ->middleware('permission:order')
@@ -111,6 +113,33 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin')->name('admin.')->group
     ->middleware('permission:order')
     ->name('orders.ghn.create');
     Route::put('/orders/{order}/change-status', [OrderController::class, 'changeStatus'])->name('orders.change-status');
+
+
+    Route::get('profile', [AuthController::class, 'editProfile'])->name('profile.edit');
+    
+    Route::put('profile', [AuthController::class, 'updateProfile'])->name('profile.update');
+
+// Các route chung cho nhập hàng
+    Route::resource('stock_imports', StockImportController::class)
+        ->except(['destroy'])
+        ->middleware('permission:stock_import');
+
+    // Route xác nhận đơn nhập
+    Route::post('stock_imports/{id}/confirm', [StockImportController::class, 'confirm'])
+        ->middleware('permission:stock_confirm')
+        ->name('stock_imports.confirm');
+
+    // Route xóa đơn nhập – gán middleware riêng
+    Route::delete('stock_imports/{id}', [StockImportController::class, 'destroy'])
+        ->middleware('permission:stock_delete')
+        ->name('stock_imports.destroy');
+
+    Route::prefix('inventory')->name('inventory.')->group(function () {
+        Route::get('/', [InventoryController::class, 'inventory']) ->middleware('permission:inventory')->name('index');
+        Route::get('/imports', [InventoryController::class, 'importHistory']) ->middleware('permission:inventory')->name('imports');
+        Route::get('/exports', [InventoryController::class, 'exportHistory']) ->middleware('permission:inventory')->name('exports');
+    });
+        
 
 });
 

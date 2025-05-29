@@ -24,6 +24,16 @@
                         </div>
                         <form action="{{ url('admin/login') }}" method="POST">
                             @csrf
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    {{ $errors->first() }}
+                                </div>
+                            @endif
+                            @if (session('success'))
+                                <div class="alert alert-success" style="text-align: center">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
 
                             <div class="form-group mb-3">
                                 <label class="form-label">Email</label>
@@ -33,11 +43,6 @@
                                 <label class="form-label">Mật khẩu</label>
                                 <input name="password" type="password" class="form-control" placeholder="Mật khẩu">
                             </div>
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    {{ $errors->first() }}
-                                </div>
-                            @endif
 
                             <div class="d-flex mt-1 justify-content-between">
                                 <div class="form-check">
@@ -46,7 +51,7 @@
                                     <label class="form-check-label text-muted" for="customCheckc1">Lưu thông tin đăng
                                         nhập</label>
                                 </div>
-                                <h5 class="text-secondary f-w-400">Quên mật khẩu?</h5>
+                                <h5 class="text-secondary f-w-400"></h5>
                             </div>
 
                             <div class="d-grid mt-4">

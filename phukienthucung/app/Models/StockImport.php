@@ -3,20 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class StockImport extends Model
 {
-    protected $fillable = ['product_id', 'quantity', 'import_date', 'user_id', 'status'];
+    protected $fillable = ['code', 'user_id', 'status', 'note'];
 
-    public function product(): BelongsTo
+    const STATUS_PENDING = 'pending';
+    const STATUS_CONFIRMED = 'confirmed';
+    const STATUS_DELETED = 'deleted';
+
+    public function details()
     {
-        return $this->belongsTo(Product::class);
+        return $this->hasMany(StockImportDetail::class);
     }
 
-    public function user(): BelongsTo
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

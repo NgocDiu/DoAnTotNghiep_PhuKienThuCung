@@ -1,8 +1,8 @@
 @extends('admin::layouts.master')
 
 @section('content')
-    <div class="container mt-4">
-        <h4>Cấu hình cửa hàng GHN</h4>
+    <div class="container">
+        <h4 class="pt-4">Cấu hình cửa hàng GHN</h4>
 
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">

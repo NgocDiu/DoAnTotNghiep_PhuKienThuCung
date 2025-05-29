@@ -1,8 +1,14 @@
 @extends('publish::layouts.master')
 @section('content')
     <div id="inner-wrap" class="wrap hfeed bt-clear">
+
         <section role="banner" class="entry-hero product-hero-section entry-hero-layout-standard" style="margin: 50px 0">
             <div class="entry-hero-container-inner">
+                @if (session('success'))
+                    <div class="alert alert-success" style="text-align: center">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <div class="hero-section-overlay"></div>
                 <div class="hero-container site-container">
                     <h1 class="text-center" style="padding-top: 20px">Đăng nhập</h1>

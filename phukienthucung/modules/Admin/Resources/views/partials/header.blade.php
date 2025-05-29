@@ -161,19 +161,23 @@
                             @endif
                         </span>
                     </a>
-                    <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
-                        <div class="dropdown-header">
+                    <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown"
+                        style="min-width: 150px;">
+                        <div class="dropdown-header" style="padding: 5px">
                             <div class="d-flex mb-1">
-                                <div class="flex-shrink-0">
-                                    <img src="{{ asset('modules/admin/images/user/avatar.png') }}" alt="user-image"
-                                        class="user-avtar wid-35">
+                                <div class="flex-shrink-0" style="display: flex;align-items: center">
+                                    <a href="{{ route('admin.profile.edit') }}" style="font-weight: bold;">
+                                        {{-- <img src="{{ asset('modules/admin/images/user/avatar111.png') }}"
+                                            alt="user-image" class="user-avtar wid-35"> --}}
+                                        Thông tin cá nhân
+                                    </a>
+
                                 </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h6 class="mb-1">Stebin Ben</h6>
-                                    <span>UI/UX Designer</span>
-                                </div>
+
                                 <a href="{{ route('admin.logout') }}" class="pc-head-link bg-transparent"><i
-                                        class="ti ti-power text-danger"></i></a>
+                                        class="ti ti-power text-danger">
+                                    </i>
+                                </a>
                             </div>
                         </div>
 

@@ -65,5 +65,8 @@ Route::middleware('web')->group(function () {
     //category
     Route::get('cat/{slug}', [ProductController::class, 'category'])
     ->name('products.by-category');
+    
+    Route::get('/search', [ProductController::class, 'search'])->name('product.search');
+
 
 });
