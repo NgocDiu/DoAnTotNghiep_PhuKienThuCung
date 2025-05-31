@@ -26,6 +26,9 @@
                     <label class="form-label">Slug</label>
                     <input name="slug" class="form-control" value="{{ $product->slug }}">
                 </div>
+
+
+
             </div>
 
             <div class="mb-3">
@@ -54,7 +57,7 @@
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label class="form-label">Thương hiệu</label>
-                    <select name="brand_id" class="form-select" required>
+                    <select name="brand_id" class="form-select select2" required>
                         <option value="">-- Chọn thương hiệu --</option>
                         @foreach ($brands as $brand)
                             <option value="{{ $brand->id }}" {{ $product->brand_id == $brand->id ? 'selected' : '' }}>
@@ -63,9 +66,10 @@
                         @endforeach
                     </select>
                 </div>
+
                 <div class="col-md-8">
                     <label class="form-label">Danh mục</label>
-                    <select name="category_ids[]" class="form-select" multiple required>
+                    <select name="category_ids[]" class="form-select select2" multiple required>
                         @foreach ($categories as $cat)
                             <option value="{{ $cat->id }}"
                                 {{ in_array($cat->id, $product->categories->pluck('id')->toArray()) ? 'selected' : '' }}>
@@ -73,8 +77,9 @@
                             </option>
                         @endforeach
                     </select>
-                    <small class="text-muted">Giữ Ctrl để chọn nhiều</small>
+                    <small class="text-muted">Chọn nhiều bằng Ctrl (hoặc Cmd trên Mac)</small>
                 </div>
+
             </div>
 
             <div class="form-check form-check-inline mb-3">
@@ -139,3 +144,18 @@
         CKEDITOR.replace('description');
     </script>
 @endsection
+@push('scripts')
+    <script src="{{ asset('modules/admin/js/jquery-3.6.0.min.js') }}"></script>
+
+    <script src="{{ asset('modules/admin/js/select2.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: 'Vui lòng chọn',
+                allowClear: true,
+                width: '100%'
+            });
+        });
+    </script>
+@endpush

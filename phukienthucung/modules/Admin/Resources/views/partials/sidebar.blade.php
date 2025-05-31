@@ -48,10 +48,7 @@
                                                 <a class="pc-link" href="{{ route('admin.orders.index') }}">Danh sách
                                                     đơn hàng</a>
                                             </li>
-                                            <li class="pc-item">
-                                                <a class="pc-link" href="{{-- route('admin.payments.index') --}}">Thanh
-                                                    toán</a>
-                                            </li>
+
                                         </ul>
                                     </li>
 

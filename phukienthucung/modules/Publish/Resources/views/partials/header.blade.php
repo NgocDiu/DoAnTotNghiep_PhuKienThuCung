@@ -461,9 +461,9 @@
                                                                     </ul>
                                                                 @endif
                                                             </li>
-                                                        @elseif ($menu->type == 'page' && $menu->page)
+                                                        @elseif ($menu->type == 'page')
                                                             <li class="menu-item">
-                                                                <a href="{{ route('page.show', $menu->page->slug) }}"
+                                                                <a href="{{ route('page.show', $menu->url) }}"
                                                                     class="py-2 block w-full" aria-current="page">
                                                                     {{ $menu->title }}
                                                                 </a>
@@ -816,10 +816,10 @@
                                                         </ul>
                                                     @endif
                                                 </li>
-                                            @elseif ($menu->type == 'page' && $menu->page)
+                                            @elseif ($menu->type == 'page')
                                                 <li
                                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-2 current_page_item menu-item-63">
-                                                    <a href="{{ route('page.show', $menu->page->slug) }}"
+                                                    <a href="{{ route('page.show', $menu->url) }}"
                                                         aria-current="page">{{ $menu->title }}</a>
                                                 </li>
                                             @else
