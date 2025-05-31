@@ -30,7 +30,7 @@
 
             <div class="mb-3">
                 <label class="form-label">Mô tả</label>
-                <textarea name="description" class="form-control" rows="4">{{ $product->description }}</textarea>
+                <textarea id="description" rows="6" name="description" class="form-control" rows="4">{{ $product->description }}</textarea>
             </div>
 
             <div class="row mb-3">
@@ -134,4 +134,8 @@
             </div>
         </form>
     </div>
+    <script src="{{ asset('modules/admin/lib/ckeditor/ckeditor.js') }}"></script>
+    <script>
+        CKEDITOR.replace('description');
+    </script>
 @endsection
