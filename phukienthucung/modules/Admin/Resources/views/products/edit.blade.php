@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h4>Sửa sản phẩm: {{ $product->name }}</h4>
+        <h4 class="pt-3">Sửa sản phẩm: {{ $product->name }}</h4>
 
         @if ($errors->any())
             <div class="alert alert-danger">

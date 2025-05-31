@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h4>Thêm sản phẩm mới</h4>
+        <h4 class="pt-3">Thêm sản phẩm mới</h4>
 
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">

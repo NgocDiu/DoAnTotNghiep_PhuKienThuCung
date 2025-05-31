@@ -2,10 +2,12 @@
 
 @section('content')
     <div class="container">
-        <h4>Quản lý giảm giá sản phẩm</h4>
+        <h4 class="pt-3">Quản lý giảm giá sản phẩm</h4>
 
         @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
+            <div class="alert
+            alert-success">{{ session('success') }}
+            </div>
         @endif
         @if ($errors->any())
             <div class="alert alert-danger">
