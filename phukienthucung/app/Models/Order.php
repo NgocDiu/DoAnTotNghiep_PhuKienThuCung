@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
-    protected $fillable = ['user_id','ghn_tracking_code', 'address_id', 'Package', 'status', 'take_it', 'total_amount','grand_total', 'note', 'ship_fee','promotion_id'];
+    protected $fillable = ['user_id','ghn_tracking_code', 'address_id', 'Package', 'status', 'take_it', 'total_amount','discount_amount','grand_total', 'note', 'ship_fee','promotion_id'];
 
     public function items(): HasMany
     {

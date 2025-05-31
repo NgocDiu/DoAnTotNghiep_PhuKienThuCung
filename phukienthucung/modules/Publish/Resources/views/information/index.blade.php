@@ -376,7 +376,33 @@
                 @endforeach
             </div>
             <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+                <form method="POST" action="{{ route('profile.update') }}">
+                    @csrf
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="text" name="email" class="form-control" value="{{ $user->email }}" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Họ tên</label>
+                        <input type="text" name="name" class="form-control" value="{{ $user->name }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Số điện thoại</label>
+                        <input type="text" name="phone" class="form-control" value="{{ $user->phone }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mật khẩu mới (nếu đổi)</label>
+                        <input type="password" name="password" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Xác nhận mật khẩu</label>
+                        <input type="password" name="password_confirmation" class="form-control">
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Cập nhật thông tin</button>
 
+                    </div>
+                </form>
             </div>
 
 

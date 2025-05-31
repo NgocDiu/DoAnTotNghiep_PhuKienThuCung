@@ -5,7 +5,11 @@
         <h1>Quản lý Vai trò (Roles)</h1>
 
         {{-- Nút mở modal Thêm --}}
-        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addRoleModal">Thêm mới Vai trò</button>
+        <div class="text-end">
+            <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addRoleModal">Thêm mới Vai
+                trò</button>
+        </div>
+
 
         {{-- Table Roles --}}
         <table class="table table-bordered">
@@ -29,11 +33,11 @@
                         </td>
                         <td>
                             {{-- Nút Sửa --}}
-                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                            <button class="btn btn-warning btn-sm m-1" data-bs-toggle="modal"
                                 data-bs-target="#editRoleModal{{ $role->id }}">Sửa</button>
 
                             {{-- Nút Xóa --}}
-                            <form action="{{ route('admin.roles.destroy', $role) }}" method="POST"
+                            <form class="m-1" action="{{ route('admin.roles.destroy', $role) }}" method="POST"
                                 style="display:inline-block">
                                 @csrf
                                 @method('DELETE')

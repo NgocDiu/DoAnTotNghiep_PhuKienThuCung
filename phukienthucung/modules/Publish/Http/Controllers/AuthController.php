@@ -22,7 +22,7 @@ class AuthController extends Controller
             return redirect()->route('publish.index'); // Chuyển đến trang chủ sau khi đăng nhập
         }
 
-        return redirect()->back()->withErrors(['email' => 'Invalid credentials']);
+        return redirect()->back()->withErrors(['email' => 'Tài khoản hoặc mật khẩu không đúng']);
     }
 
     public function showRegistrationForm()

@@ -150,27 +150,48 @@ public function storeAddress(Request $request)
     }
     
     
-public function getWards(Request $request)
-{
-    $token = '325bef5d-1a87-11f0-9b81-222185cb68c8';
-    $districtId = $request->district_id;
+    public function getWards(Request $request)
+    {
+        $token = '325bef5d-1a87-11f0-9b81-222185cb68c8';
+        $districtId = $request->district_id;
 
-    $url = "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=$districtId";
+        $url = "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=$districtId";
 
-    $response = Http::withHeaders([
-        'Token' => $token,
-        'Content-Type' => 'application/json'
-    ])->post($url); // Không truyền body
+        $response = Http::withHeaders([
+            'Token' => $token,
+            'Content-Type' => 'application/json'
+        ])->post($url); // Không truyền body
 
-    $data = $response->json('data') ?? [];
+        $data = $response->json('data') ?? [];
 
-    if (!is_array($data)) {
-        $data = array_values((array)$data);
+        if (!is_array($data)) {
+            $data = array_values((array)$data);
+        }
+
+        return response()->json($data);
     }
 
-    return response()->json($data);
-}
+    public function updateProfile(Request $request)
+    {
+        $user = auth()->user();
 
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'nullable|string|max:20',
+            'password' => 'nullable|confirmed|min:6',
+        ]);
+
+        $user->name = $request->name;
+        $user->phone = $request->phone;
+
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->password);
+        }
+
+        $user->save();
+
+        return back()->with('success', 'Cập nhật thông tin cá nhân thành công!');
+    }
     
 
 

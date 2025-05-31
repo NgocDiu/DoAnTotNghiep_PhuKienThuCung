@@ -1,7 +1,121 @@
 @extends('publish::layouts.4column')
 
 @section('content')
+    <style>
+        /* Wrapper tổng */
+        .payment-method-wrapper {
+            background-color: #fefefe;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            width: 100%;
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
 
+        /* Tiêu đề */
+        .payment-method-wrapper h4 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 6px;
+        }
+
+        /* Radio form */
+        .payment-method-wrapper .form-check {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .payment-method-wrapper .form-check-input {
+            margin-right: 10px;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .payment-method-wrapper .form-check-label {
+            font-size: 14px;
+            color: #444;
+            cursor: pointer;
+        }
+
+        /* Mã giảm giá */
+        .promotion-code-wrapper {
+            background-color: #f9f9f9;
+            border: 1px dashed #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+
+        .promotion-code-wrapper label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .promotion-code-wrapper .input-group {
+            display: flex;
+        }
+
+        .promotion-code-wrapper input[type="text"] {
+            flex: 1;
+            padding: 10px 12px;
+            font-size: 14px;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .promotion-code-wrapper input[type="text"]:focus {
+            border-color: #007bff;
+        }
+
+        .promotion-code-wrapper small {
+            font-size: 12px;
+            color: #666;
+            margin-top: 6px;
+            display: block;
+        }
+
+        .checkout-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-top: 20px;
+        }
+
+        .checkout-left,
+        .checkout-right {
+            width: 100%;
+        }
+
+        @media (min-width: 992px) {
+            .checkout-container {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+
+            .checkout-left {
+                flex: 0 0 70%;
+                max-width: 70%;
+                padding-right: 16px;
+            }
+
+            .checkout-right {
+                flex: 0 0 30%;
+                max-width: 30%;
+                padding-left: 16px;
+            }
+        }
+    </style>
 
 
 
@@ -57,201 +171,195 @@
                                     <div class="woocommerce-notices-wrapper"></div>
                                     <div class="woocommerce-notices-wrapper"></div>
 
-                                    <form class="mt-2" action="{{ route('checkout.process') }}" method="POST">
+                                    <form method="POST" action="{{ route('checkout.process') }}">
                                         @csrf
 
-                                        <h4 class="mb-2">Địa chỉ giao hàng</h4>
+                                        <div class="checkout-container">
+                                            <div class="checkout-left">
+                                                <h4 class="mb-2">Địa chỉ giao hàng</h4>
 
-                                        @if (count($addresses) > 0)
-                                            <select name="address_id" class="form-control mb-3" required
-                                                style="width: 100%;border-radius: 5px">
-                                                @foreach ($addresses as $address)
-                                                    <option value="{{ $address->id }}"
-                                                        data-province="{{ $address->to_province_id }}"
-                                                        data-district="{{ $address->to_district_id }}"
-                                                        data-ward="{{ $address->to_ward_code }}"
-                                                        {{ $address->is_default ? 'selected' : '' }}>
-                                                        {{ $address->full_address }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        @else
-                                            <div class="alert alert-warning">
-                                                Bạn chưa có địa chỉ giao hàng. <br>
-                                                <a href="{{ route('information') }}"
-                                                    class="btn btn-sm btn-outline-primary mt-2 text-end">
-                                                    Thêm địa chỉ ngay
-                                                </a>
+                                                @if (count($addresses) > 0)
+                                                    <select name="address_id" class="form-control mb-3" required
+                                                        style="width: 100%;border-radius: 5px">
+                                                        @foreach ($addresses as $address)
+                                                            <option value="{{ $address->id }}"
+                                                                data-province="{{ $address->to_province_id }}"
+                                                                data-district="{{ $address->to_district_id }}"
+                                                                data-ward="{{ $address->to_ward_code }}"
+                                                                {{ $address->is_default ? 'selected' : '' }}>
+                                                                {{ $address->full_address }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                @else
+                                                    <div class="alert alert-warning">
+                                                        Bạn chưa có địa chỉ giao hàng. <br>
+                                                        <a href="{{ route('information') }}"
+                                                            class="btn btn-sm btn-outline-primary mt-2 text-end">
+                                                            Thêm địa chỉ ngay
+                                                        </a>
+                                                    </div>
+                                                @endif
+
+                                                @php $total = 0; @endphp
+
+                                                @if (isset($selectedItems) && count($selectedItems))
+                                                    <div id="order_review" class="woocommerce-checkout-review-order"
+                                                        style="margin-top: 10px">
+                                                        <h2 id="order_review_title">Đơn hàng của bạn</h2>
+                                                        <table class="shop_table woocommerce-checkout-review-order-table1">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="product-name">Sản phẩm</th>
+                                                                    <th class="product-total">Tiền hàng</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($selectedItems as $item)
+                                                                    @php
+                                                                        $product = $item->product;
+                                                                        $quantity = $item->quantity;
+                                                                        $price = $product->is_discount
+                                                                            ? $product->discount_price
+                                                                            : $product->price;
+                                                                        $lineTotal = $price * $quantity;
+                                                                        $total += $lineTotal;
+                                                                        $image = asset(
+                                                                            $product->images->firstWhere('is_main', 1)
+                                                                                ?->image_url ?? 'images/no-image.png',
+                                                                        );
+                                                                    @endphp
+
+                                                                    <tr class="cart_item">
+                                                                        <td class="product-name"
+                                                                            style="display: flex; align-items: center; gap: 10px;">
+                                                                            <span class="checkout-review-product-image"
+                                                                                style="position: relative;">
+                                                                                <img loading="lazy" decoding="async"
+                                                                                    width="80" height="80"
+                                                                                    src="{{ $image }}"
+                                                                                    alt="{{ $product->name }}">
+                                                                                <strong class="product-quantity"
+                                                                                    style="position: absolute; left: 67px; top: -9px; padding: 1px 8px; background-color: #cd1818; color: white; border-radius: 50%;">
+                                                                                    {{ $quantity }}
+                                                                                </strong>
+                                                                            </span>
+
+                                                                            <span
+                                                                                class="checkout-review-product-name">{{ $product->name }}</span>
+
+                                                                            <span
+                                                                                class="checkout-review-product-price price">
+                                                                                @if ($product->is_discount)
+                                                                                    <del><span>{{ number_format($product->price) }}₫</span></del>
+                                                                                    <ins><span>{{ number_format($product->discount_price) }}₫</span></ins>
+                                                                                @else
+                                                                                    <span>{{ number_format($product->price) }}₫</span>
+                                                                                @endif
+                                                                            </span>
+                                                                        </td>
+
+                                                                        <td class="product-total">
+                                                                            <span>{{ number_format($lineTotal) }}₫</span>
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    {{-- Hidden input để gửi ID sản phẩm --}}
+                                                                    <input type="hidden" name="selected_items[]"
+                                                                        value="{{ $item->id }}">
+                                                                @endforeach
+                                                            </tbody>
+                                                            <tfoot>
+                                                                <tr class="cart-subtotal">
+                                                                    <th>Tiền hàng</th>
+                                                                    <td><span
+                                                                            id="cart_total">{{ number_format($total) }}₫</span>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="cart-subtotal">
+                                                                    <th>Phí vận chuyển</th>
+                                                                    <td>
+                                                                        <span id="ship_fee_value">đ</span>
+                                                                        <input type="hidden" name="ship_fee"
+                                                                            id="ship_fee">
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="order-total">
+                                                                    <th>Tổng thanh toán</th>
+                                                                    <td><strong><span id="grand_total">đ</span></strong>
+                                                                    </td>
+                                                                </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                @else
+                                                    <div class="alert alert-danger mt-3">Không có sản phẩm nào được chọn để
+                                                        thanh toán.</div>
+                                                @endif
+
+                                                <div class="form-group mt-3">
+                                                    <label for="note">Ghi chú đơn hàng </label>
+                                                    <textarea class="form-control" name="note" rows="3"></textarea>
+                                                </div>
                                             </div>
-                                        @endif
+
+                                            <div class="checkout-right">
+                                                <div class="payment-method-wrapper">
+                                                    <h4>Phương thức thanh toán</h4>
+
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="payment_method" value="cod" id="cod" checked>
+                                                        <label class="form-check-label" for="cod">
+                                                            Thanh toán khi nhận hàng (COD) <i
+                                                                class="fa-solid fa-money-bill"></i>
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="payment_method" value="vnpay" id="vnpay">
+                                                        <label class="form-check-label" for="vnpay">
+                                                            Thanh toán qua VNPAY <i class="fa-solid fa-credit-card"></i>
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="promotion-code-wrapper mt-3">
+                                                        <label for="promotion_code">
+                                                            Nhập mã giảm giá <i class="fa-solid fa-tag"></i>
+                                                        </label>
+                                                        <div class="input-group" style="display: flex; gap: 10px;">
+                                                            <input type="text" name="promotion_code" id="coupon_code"
+                                                                placeholder="VD: ASWKFOWE">
+                                                            <button type="button" id="check_coupon_btn"
+                                                                style="padding: 2px 8px;border-radius: 25px;background: #666">Áp
+                                                                dụng</button>
+                                                        </div>
+                                                        <small id="coupon_result" style="color: green;"></small>
+                                                    </div>
 
 
-
-                                        <div id="order_review" class="woocommerce-checkout-review-order"
-                                            style="margin-top: 10px">
-                                            <h2 id="order_review_title" style="">Đơn hàng của bạn</h2>
-                                            <table class="shop_table woocommerce-checkout-review-order-table1">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="product-name">Sản phẩm</th>
-                                                        <th class="product-total">Tiền hàng</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($cart->items as $item)
-                                                        @php
-                                                            $product = $item->product;
-                                                            $quantity = $item->quantity;
-                                                            $price = $product->is_discount
-                                                                ? $product->discount_price
-                                                                : $product->price;
-                                                            $lineTotal = $price * $quantity;
-
-                                                            // Lấy ảnh chính hoặc ảnh mặc định
-                                                            $image = asset(
-                                                                $product->images->firstWhere('is_main', 1)
-                                                                    ?->image_url ?? 'images/no-image.png',
-                                                            );
-                                                        @endphp
-
-                                                        <tr class="cart_item">
-                                                            <td class="product-name"
-                                                                style="display: flex;flex-direction: row;align-items: center">
-                                                                <span class="checkout-review-product-image"
-                                                                    style="position: relative;margin: 0 10px">
-                                                                    <img loading="lazy" decoding="async" width="80"
-                                                                        height="80" src="{{ $image }}"
-                                                                        class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
-                                                                        alt="{{ $product->name }}">
-                                                                    <strong class="product-quantity"
-                                                                        style="
-                                                                        left: 67px;
-                                                                        top: -9px;
-                                                                        position: absolute;
-                                                                        padding: 1px 8px;
-                                                                        background-color: #cd1818;
-                                                                        color: white;
-                                                                        border-radius: 50%;
-                                                                    ">{{ $quantity }}</strong>
-                                                                </span>
-
-                                                                <span class="checkout-review-product-name"
-                                                                    style="margin: 0 10px">{{ $product->name }}</span>
-
-                                                                <span class="checkout-review-product-price price">
-                                                                    @if ($product->is_discount)
-                                                                        <del>
-                                                                            <span class="woocommerce-Price-amount amount">
-                                                                                {{ number_format($product->price) }}₫
-                                                                            </span>
-                                                                        </del>
-                                                                        <ins>
-                                                                            <span class="woocommerce-Price-amount amount">
-                                                                                {{ number_format($product->discount_price) }}₫
-                                                                            </span>
-                                                                        </ins>
-                                                                    @else
-                                                                        <span class="woocommerce-Price-amount amount">
-                                                                            {{ number_format($product->price) }}₫
-                                                                        </span>
-                                                                    @endif
-                                                                </span>
-
-                                                            </td>
-
-                                                            <td class="product-total">
-                                                                <span class="woocommerce-Price-amount amount">
-                                                                    <bdi>{{ number_format($lineTotal) }}₫</bdi>
-                                                                </span>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                                <tfoot>
-
-                                                    <tr class="cart-subtotal">
-                                                        <th>Tiền hàng</th>
-                                                        <td>
-                                                            <span class="woocommerce-Price-amount amount"
-                                                                id="cart_total">{{ number_format($total) }}
-                                                                đ</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="cart-subtotal">
-                                                        <th>Phí vận chuyển</th>
-                                                        <td>
-
-                                                            <span class="woocommerce-Price-amount amount"
-                                                                id="ship_fee_value">đ</span>
-                                                            <input type="hidden" name="ship_fee" id="ship_fee">
-                                                        </td>
-                                                    </tr>
-
-
-                                                    <tr class="order-total">
-                                                        <th>Tổng thanh toán</th>
-                                                        <td><strong>
-
-                                                                <span class="woocommerce-Price-amount amount"
-                                                                    id="grand_total">đ</span>
-                                                            </strong>
-                                                        </td>
-                                                    </tr>
-
-
-                                                </tfoot>
-                                            </table>
-
-
-
-
-                                        </div>
-
-
-
-
-
-                                        <h4>Phương thức thanh toán</h4>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="payment_method"
-                                                value="cod" id="cod" checked>
-                                            <label class="form-check-label" for="cod">
-                                                Thanh toán khi nhận hàng (COD)
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="payment_method"
-                                                value="vnpay" id="vnpay">
-                                            <label class="form-check-label" for="vnpay">
-                                                Thanh toán qua VNPAY
-                                            </label>
-                                        </div>
-
-                                        <div class="form-group mt-3">
-                                            <label for="note">Ghi chú đơn hàng (tùy chọn)</label>
-                                            <textarea class="form-control" name="note" rows="3"></textarea>
-                                        </div>
-                                        <div id="payment" class="woocommerce-checkout-payment1">
-
-                                            <div class="form-row place-order">
-
-                                                <button type="submit" class="button alt"
-                                                    name="woocommerce_checkout_place_order" id="place_order"
-                                                    value="Place order" data-value="Place order">Xác nhận thanh
-                                                    toán</button>
-
-
+                                                    <div id="payment" class="woocommerce-checkout-payment1">
+                                                        <div class="form-row place-order mt-4">
+                                                            <button type="submit" class="button alt"
+                                                                name="woocommerce_checkout_place_order" id="place_order"
+                                                                value="Place order">
+                                                                Xác nhận thanh toán
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-
                                     </form>
 
 
 
 
 
+
                                 </div>
-                                </form>
+
 
                             </div>
                         </div><!-- .entry-content -->
@@ -276,7 +384,7 @@
     const CART_TOTAL = {{ $total }};
 
     const CART_ITEMS = {!! json_encode(
-        $cart->items->map(function ($item) {
+        $selectedItems->values()->map(function ($item) {
             $values = $item->product->attributeValues->pluck('value', 'attribute_id');
             return [
                 'name' => $item->product->name,
@@ -293,7 +401,8 @@
 
 @push('scripts')
     <script>
-        const DEFAULT_SHIP_FEE = 24000;
+        const DEFAULT_SHIP_FEE = Math.floor(Math.random() * (35000 - 23000 + 1)) + 23000;
+
 
         function formatVNDWithComma(amount) {
             return amount.toLocaleString('vi-VN').replace(/\./g, ',') + ' đ';
@@ -316,20 +425,30 @@
             if (!selectAddress) return;
 
             function calculateTotalDimensions(items) {
+                // Nếu không phải mảng nhưng là object ⇒ ép về mảng các value
+                if (!Array.isArray(items) && typeof items === 'object' && items !== null) {
+                    items = Object.values(items);
+                    console.warn('Đã ép object có key → array:', items);
+                }
+
                 let total = {
                     height: 0,
                     length: 0,
                     width: 0,
                     weight: 0
                 };
+
                 items.forEach(item => {
-                    total.height += item.height * item.quantity;
-                    total.length += item.length * item.quantity;
-                    total.width += item.width * item.quantity;
-                    total.weight += item.weight * item.quantity;
+                    total.height += (item.height || 0) * (item.quantity || 1);
+                    total.length += (item.length || 0) * (item.quantity || 1);
+                    total.width += (item.width || 0) * (item.quantity || 1);
+                    total.weight += (item.weight || 0) * (item.quantity || 1);
                 });
+
                 return total;
             }
+
+
 
             function fetchShippingFee(service_id, service_type_id, toDistrictId, toWardCode) {
                 const totals = calculateTotalDimensions(CART_ITEMS);
@@ -418,6 +537,43 @@
                     fetchAvailableServices(district, ward);
                 }
             });
+            document.getElementById('check_coupon_btn').addEventListener('click', () => {
+                const code = document.getElementById('coupon_code').value;
+                const resultEl = document.getElementById('coupon_result');
+
+                if (!code) {
+                    resultEl.innerText = '⚠️ Vui lòng nhập mã.';
+                    resultEl.style.color = 'red';
+                    return;
+                }
+
+                fetch(`/api/check-coupon?code=${encodeURIComponent(code)}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.valid) {
+                            const discountText = data.type === 'percent' ?
+                                `${data.value}%` :
+                                `${number_format(data.value)}₫`;
+
+                            resultEl.innerText = `Mã giảm giá ${discountText} tổng đơn`;
+                            resultEl.style.color = 'green';
+                        } else {
+                            resultEl.innerText = ' Mã không hợp lệ hoặc đã hết hạn.';
+                            resultEl.style.color = 'red';
+                        }
+                    })
+                    .catch(() => {
+                        resultEl.innerText = '⚠️ Lỗi khi kiểm tra mã.';
+                        resultEl.style.color = 'red';
+                    });
+            });
+
+            // Format tiền VNĐ
+            function number_format(number) {
+                return new Intl.NumberFormat('vi-VN').format(number);
+            }
+
+
         });
     </script>
 @endpush

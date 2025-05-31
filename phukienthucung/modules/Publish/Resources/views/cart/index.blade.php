@@ -54,6 +54,7 @@
                                         <div class="woocommerce">
                                             <div class="woocommerce-notices-wrapper"></div>
                                             <div class="base-woo-cart-form-wrap">
+
                                                 <div class="cart-summary">
                                                     <h2>Tóm tắt giỏ hàng</h2>
                                                 </div>
@@ -64,6 +65,10 @@
                                                         cellspacing="0" style="width: 80%;">
                                                         <thead>
                                                             <tr>
+                                                                <th>
+                                                                    <input type="checkbox" id="select-all"
+                                                                        title="Chọn tất cả">
+                                                                </th>
                                                                 <th class="product-remove">Xóa</th>
                                                                 <th class="product-thumbnail">Ảnh</th>
                                                                 <th class="product-name">Sản phẩm</th>
@@ -76,6 +81,12 @@
                                                             @foreach ($cartItems as $item)
                                                                 <tr class="woocommerce-cart-form__cart-item cart_item"
                                                                     data-item-id="{{ $item->id }}">
+                                                                    <td>
+                                                                        <input type="checkbox" name="table_selected_items[]"
+                                                                            value="{{ $item->id }}"
+                                                                            class="cart-item-checkbox"
+                                                                            data-id="{{ $item->id }}">
+                                                                    </td>
                                                                     <td class="product-remove">
                                                                         <a href="javascript:void(0);"
                                                                             class="remove-cart-item"
@@ -95,17 +106,17 @@
                                                                     <td class="product-price">
                                                                         {{ number_format($item->product->is_discount ? $item->product->discount_price : $item->product->price) }}₫
                                                                     </td>
-                                                                    <td class="product-quantity" style="">
+                                                                    <td class="product-quantity">
                                                                         <form method="POST"
                                                                             action="{{ route('cart.update', $item->id) }}"
-                                                                            class="update-form"
+                                                                            id="update-form-{{ $item->id }}"
                                                                             style="display: flex; gap: 8px;">
                                                                             @csrf
                                                                             @method('PATCH')
                                                                             <input type="number" name="quantity"
-                                                                                value="{{ $item->quantity }}" min="1"
+                                                                                value="{{ $item->quantity }}"
+                                                                                min="1"
                                                                                 style="width: 60px; padding: 4px; border: 1px solid #ccc; border-radius: 4px;">
-
                                                                             <button type="submit"
                                                                                 style="padding: 6px 10px; background: none; color: white; border: none; border-radius: 4px; cursor: pointer;">
                                                                                 <i class="fa-solid fa-circle-check"
@@ -113,6 +124,9 @@
                                                                             </button>
                                                                         </form>
                                                                     </td>
+
+
+
 
 
 
@@ -133,54 +147,71 @@
                                                                     <tbody>
                                                                         <tr class="cart-subtotal">
                                                                             <th>Tiền hàng</th>
-                                                                            <td>{{ number_format($total) }}₫</td>
+                                                                            <td>{{-- number_format($total) --}}0₫</td>
                                                                         </tr>
                                                                         <tr class="order-total">
                                                                             <th>Tổng cộng</th>
-                                                                            <td><strong>{{ number_format($total) }}₫</strong>
+                                                                            <td><strong>{{-- number_format($total) --}}0₫</strong>
                                                                             </td>
                                                                         </tr>
                                                                     </tbody>
                                                                 </table>
-                                                                <div class="wc-proceed-to-checkout">
-                                                                    <a href="{{ route('checkout.index') }}"
-                                                                        class="checkout-button button alt wc-forward">Thanh
-                                                                        toán</a>
-                                                                </div>
+                                                                <form style="width: 100%"
+                                                                    action="{{ route('checkout.index') }}" method="GET"
+                                                                    id="cart-form">
+                                                                    @foreach ($cartItems as $item)
+                                                                        <input type="hidden" name="selected_items[]"
+                                                                            value="{{ $item->id }}"
+                                                                            class="hidden-selected"
+                                                                            data-id="{{ $item->id }}" disabled>
+                                                                    @endforeach
+
+                                                                    <div class="wc-proceed-to-checkout">
+                                                                        <button type="submit"
+                                                                            class="checkout-button button alt wc-forward">
+                                                                            Thanh toán
+                                                                        </button>
+                                                                    </div>
+                                                                </form>
+
+
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-
-
                                             </div>
+
+
+
+
                                         </div>
                                     </div>
                                 </div>
-                            @else
-                                <div class="entry-content single-content">
-                                    <div class="woocommerce">
-                                        <div class="cart-empty woocommerce-info">Giỏ hàng của bạn hiện đang trống..</div>
-                                        <div class="wc-empty-cart-message"></div>
-                                        <p class="return-to-shop">
-                                            <a class="button wc-backward" href="/">Quay lại cửa hàng</a>
-                                        </p>
-                                    </div>
-                                </div>
-                            @endif
-
-
-
-                        </article><!-- #post-50 -->
-
                     </div>
-                </main><!-- #main -->
+                @else
+                    <div class="entry-content single-content">
+                        <div class="woocommerce">
+                            <div class="cart-empty woocommerce-info">Giỏ hàng của bạn hiện đang trống..</div>
+                            <div class="wc-empty-cart-message"></div>
+                            <p class="return-to-shop">
+                                <a class="button wc-backward" href="/">Quay lại cửa hàng</a>
+                            </p>
+                        </div>
+                    </div>
+                    @endif
+
+
+
+                    </article><!-- #post-50 -->
+
             </div>
-        </div><!-- #primary -->
-        <form id="deleteCartForm" method="POST" style="display: none;">
-            @csrf
-            @method('DELETE')
-        </form>
+            </main><!-- #main -->
+        </div>
+    </div><!-- #primary -->
+    <form id="deleteCartForm" method="POST" style="display: none;">
+        @csrf
+        @method('DELETE')
+    </form>
 
     </div>
     <style>
@@ -276,12 +307,113 @@
             </div>
         </div>
     </div>
+    <style>
+        .custom-modal-warning {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .custom-modal-content-warning {
+            background-color: #fff;
+            margin: 12% auto;
+            padding: 25px 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            transform: scale(0.95);
+            animation: zoomIn 0.3s ease forwards;
+        }
+
+        .custom-modal-close-warning {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .custom-modal-close-warning:hover {
+            color: #333;
+        }
+
+        .custom-modal-button-warning {
+            margin-top: 20px;
+            padding: 5px 12px;
+            background-color: #cd1818;
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+            transition: background-color 0.3s ease, transform 1.2s ease;
+        }
+
+        .custom-modal-button-warning:hover {
+            background-color: #cd1818;
+            transform: scale(1.03);
+        }
+
+        /* ✨ Hiệu ứng xuất hiện */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+    <div id="warning-modal" class="custom-modal-warning">
+        <div class="custom-modal-content-warning">
+            <span class="custom-modal-close-warning" onclick="closeWarningModal()">&times;</span>
+            <h3 style="margin-bottom: 10px;">⚠️ Cảnh báo</h3>
+            <p>Vui lòng chọn ít nhất một sản phẩm để thanh toán.</p>
+            <div class="" style="display: flex;justify-content: end">
+                <button onclick="closeWarningModal()" class="custom-modal-button-warning">Đã hiểu</button>
+
+            </div>
+        </div>
+    </div>
 
 
 @endsection
 
 @section('scripts')
     <script>
+        function showWarningModal() {
+            document.getElementById('warning-modal').style.display = 'block';
+        }
+
+        function closeWarningModal() {
+            document.getElementById('warning-modal').style.display = 'none';
+        }
         // ===============================
         // Xử lý xoá bằng modal xác nhận
         // ===============================
@@ -325,6 +457,78 @@
                     setTimeout(() => el.remove(), 300);
                 });
             }, 3000);
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectAll = document.getElementById('select-all');
+            const checkboxes = document.querySelectorAll('.cart-item-checkbox');
+            const hiddenInputs = document.querySelectorAll('.hidden-selected');
+            const totalDisplay = document.querySelector('.cart-subtotal td');
+            const grandTotalDisplay = document.querySelector('.order-total td strong');
+
+            function updateTotal() {
+                let total = 0;
+
+                checkboxes.forEach(cb => {
+                    const row = cb.closest("tr");
+                    const priceText = row.querySelector(".product-subtotal").textContent.replace(/[^\d]/g,
+                        "");
+                    const price = parseInt(priceText) || 0;
+
+                    if (cb.checked) {
+                        total += price;
+                    }
+                });
+
+                const formatted = new Intl.NumberFormat().format(total);
+                totalDisplay.textContent = `${formatted}₫`;
+                grandTotalDisplay.textContent = `${formatted}₫`;
+            }
+
+            // Khi "Chọn tất cả" bị thay đổi
+            selectAll.addEventListener('change', function() {
+                const isChecked = selectAll.checked;
+
+                checkboxes.forEach(cb => {
+                    cb.checked = isChecked;
+
+                    const hidden = document.querySelector(
+                        `.hidden-selected[data-id="${cb.dataset.id}"]`);
+                    if (hidden) hidden.disabled = !isChecked;
+                });
+
+                updateTotal();
+            });
+
+            // Khi từng checkbox sản phẩm thay đổi
+            checkboxes.forEach(cb => {
+                cb.addEventListener('change', function() {
+                    const hidden = document.querySelector(
+                        `.hidden-selected[data-id="${cb.dataset.id}"]`);
+                    if (hidden) hidden.disabled = !cb.checked;
+
+                    // Cập nhật trạng thái "Chọn tất cả"
+                    const allChecked = Array.from(checkboxes).every(c => c.checked);
+                    selectAll.checked = allChecked;
+
+                    updateTotal();
+                });
+
+                // Gán trạng thái ban đầu cho hidden inputs
+                const hidden = document.querySelector(`.hidden-selected[data-id="${cb.dataset.id}"]`);
+                if (hidden) hidden.disabled = !cb.checked;
+            });
+
+            updateTotal(); // Gọi ban đầu khi trang load
+            const form = document.getElementById('cart-form');
+
+            form.addEventListener('submit', function(e) {
+                const checkedItems = document.querySelectorAll('.cart-item-checkbox:checked');
+
+                if (checkedItems.length === 0) {
+                    e.preventDefault(); // Chặn submit
+                    showWarningModal(); // Gọi modal hoặc alert tùy bạn
+                }
+            });
         });
     </script>
 @endsection

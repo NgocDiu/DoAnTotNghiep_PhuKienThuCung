@@ -11,6 +11,7 @@ use Modules\Publish\Http\Controllers\InformationController;
 use Modules\Publish\Http\Controllers\CheckoutController;
 use Modules\Admin\Http\Controllers\OrderController;
 use Modules\Publish\Http\Controllers\ProductReviewController;
+use Modules\Publish\Http\Controllers\PromotionController;
 
 Route::middleware('web')->group(function () {
 
@@ -48,12 +49,15 @@ Route::middleware('web')->group(function () {
         Route::post('/information/address/store', [InformationController::class, 'storeAddress'])->name('address.store');
         Route::post('/information/address/update/{id}', [InformationController::class, 'updateAddress'])->name('address.update');
         Route::delete('/information/address/delete/{id}', [InformationController::class, 'deleteAddress'])->name('address.delete');
+        Route::post('/information/profile/update', [InformationController::class, 'updateProfile'])->name('profile.update');
+
 
         // Thanh toán
         Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
         Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
         Route::get('/checkout/retry-vnpay/{order}', [CheckoutController::class, 'retryVnpay'])->name('checkout.vnpay.retry');
         Route::get('/checkout/success/{id}', [CheckoutController::class, 'success'])->name('checkout.success');
+        
     });
 
     // ✅ Không cần đăng nhập - callback từ VNPAY
@@ -67,6 +71,5 @@ Route::middleware('web')->group(function () {
     ->name('products.by-category');
     
     Route::get('/search', [ProductController::class, 'search'])->name('product.search');
-
 
 });

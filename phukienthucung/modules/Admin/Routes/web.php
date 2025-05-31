@@ -17,6 +17,9 @@ use Modules\Admin\Http\Controllers\OrderController;
 use Modules\Admin\Http\Controllers\SettingController;
 use Modules\Admin\Http\Controllers\StockImportController;
 use Modules\Admin\Http\Controllers\InventoryController;
+use Modules\Admin\Http\Controllers\CustomerController;
+use Modules\Admin\Http\Controllers\EmployeeController;
+use Modules\Admin\Http\Controllers\ProductReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -139,7 +142,17 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin')->name('admin.')->group
         Route::get('/imports', [InventoryController::class, 'importHistory']) ->middleware('permission:inventory')->name('imports');
         Route::get('/exports', [InventoryController::class, 'exportHistory']) ->middleware('permission:inventory')->name('exports');
     });
-        
+    Route::get('customers', [CustomerController::class, 'index'])->middleware('permission:customer')->name('customers.index');
+    Route::put('customers/{id}', [CustomerController::class, 'update'])->middleware('permission:customer')->name('customers.update');
+    
+    Route::prefix('employees')->name('employees.')->group(function () {
+        Route::get('/', [EmployeeController::class, 'index'])->middleware('permission:employee')->name('index');
+        Route::put('/{id}', [EmployeeController::class, 'update'])->middleware('permission:employee')->name('update');
+        Route::delete('/{id}', [EmployeeController::class, 'destroy'])->middleware('permission:employee')->name('destroy');
+    });
+    Route::get('/product-reviews', [ProductReviewController::class, 'index'])->name('reviews.index');
+    Route::resource('promotions', PromotionController::class)->middleware('permission:promotion')->names('promotions');
+
 
 });
 

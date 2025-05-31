@@ -119,7 +119,8 @@
                                             </li>
 
                                             <li class="pc-item">
-                                                <a class="pc-link" href="{{-- route('admin.product_reviews.index') --}}">Đánh giá sản
+                                                <a class="pc-link" href="{{ route('admin.reviews.index') }}">Đánh giá
+                                                    sản
                                                     phẩm</a>
                                             </li>
                                         </ul>
@@ -140,7 +141,7 @@
                                         </a>
                                         <ul class="pc-submenu" style="display: none;">
                                             <li class="pc-item">
-                                                <a class="pc-link" href="{{-- route('admin.promotions.index') --}}">Mã
+                                                <a class="pc-link" href="{{ route('admin.promotions.index') }}">Mã
                                                     khuyến mãi</a>
                                             </li>
                                         </ul>
@@ -173,6 +174,7 @@
                                         <label>Kho</label>
                                         <i class="ti ti-products"></i>
                                     </li>
+
 
 
 
@@ -210,6 +212,20 @@
 
                                         </ul>
                                     </li>
+
+                                    <li class="pc-item">
+                                        <a href="{{ route('admin.customers.index') }}"
+                                            class="pc-link {{ request()->is('admin/customers/*') ? 'pc-trigger' : '' }}">
+                                            <span class="pc-micon"><i class="ti ti-users"></i></span>
+                                            <span class="pc-mtext">Quản lý khách hàng</span>
+                                        </a>
+                                    </li>
+                                    <li class="pc-item">
+                                        <a href="{{ route('admin.employees.index') }}"
+                                            class="pc-link {{ request()->is('admin/employees/*') ? 'pc-trigger' : '' }}">
+                                            <span class="pc-micon"><i class="ti ti-users"></i></span>
+                                            <span class="pc-mtext">Quản lý nhân viên</span>
+                                        </a>
                                     </li>
 
                                     <li class="pc-item pc-caption">
@@ -219,7 +235,7 @@
 
                                     <li class="pc-item pc-hasmenu">
                                         <a href="#!" class="pc-link">
-                                            <span class="pc-micon"><i class="ti ti-users"></i></span>
+                                            <span class="pc-micon"><i class="ti ti-user"></i></span>
                                             <span class="pc-mtext">Tài khoản</span>
                                             <span class="pc-arrow"><svg xmlns="http://www.w3.org/2000/svg"
                                                     width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -229,10 +245,7 @@
                                                 </svg></span>
                                         </a>
                                         <ul class="pc-submenu" style="display: none;">
-                                            <li class="pc-item">
-                                                <a class="pc-link" href="{{-- route('admin.users.index') --}}">Người
-                                                    dùng</a>
-                                            </li>
+
                                             <li class="pc-item">
                                                 <a class="pc-link {{ request()->is('admin/permissions/*') ? 'pc-trigger' : '' }}"
                                                     href="{{ route('admin.permissions.index') }}">
@@ -251,10 +264,7 @@
                                                     href="{{ route('admin.users.roles') }}">Phân quyền
                                                 </a>
                                             </li>
-                                            <li class="pc-item">
-                                                <a class="pc-link" href="{{-- route('admin.addresses.index') --}}">Địa chỉ
-                                                    khách hàng</a>
-                                            </li>
+
                                         </ul>
                                     </li>
 

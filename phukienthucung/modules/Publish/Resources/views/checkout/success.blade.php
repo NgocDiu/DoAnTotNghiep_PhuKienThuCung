@@ -88,6 +88,12 @@
                                                             <th scope="row">Tiền hàng:</th>
                                                             <td>{{ number_format($order->items->sum('line_total')) }} đ</td>
                                                         </tr>
+                                                        @if ($order->discount_amount > 0)
+                                                            <tr>
+                                                                <th>Giảm giá</th>
+                                                                <td>-{{ number_format($order->discount_amount) }}₫</td>
+                                                            </tr>
+                                                        @endif
                                                         <tr>
                                                             <th scope="row">Phí vận chuyển:</th>
                                                             <td>{{ number_format($order->ship_fee) }} đ</td>

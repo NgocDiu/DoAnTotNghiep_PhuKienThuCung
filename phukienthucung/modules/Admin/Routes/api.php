@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Modules\Publish\Http\Controllers\PromotionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,4 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/admin', function (Request $request) {
     return $request->user();
 });
+Route::get('/check-coupon', [PromotionController::class, 'check']);

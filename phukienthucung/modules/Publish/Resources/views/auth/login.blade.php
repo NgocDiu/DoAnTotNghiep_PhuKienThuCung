@@ -9,6 +9,18 @@
                         {{ session('success') }}
                     </div>
                 @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="custom-alert-close"
+                            onclick="this.parentElement.style.display='none';">&times;</button>
+                    </div>
+                @endif
+
                 <div class="hero-section-overlay"></div>
                 <div class="hero-container site-container">
                     <h1 class="text-center" style="padding-top: 20px">Đăng nhập</h1>
