@@ -109,7 +109,7 @@ class CheckoutController extends Controller
     // Xử lý mã giảm giá (nếu có)
     $couponCode = $request->input('promotion_code');
     $discountAmount = 0;
-
+    $promotion = null;
     if ($couponCode) {
         $promotion = \App\Models\Promotion::where('code', $couponCode)
             ->where('is_active', true)
