@@ -75,20 +75,19 @@ if (!function_exists('getActiveProductsWithImage')) {
     }
 }
 if (!function_exists('getNewProductsWithImage')) {
-    function getNewProductsWithImage($limit = 8)
+    function getNewProductsWithImage()
     {
         return \App\Models\Product::with(['images' => function ($query) {
-            $query->orderBy('is_main', 'desc');
-        }])
-        ->where('is_active', 1)
-        ->where('stock_quantity', '>', 0)
-        ->whereMonth('created_at', now()->month)   // ✅ chỉ trong tháng hiện tại
-        ->whereYear('created_at', now()->year)     // ✅ và năm hiện tại
-        ->latest()
-        ->take($limit)
-        ->get();
+                $query->orderBy('is_main', 'desc');
+            }])
+            ->where('is_active', 1)
+            ->where('stock_quantity', '>', 0)
+            ->where('created_at', '>=', now()->subMonths(3)) // ✅ trong 3 tháng gần nhất
+            ->latest()
+            ->get(); // ✅ bỏ take($limit) để lấy hết
     }
 }
+
 
 if (!function_exists('getBestSellingProductsWithImage')) {
     function getBestSellingProductsWithImage($limit = 8)

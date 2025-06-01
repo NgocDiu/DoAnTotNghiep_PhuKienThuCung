@@ -161,6 +161,7 @@
         .swiper-slide {
             max-height: 600px;
         }
+
         .swiper-slide img {
             max-height: 600px;
         }
@@ -573,7 +574,7 @@
                                                                                             role="presentation"
                                                                                             style="transform: translateX(-2436px);">
 
-                                                                                            @foreach (getNewProductsWithImage(10) as $product)
+                                                                                            @foreach (getNewProductsWithImage() as $product)
                                                                                                 @php
                                                                                                     $mainImage = $product->images->first();
                                                                                                     $secondaryImage = $product->images

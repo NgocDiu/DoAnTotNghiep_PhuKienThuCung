@@ -69,7 +69,8 @@
 
                 <div class="col-md-8">
                     <label class="form-label">Danh mục</label>
-                    <select name="category_ids[]" class="form-select select2" multiple required>
+                    <select name="category_ids[]" id="category_ids" class="form-select select2" multiple="multiple"
+                        required>
                         @foreach ($categories as $cat)
                             <option value="{{ $cat->id }}">{{ $cat->name }}</option>
                         @endforeach
@@ -125,7 +126,8 @@
             $('.select2').select2({
                 placeholder: 'Vui lòng chọn',
                 allowClear: true,
-                width: '100%'
+                width: '100%',
+                minimumResultsForSearch: 0 // luôn hiển thị thanh tìm kiếm
             });
         });
     </script>
