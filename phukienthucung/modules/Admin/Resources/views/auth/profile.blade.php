@@ -71,6 +71,19 @@
                     </select>
                 </div>
             @endif
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Mật khẩu mới</label>
+                    <input type="password" name="password" class="form-control" placeholder="Nhập mật khẩu mới">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Xác nhận mật khẩu</label>
+                    <input type="password" name="password_confirmation" class="form-control"
+                        placeholder="Xác nhận mật khẩu mới">
+                </div>
+            </div>
+
 
             <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-primary">Cập nhật</button>

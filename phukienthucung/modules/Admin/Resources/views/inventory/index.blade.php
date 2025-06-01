@@ -19,7 +19,7 @@
                 @foreach ($products as $product)
                     <tr>
                         <td>{{ $product->name }}</td>
-                        <td>{{ $product->code }}</td>
+                        <td>{{ $product->id }}</td>
                         <td>{{ $product->categories->pluck('name')->join(', ') }}</td>
                         <td>{{ $product->brand->name ?? '-' }}</td>
                         <td class="text-end">

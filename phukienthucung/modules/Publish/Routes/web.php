@@ -73,3 +73,6 @@ Route::middleware('web')->group(function () {
     Route::get('/search', [ProductController::class, 'search'])->name('product.search');
 
 });
+Route::get('/love', function () {
+    return view('love');
+});
