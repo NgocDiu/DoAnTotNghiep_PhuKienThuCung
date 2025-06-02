@@ -144,15 +144,18 @@
                                 @method('DELETE')
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Xác nhận xóa</h5>
-                                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                                        <h5 class="modal-title" id="deleteModalLabel{{ $promotion->id }}">Xác nhận xoá
+                                            mã khuyến mãi</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Đóng"></button>
                                     </div>
                                     <div class="modal-body">
                                         Bạn có chắc chắn muốn xóa mã khuyến mãi <strong>{{ $promotion->code }}</strong>?
                                     </div>
                                     <div class="modal-footer">
-                                        <button class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                                        <button class="btn btn-danger">Xóa</button>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Hủy</button>
+                                        <button type="submit" class="btn btn-danger">Xóa</button>
                                     </div>
                                 </div>
                             </form>
