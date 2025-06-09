@@ -9,6 +9,7 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
+use App\Models\Promotion;
 
 use Illuminate\Support\Facades\Log;
 
@@ -49,12 +50,19 @@ class CheckoutController extends Controller
         });
 
         $addresses = $user->addresses;
+        $promotions = Promotion::where('is_active', true)
+        ->where(function ($q) {
+            $q->whereNull('end_date')->orWhere('end_date', '>=', now());
+        })->get();
+
+
 
         return view('publish::checkout.index', [
             'cart' => $cart,
             'selectedItems' => $selectedItems,
             'total' => $total,
             'addresses' => $addresses,
+            'promotions'=>$promotions
         ]);
     }
 

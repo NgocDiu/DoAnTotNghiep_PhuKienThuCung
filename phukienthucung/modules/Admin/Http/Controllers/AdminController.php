@@ -5,6 +5,10 @@ namespace Modules\Admin\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\User;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -12,10 +16,45 @@ class AdminController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-     public function index()
-    {
-        return view('admin::index');
-    }
+
+public function index()
+{
+    // Tổng
+    $totalCustomers = User::where('group', 'customer')->count();
+    $totalStaff     = User::where('group', 'employee')->count();
+    $totalOrders    = Order::count();
+    $totalProducts  = Product::count();
+
+    // So sánh theo tháng (tùy theo logic bạn chọn: tuần/tháng/quý)
+    $thisMonth  = Carbon::now()->startOfMonth();
+    $lastMonth  = Carbon::now()->subMonth()->startOfMonth();
+
+    $customersThisMonth = User::where('group', 'customer')->where('created_at', '>=', $thisMonth)->count();
+    $customersLastMonth = User::where('group', 'customer')
+        ->whereBetween('created_at', [$lastMonth, $thisMonth])->count();
+
+    $ordersThisMonth = Order::where('created_at', '>=', $thisMonth)->count();
+    $ordersLastMonth = Order::whereBetween('created_at', [$lastMonth, $thisMonth])->count();
+
+    // Tính % tăng/giảm
+    $customerGrowth = $customersLastMonth > 0
+        ? round((($customersThisMonth - $customersLastMonth) / $customersLastMonth) * 100, 1)
+        : 0;
+
+    $orderGrowth = $ordersLastMonth > 0
+        ? round((($ordersThisMonth - $ordersLastMonth) / $ordersLastMonth) * 100, 1)
+        : 0;
+
+    $recentOrders = Order::with(['user', 'address', 'items.product', 'payment'])
+        ->orderBy('created_at', 'desc')
+        ->take(10)
+        ->get();
+
+    return view('admin::index', compact(
+        'totalCustomers', 'totalStaff', 'totalOrders', 'totalProducts',
+        'customerGrowth', 'orderGrowth', 'recentOrders'
+    ));
+}
 
     /**
      * Show the form for creating a new resource.

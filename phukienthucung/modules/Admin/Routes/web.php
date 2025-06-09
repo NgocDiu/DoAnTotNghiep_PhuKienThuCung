@@ -152,6 +152,13 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin')->name('admin.')->group
     });
     Route::get('/product-reviews', [ProductReviewController::class, 'index'])->name('reviews.index');
     Route::resource('promotions', PromotionController::class)->middleware('permission:promotion')->names('promotions');
+    // web.php
+    Route::get('/products/update-price', [ProductController::class, 'showUpdatePrice'])
+    ->middleware('permission:product')
+    ->name('products.update_price');
+    Route::post('/products/update-price/{product}', [ProductController::class, 'handleUpdatePrice'])
+    ->middleware('permission:product')
+    ->name('products.handle_update_price');
 
 
 });

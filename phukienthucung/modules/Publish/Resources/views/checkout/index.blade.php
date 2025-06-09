@@ -115,6 +115,34 @@
                 padding-left: 16px;
             }
         }
+
+        .promotion-scroll-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 200px;
+            /* mặc định desktop */
+            overflow-y: auto;
+            padding-right: 5px;
+            /* tránh bị che khi scroll */
+        }
+
+        .promotion-option {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            display: flex !important;
+            align-items: center;
+            gap: 10px;
+            flex-direction: row !important;
+        }
+
+        /* Mobile: chỉ hiển thị tối đa khoảng 1.5 item, cho scroll */
+        @media (max-width: 576px) {
+            .promotion-scroll-list {
+                max-height: 120px;
+            }
+        }
     </style>
 
 
@@ -325,18 +353,30 @@
                                                     </div>
 
                                                     <div class="promotion-code-wrapper mt-3">
-                                                        <label for="promotion_code">
-                                                            Nhập mã giảm giá <i class="fa-solid fa-tag"></i>
-                                                        </label>
-                                                        <div class="input-group" style="display: flex; gap: 10px;">
-                                                            <input type="text" name="promotion_code" id="coupon_code"
-                                                                placeholder="VD: ASWKFOWE">
-                                                            <button type="button" id="check_coupon_btn"
-                                                                style="padding: 2px 8px;border-radius: 25px;background: #666">Áp
-                                                                dụng</button>
+                                                        <label>Chọn mã giảm giá <i class="fa-solid fa-tag"></i></label>
+
+                                                        <div class="promotion-scroll-list">
+                                                            @foreach ($promotions as $promotion)
+                                                                <label class="promotion-option">
+                                                                    <input type="radio" name="promotion_code"
+                                                                        value="{{ $promotion->code }}">
+                                                                    <div>
+                                                                        Giảm giá
+                                                                        :
+                                                                        {{ $promotion->discount_type == 'percent' ? $promotion->discount_value . '%' : number_format($promotion->discount_value) . '₫' }}
+
+                                                                        <small
+                                                                            style="color: #666">{{ $promotion->description }}</small>
+                                                                        @if ($promotion->end_date)
+                                                                            <small style="color: #888">HSD:
+                                                                                {{ \Carbon\Carbon::parse($promotion->end_date)->format('d/m/Y') }}</small>
+                                                                        @endif
+                                                                    </div>
+                                                                </label>
+                                                            @endforeach
                                                         </div>
-                                                        <small id="coupon_result" style="color: green;"></small>
                                                     </div>
+
 
 
                                                     <div id="payment" class="woocommerce-checkout-payment1">

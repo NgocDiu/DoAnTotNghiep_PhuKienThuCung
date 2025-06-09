@@ -233,4 +233,37 @@ class ProductController extends Controller
 
       return redirect()->back()->with('success', 'Cập nhật khuyến mãi thành công!');
   }
+
+  // ProductController.php
+
+public function showUpdatePrice()
+{
+    
+    $products = Product::with('brand', 'categories')->latest()->get();
+    return view('admin::products.update_price', compact('products'));
+}
+
+public function handleUpdatePrice(Request $request, Product $product)
+{
+    $request->validate([
+        'import_price' => 'required|numeric|min:0',
+    ]);
+
+    // Tìm category cha nhất
+    $category = $product->categories()->first();
+    while ($category && $category->parent) {
+        $category = $category->parent;
+    }
+
+    $profit_percent = $category ? $category->profit_percent : 3;
+    $import_price = $request->input('import_price');
+    $sale_price = round($import_price * (1 + $profit_percent / 100), 0);
+
+    $product->price = $sale_price;
+    $product->save();
+
+    return redirect()->back()->with('success', "Đã cập nhật giá bán sản phẩm <b>{$product->name}</b> thành <b>" . number_format($sale_price) . " đ</b> (Lợi nhuận: {$profit_percent}%)");
+}
+
+
 }
