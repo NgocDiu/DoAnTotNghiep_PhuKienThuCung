@@ -44,4 +44,18 @@ class CategoryController extends Controller
         $category->delete();
         return redirect()->route('admin.categories.index')->with('success', 'Xóa danh mục thành công');
     }
+    public function profitSetting()
+    {
+        $categories = Category::whereNull('parent_id')->get();
+        return view('admin::categories.profit_setting', compact('categories'));
+    }
+    public function updateProfit(Request $request, Category $category)
+    {
+        $request->validate([
+            'profit_percent' => 'required|numeric|min:0|max:100'
+        ]);
+        $category->profit_percent = $request->profit_percent;
+        $category->save();
+        return redirect()->route('admin.categories.profit_setting')->with('success', 'Đã cập nhật lợi nhuận!');
+    }
 }

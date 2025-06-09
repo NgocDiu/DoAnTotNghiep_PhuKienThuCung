@@ -58,6 +58,12 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin')->name('admin.')->group
         ->name('users.roles');    
 
     Route::post('users/roles/{user}', [UserRoleController::class, 'update'])->name('users.roles.update');
+    Route::get('/categories/profit-setting', [CategoryController::class, 'profitSetting'])
+    ->middleware('permission:categories')
+    ->name('categories.profit_setting');
+    Route::post('/categories/update-profit/{category}', [CategoryController::class, 'updateProfit'])
+    ->middleware('permission:categories')
+    ->name('categories.update_profit');
 
     Route::resource('categories', CategoryController::class)
         ->middleware('permission:categories')
@@ -159,6 +165,7 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin')->name('admin.')->group
     Route::post('/products/update-price/{product}', [ProductController::class, 'handleUpdatePrice'])
     ->middleware('permission:product')
     ->name('products.handle_update_price');
+
 
 
 });

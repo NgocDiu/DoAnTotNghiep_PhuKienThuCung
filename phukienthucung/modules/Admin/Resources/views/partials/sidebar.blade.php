@@ -114,12 +114,25 @@
                                                     href="{{ route('admin.products.discounts') }}">Giảm giá sản
                                                     phẩm</a>
                                             </li>
-
                                             <li class="pc-item">
-                                                <a class="pc-link" href="{{ route('admin.reviews.index') }}">Đánh giá
+                                                <a class="pc-link {{ request()->is('admin/categories/profit-setting') ? 'pc-trigger' : '' }}"
+                                                    href="{{ route('admin.categories.profit_setting') }}">Lợi nhuận
                                                     sản
                                                     phẩm</a>
                                             </li>
+                                            <li class="pc-item">
+                                                <a class="pc-link {{ request()->is('admin/products/update-price') ? 'pc-trigger' : '' }}"
+                                                    href="{{ route('admin.products.update_price') }}">Giá bán
+                                                    sản
+                                                    phẩm</a>
+                                            </li>
+                                            <li class="pc-item">
+                                                <a class="pc-link {{ request()->is('admin//product-reviews') ? 'pc-trigger' : '' }}"
+                                                    href="{{ route('admin.reviews.index') }}">Đánh giá
+                                                    sản
+                                                    phẩm</a>
+                                            </li>
+
                                         </ul>
                                     </li>
 
