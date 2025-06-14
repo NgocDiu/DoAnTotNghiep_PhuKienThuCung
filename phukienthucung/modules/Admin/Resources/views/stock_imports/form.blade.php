@@ -5,8 +5,24 @@
 @section('content')
     <div class="container">
         <h2>{{ $import->id ? 'Sửa' : 'Thêm' }} phiếu nhập hàng</h2>
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
 
-        <form method="POST"
+        @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        <form id="import-form" method="POST"
             action="{{ $import->id ? route('admin.stock_imports.update', $import->id) : route('admin.stock_imports.store') }}">
             @csrf
             @if ($import->id)
@@ -43,12 +59,12 @@
                                 <td>
                                     <input type="number" name="products[{{ $i }}][quantity]"
                                         value="{{ $detail['quantity'] ?? ($detail->quantity ?? '') }}" class="form-control"
-                                        required>
+                                        required min="1" required>
                                 </td>
                                 <td>
                                     <input type="number" name="products[{{ $i }}][unit_price]"
                                         value="{{ $detail['unit_price'] ?? ($detail->unit_price ?? '') }}"
-                                        class="form-control" step="0.01" required>
+                                        class="form-control" step="0.01" min="0.01" required>
                                 </td>
                                 <td><button type="button" class="btn btn-danger btn-sm remove-row">X</button></td>
                             </tr>
@@ -95,6 +111,25 @@
             <td><button type="button" class="btn btn-danger btn-sm remove-row">X</button></td>
         </tr>
     </template>
+    <div class="modal fade" id="noProductModal" tabindex="-1" aria-labelledby="noProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-warning">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title" id="noProductModalLabel">Không thể tạo phiếu nhập</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body text-center">
+                    Bạn cần thêm ít nhất 1 sản phẩm trước khi tạo phiếu nhập hàng.
+                </div>
+                <div class="text-center my-2">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Đóng">Ok</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
 @endsection
 
 @push('scripts')
@@ -126,6 +161,59 @@
                     e.target.closest('tr').remove();
                 }
             });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('import-form');
+
+            form.addEventListener('submit', function(e) {
+                const rows = document.querySelectorAll('#product-table tbody tr');
+                let isValid = true;
+                let message = '';
+
+                if (rows.length === 0) {
+                    e.preventDefault();
+                    message = 'Bạn phải thêm ít nhất một sản phẩm.';
+                    showModalWarning(message);
+                    return;
+                }
+
+                rows.forEach((row, index) => {
+                    const qtyInput = row.querySelector('input[name*="[quantity]"]');
+                    const priceInput = row.querySelector('input[name*="[unit_price]"]');
+
+                    const qty = parseFloat(qtyInput?.value || '0');
+                    const price = parseFloat(priceInput?.value || '0');
+
+                    if (qty <= 0 || isNaN(qty)) {
+                        isValid = false;
+                        message += `- Dòng ${index + 1}: Số lượng phải > 0\n`;
+                        qtyInput?.classList.add('is-invalid');
+                    } else {
+                        qtyInput?.classList.remove('is-invalid');
+                    }
+
+                    if (price <= 0 || isNaN(price)) {
+                        isValid = false;
+                        message += `- Dòng ${index + 1}: Giá nhập phải > 0\n`;
+                        priceInput?.classList.add('is-invalid');
+                    } else {
+                        priceInput?.classList.remove('is-invalid');
+                    }
+                });
+
+                if (!isValid) {
+                    e.preventDefault(); // CHẶN SUBMIT CHẮC CHẮN 100%
+                    showModalWarning(message);
+                }
+            });
+
+            function showModalWarning(msg) {
+                const modal = new bootstrap.Modal(document.getElementById('noProductModal'));
+                document.querySelector('#noProductModal .modal-body').innerText = msg;
+                modal.show();
+            }
         });
     </script>
 @endpush

@@ -732,6 +732,10 @@
             .alert-dismissible {
                 transition: opacity 0.5s ease-out;
             }
+
+            .required {
+                color: red;
+            }
         </style>
         <link rel="icon" href="{{ asset('modules/publish/images/icon.png') }}" type="image/png">
 
@@ -771,7 +775,10 @@
                 document.querySelectorAll('.alert-dismissible').forEach(function(el) {
                     el.classList.remove('show');
                     el.classList.add('fade');
+                    el.style.transition = 'all 0.5s ease';
+                    el.style.transform = 'translateY(-20px)';
                     el.style.opacity = '0';
+                    setTimeout(() => el.remove(), 500); // Xoá hẳn khỏi DOM sau khi ẩn
                 });
             }, 3000);
         });

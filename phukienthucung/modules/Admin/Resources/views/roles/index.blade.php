@@ -3,7 +3,12 @@
 @section('content')
     <div class="container">
         <h1>Quản lý Vai trò (Roles)</h1>
-
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         {{-- Nút mở modal Thêm --}}
         <div class="text-end">
             <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addRoleModal">Thêm mới Vai
@@ -32,66 +37,92 @@
                             @endforeach
                         </td>
                         <td>
-                            {{-- Nút Sửa --}}
+                            <!-- Nút mở modal Sửa -->
                             <button class="btn btn-warning btn-sm m-1" data-bs-toggle="modal"
-                                data-bs-target="#editRoleModal{{ $role->id }}">Sửa</button>
+                                data-bs-target="#editRoleModal{{ $role->id }}">
+                                Sửa
+                            </button>
 
-                            {{-- Nút Xóa --}}
-                            <form class="m-1" action="{{ route('admin.roles.destroy', $role) }}" method="POST"
-                                style="display:inline-block">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</button>
-                            </form>
+                            <!-- Nút mở modal Xóa -->
+                            <button class="btn btn-danger btn-sm m-1" data-bs-toggle="modal"
+                                data-bs-target="#deleteRoleModal{{ $role->id }}">
+                                Xóa
+                            </button>
                         </td>
                     </tr>
-
-                    {{-- Modal Sửa --}}
-                    <div class="modal fade" id="editRoleModal{{ $role->id }}" tabindex="-1">
-                        <div class="modal-dialog">
-                            <form action="{{ route('admin.roles.update', $role) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Sửa Vai trò</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="mb-3">
-                                            <label>Tên vai trò</label>
-                                            <input type="text" class="form-control" name="name"
-                                                value="{{ $role->name }}" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label>Gán quyền</label>
-                                            <div class="row">
-                                                @foreach ($permissions as $permission)
-                                                    <div class="col-md-6">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                name="permissions[]" value="{{ $permission->name }}"
-                                                                {{ $role->permissions->contains('name', $permission->name) ? 'checked' : '' }}>
-                                                            <label class="form-check-label">{{ $permission->name }}</label>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-success">Lưu</button>
-                                        <button class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
                 @endforeach
+
+
             </tbody>
         </table>
+        @foreach ($roles as $role)
+            <!-- Modal SỬA -->
+            <div class="modal fade" id="editRoleModal{{ $role->id }}" tabindex="-1">
+                <div class="modal-dialog">
+                    <form action="{{ route('admin.roles.update', $role->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Sửa Vai trò</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label>Tên vai trò</label>
+                                    <input type="text" class="form-control" name="name" value="{{ $role->name }}"
+                                        required>
+                                </div>
+                                <div class="mb-3">
+                                    <label>Gán quyền</label>
+                                    <div class="row">
+                                        @foreach ($permissions as $permission)
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="permissions[]"
+                                                        value="{{ $permission->name }}"
+                                                        id="edit_{{ $role->id }}_{{ $permission->id }}"
+                                                        {{ $role->permissions->contains('name', $permission->name) ? 'checked' : '' }}>
+                                                    <label class="form-check-label"
+                                                        for="edit_{{ $role->id }}_{{ $permission->id }}">
+                                                        {{ $permission->name }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-success">Lưu</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
+            <!-- Modal XÓA -->
+            <div class="modal fade" id="deleteRoleModal{{ $role->id }}" tabindex="-1">
+                <div class="modal-dialog">
+                    <form action="{{ route('admin.roles.destroy', $role->id) }}" method="POST" class="modal-content">
+                        @csrf
+                        @method('DELETE')
+                        <div class="modal-header">
+                            <h5 class="modal-title">Xác nhận xóa vai trò</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có chắc chắn muốn xóa vai trò <strong>{{ $role->name }}</strong>?
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-danger">Xóa</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        @endforeach
         {{ $roles->links() }}
 
     </div>
@@ -108,19 +139,23 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label>Tên vai trò</label>
-                            <input type="text" class="form-control" name="name" required>
+                            <label for="roleName">Tên vai trò</label>
+                            <input type="text" class="form-control" name="name" id="roleName" required>
                         </div>
                         <div class="mb-3">
                             <label>Gán quyền</label>
                             <div class="row">
-                                @foreach ($permissions as $permission)
-                                    <div class="col-md-6">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="permissions[]"
-                                                value="{{ $permission->name }}">
-                                            <label class="form-check-label">{{ $permission->name }}</label>
-                                        </div>
+                                @foreach ($permissions->chunk(ceil($permissions->count() / 4)) as $chunk)
+                                    <div class="col-md-3">
+                                        @foreach ($chunk as $permission)
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="permissions[]"
+                                                    value="{{ $permission->name }}" id="perm_{{ $permission->id }}">
+                                                <label class="form-check-label" for="perm_{{ $permission->id }}">
+                                                    {{ $permission->name }}
+                                                </label>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 @endforeach
                             </div>
@@ -128,7 +163,7 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-success">Thêm</button>
-                        <button class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                     </div>
                 </div>
             </form>

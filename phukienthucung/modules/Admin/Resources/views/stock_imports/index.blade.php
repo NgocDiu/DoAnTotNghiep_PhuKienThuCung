@@ -65,7 +65,8 @@
                                         @endcan
                                     @endif
                                     <a href="{{ route('admin.stock_imports.edit', $import->id) }}"
-                                        class="btn btn-sm btn-warning">Chi tiết</a>
+                                        class="btn btn-sm btn-warning">
+                                        {{ $import->status === 'pending' ? 'Sửa' : 'Chi tiết' }}</a>
 
 
 

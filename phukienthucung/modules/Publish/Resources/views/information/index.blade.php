@@ -73,8 +73,8 @@
                 </button>
             </li>
             <li class="nav-item mx-1" role="presentation">
-                <button class="nav-link" id="tab2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button"
-                    role="tab" aria-controls="tab2" aria-selected="false">
+                <button class="nav-link {{ request('tab') == 2 ? 'active' : '' }}" id="tab2-tab" data-bs-toggle="tab"
+                    data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">
                     Địa chỉ giao hàng
                 </button>
             </li>
@@ -104,6 +104,7 @@
                             <tr>
                                 <th>Mã đơn</th>
                                 <th>Ngày đặt</th>
+                                <th>Địa chỉ</th>
                                 <th>Sản phẩm đầu tiên</th>
                                 <th>Tổng tiền</th>
                                 <th>Phương thức</th>
@@ -120,21 +121,52 @@
                                         $payment &&
                                         $payment->payment_method === 'vnpay' &&
                                         $payment->status !== 'success';
+                                    $isCancel = $order->status == 'cancelled';
                                 @endphp
                                 <tr>
                                     <td class="text-center">{{ $order->id }}</td>
                                     <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
                                     <td>
+                                        @if (!empty($order->address->full_address))
+                                            <i class="fas fa-map-marker-alt text-danger" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" title="{{ $order->address->full_address }}"></i>
+                                        @else
+                                            <span class="text-muted">Không có địa chỉ</span>
+                                        @endif
+                                    </td>
+
+                                    <td>
                                         @if ($firstItem)
-                                            {{ $firstItem->product->name }} x {{ $firstItem->quantity }}
+                                            <a data-bs-toggle="collapse" href="#collapseOrderItems{{ $order->id }}"
+                                                role="button" aria-expanded="false"
+                                                aria-controls="collapseOrderItems{{ $order->id }}"
+                                                style="color: #cd1818;text-decoration: none">
+                                                {{ $firstItem->product->name }} x {{ $firstItem->quantity }}
+                                            </a>
+
+                                            <div class="collapse mt-2" id="collapseOrderItems{{ $order->id }}">
+                                                <ul class="list-group">
+                                                    @foreach ($order->items as $item)
+                                                        <li
+                                                            class="list-group-item d-flex justify-content-between align-items-center">
+                                                            {{ $item->product->name }}
+                                                            <span class="badge bg-primary rounded-pill">x
+                                                                {{ $item->quantity }}</span>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
                                         @else
                                             -
                                         @endif
                                     </td>
+
                                     <td>{{ number_format($order->grand_total) }} đ</td>
                                     <td>{{ strtoupper(optional($payment)->payment_method ?? '-') }}</td>
                                     <td>
-                                        @if ($isUnpaidVnpay)
+                                        @if ($isCancel)
+                                            <span class="badge bg-danger">Đã huỷ</span>
+                                        @elseif ($isUnpaidVnpay)
                                             <span class="badge bg-danger mb-1">Chưa thanh toán</span>
                                         @else
                                             @switch($order->status)
@@ -170,11 +202,29 @@
 
                                     <td>
 
-                                        @if ($isUnpaidVnpay)
-                                            <a href="{{ route('checkout.vnpay.retry', $order) }}"
-                                                class="btn btn-sm btn-outline-danger">
-                                                Thanh toán
-                                            </a>
+                                        @if ($isUnpaidVnpay && $order->status !== 'cancelled')
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-primary dropdown-toggle"
+                                                    type="button" data-bs-toggle="dropdown">
+                                                    Tùy chọn
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                    <li>
+                                                        <a href="{{ route('checkout.vnpay.retry', $order) }}"
+                                                            class="btn btn-sm btn-outline-danger m-1">
+                                                            Thanh toán
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <div class="text-start">
+                                                            <button class="btn btn-outline-danger btn-sm m-1"
+                                                                onclick="confirmCancelOrder('{{ route('orders.cancel', $order->id) }}')">
+                                                                Hủy đơn hàng
+                                                            </button>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         @elseif ($order->status === 'delivered')
                                             <button type="button" class="btn btn-sm btn-outline-success"
                                                 data-bs-toggle="modal" data-bs-target="#orderModal{{ $order->id }}">
@@ -186,6 +236,7 @@
                                                 Xem chi tiết
                                             </button>
                                         @endif
+
 
 
                                         <!-- Button trigger modal -->
@@ -241,62 +292,69 @@
                                                                     Hủy đơn hàng
                                                                 </button></div>
                                                         @endif
-                                                        @foreach ($order->items as $item)
-                                                            @php
-                                                                $alreadyRated = \App\Models\ProductReview::where(
-                                                                    'product_id',
-                                                                    $item->product_id,
-                                                                )
-                                                                    ->where('user_id', auth()->id())
-                                                                    ->exists();
-                                                            @endphp
+                                                        @if ($order->status === 'delivered')
+                                                            @foreach ($order->items as $item)
+                                                                @php
+                                                                    $alreadyRated = \App\Models\ProductReview::where(
+                                                                        'product_id',
+                                                                        $item->product_id,
+                                                                    )
+                                                                        ->where('user_id', auth()->id())
+                                                                        ->exists();
+                                                                @endphp
 
-                                                            @if (!$alreadyRated)
-                                                                <form action="{{ route('product-reviews.store') }}"
-                                                                    method="POST" class="mb-3">
-                                                                    @csrf
-                                                                    <input type="hidden" name="product_id"
-                                                                        value="{{ $item->product_id }}">
-                                                                    <div class="d-flex align-items-center mb-1">
-                                                                        <strong>{{ $item->product->name }}</strong>
-                                                                    </div>
+                                                                @if (!$alreadyRated)
+                                                                    <form action="{{ route('product-reviews.store') }}"
+                                                                        method="POST" class="mb-3">
+                                                                        @csrf
+                                                                        <input type="hidden" name="product_id"
+                                                                            value="{{ $item->product_id }}">
 
-                                                                    <div class="mb-2">
-                                                                        <div class="rating">
-                                                                            @for ($i = 5; $i >= 1; $i--)
-                                                                                <input type="radio"
-                                                                                    id="star{{ $i }}-{{ $item->product_id }}"
-                                                                                    name="rating"
-                                                                                    value="{{ $i }}" required>
-                                                                                <label
-                                                                                    for="star{{ $i }}-{{ $item->product_id }}"
-                                                                                    title="{{ $i }} sao">★</label>
-                                                                            @endfor
+                                                                        <div class="d-flex align-items-center mb-1">
+                                                                            <strong>{{ $item->product->name }}</strong>
                                                                         </div>
-                                                                    </div>
 
-                                                                    <div class="mb-2">
-                                                                        <label class="form-label">Nhận xét:</label>
-                                                                        <textarea name="comment" class="form-control" rows="2" maxlength="1000" placeholder="Viết nhận xét..."
-                                                                            required></textarea>
-                                                                    </div>
+                                                                        <div class="mb-2">
+                                                                            <div class="rating">
+                                                                                @for ($i = 5; $i >= 1; $i--)
+                                                                                    <input type="radio"
+                                                                                        id="star{{ $i }}-{{ $item->product_id }}"
+                                                                                        name="rating"
+                                                                                        value="{{ $i }}"
+                                                                                        required>
+                                                                                    <label
+                                                                                        for="star{{ $i }}-{{ $item->product_id }}"
+                                                                                        title="{{ $i }} sao">★</label>
+                                                                                @endfor
+                                                                            </div>
+                                                                        </div>
 
-                                                                    <div class="text-end">
-                                                                        <button type="submit"
-                                                                            class="btn btn-sm btn-success">Gửi đánh
-                                                                            giá</button>
+                                                                        <div class="mb-2">
+                                                                            <label class="form-label">Nhận xét:</label>
+                                                                            <textarea name="comment" class="form-control" rows="2" maxlength="1000" placeholder="Viết nhận xét..."
+                                                                                required></textarea>
+                                                                        </div>
+
+                                                                        <div class="text-end">
+                                                                            <button type="submit"
+                                                                                class="btn btn-sm btn-success">Gửi
+                                                                                đánh
+                                                                                giá</button>
+                                                                        </div>
+                                                                    </form>
+                                                                @else
+                                                                    <div class="d-flex align-items-center mb-1">
+                                                                        <strong>
+                                                                            <i class="fa-solid fa-circle-check"
+                                                                                style="color: #63E6BE;"></i>
+                                                                            Sản phẩm {{ $item->product->name }} đã được
+                                                                            đánh giá
+                                                                        </strong>
                                                                     </div>
-                                                                </form>
-                                                            @else
-                                                                <div class="d-flex align-items-center mb-1">
-                                                                    <strong><i class="fa-solid fa-circle-check"
-                                                                            style="color: #63E6BE;"></i> Sản phẩm
-                                                                        {{ $item->product->name }} đã được
-                                                                        đánh
-                                                                        giá </strong>
-                                                                </div>
-                                                            @endif
-                                                        @endforeach
+                                                                @endif
+                                                            @endforeach
+                                                        @endif
+
 
 
 
@@ -312,7 +370,8 @@
                 @endif
             </div>
 
-            <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+            <div class="tab-pane fade {{ request('tab') == 2 ? 'show active' : '' }}" id="tab2" role="tabpanel"
+                aria-labelledby="tab2-tab">
                 <div class="d-flex justify-content-end">
                     <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addAddressModal">Thêm
                         địa
@@ -351,7 +410,7 @@
                     <!-- Modal Xóa -->
                     <div class="modal fade" id="deleteAddressModal{{ $address->id }}" tabindex="-1">
                         <div class="modal-dialog">
-                            <form method="POST" action="{{ route('address.delete', $address->id) }}">
+                            <form method="POST" action="{{ route('address.delete', $address->id) }}?tab=2">
                                 @csrf
                                 @method('DELETE')
                                 <div class="modal-content">
@@ -375,7 +434,8 @@
                     </div>
                 @endforeach
             </div>
-            <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+            <div class="tab-pane fade {{ session('tab') === 'tab3' ? 'show active' : '' }}" id="tab3"
+                role="tabpanel" aria-labelledby="tab3-tab">
                 <form method="POST" action="{{ route('profile.update') }}">
                     @csrf
                     <div class="mb-3">
@@ -788,5 +848,14 @@
             form.action = url;
             new bootstrap.Modal(document.getElementById('cancelOrderModal')).show();
         }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const activeTab = '{{ session('tab') }}';
+            if (activeTab) {
+                const tabTrigger = document.querySelector(`[data-bs-target="#${activeTab}"]`);
+                if (tabTrigger) new bootstrap.Tab(tabTrigger).show();
+            }
+        });
     </script>
 @endpush

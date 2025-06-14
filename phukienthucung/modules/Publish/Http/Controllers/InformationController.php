@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Address;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Support\Facades\Validator;
 class InformationController extends Controller
 {
     //private $token = '325bef5d-1a87-11f0-9b81-222185cb68c8';
@@ -45,7 +45,7 @@ public function storeAddress(Request $request)
     ]);
     if ($request->has('is_default')) {
         // Reset tất cả địa chỉ khác về không mặc định
-        Address::where('user_id', $user->id)->update(['is_default' => 0]);
+        Address::where('user_id', $user->id)->update(['is_default' => 0])->with('tab', 'tab2');
     }
     
     
@@ -70,7 +70,7 @@ public function storeAddress(Request $request)
    
 
 
-    return back()->with('success', 'Đã thêm địa chỉ mới!');
+    return back()->with('success', 'Đã thêm địa chỉ mới!')->with('tab', 'tab2');
 }
 
 
@@ -111,7 +111,7 @@ public function storeAddress(Request $request)
 
     ]);
 
-    return back()->with('success', 'Cập nhật địa chỉ thành công!');
+    return back()->with('success', 'Cập nhật địa chỉ thành công!')->with('tab', 'tab2');
 }
 
 
@@ -120,7 +120,7 @@ public function storeAddress(Request $request)
     public function deleteAddress($id)
     {
         Address::findOrFail($id)->delete();
-        return back()->with('success', 'Đã xóa địa chỉ!');
+        return back()->with('success', 'Đã xóa địa chỉ!')->with('tab', 'tab2');
     }
     // Laravel controller
     public function getDistricts(Request $request)
@@ -172,26 +172,38 @@ public function storeAddress(Request $request)
     }
 
     public function updateProfile(Request $request)
-    {
-        $user = auth()->user();
+{
+    // Bước 1: tạo validator thủ công
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|string|max:255',
+        'phone' => 'nullable|string|max:20',
+        'password' => 'nullable|confirmed|min:6',
+    ]);
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'phone' => 'nullable|string|max:20',
-            'password' => 'nullable|confirmed|min:6',
-        ]);
-
-        $user->name = $request->name;
-        $user->phone = $request->phone;
-
-        if ($request->filled('password')) {
-            $user->password = bcrypt($request->password);
-        }
-
-        $user->save();
-
-        return back()->with('success', 'Cập nhật thông tin cá nhân thành công!');
+    // Bước 2: nếu có lỗi thì flash tab + redirect back kèm lỗi
+    if ($validator->fails()) {
+        return redirect()->back()
+            ->withErrors($validator)
+            ->withInput()
+            ->with('tab', 'tab3'); // ✅ giữ tab
     }
+
+    // Bước 3: xử lý update
+    $user = auth()->user();
+    $user->name = $request->name;
+    $user->phone = $request->phone;
+
+    if ($request->filled('password')) {
+        $user->password = bcrypt($request->password);
+    }
+
+    $user->save();
+
+    return redirect()->back()
+        ->with('success', 'Cập nhật thông tin cá nhân thành công!')
+        ->with('tab', 'tab3');
+}
+
     
 
 

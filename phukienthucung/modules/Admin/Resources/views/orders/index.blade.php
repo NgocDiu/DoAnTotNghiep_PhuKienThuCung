@@ -93,31 +93,44 @@
                             };
                         @endphp
 
-                        <td class="" style="gap: 4px; position: relative;">
-                            {{-- Nút tạo đơn GHN nếu đang chờ xác nhận và không vnpay chờ thanh toán --}}
-                            @if ($order->status === 'pending' && !($paymentMethod === 'vnpay' && $paymentStatus === 'waiting'))
-                                <button class="btn btn-sm btn-warning"
-                                    onclick='showConfirmModal("{{ route('admin.orders.ghn.create', $order->id) }}", "Bạn có chắc muốn tạo đơn GHN?", "POST")'>
-                                    Tạo đơn GHN
+                        <td class="text-center">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-secondary dropdown-toggle" type="button"
+                                    data-bs-toggle="dropdown">
+                                    <i class="ti-more-alt"></i>
                                 </button>
-                            @endif
+                                <ul class="dropdown-menu">
+                                    {{-- Nút tạo đơn GHN nếu đủ điều kiện --}}
+                                    @if ($order->status === 'pending' && !($paymentMethod === 'vnpay' && $paymentStatus === 'waiting'))
+                                        <li>
+                                            <a class="dropdown-item text-warning" href="javascript:void(0);"
+                                                onclick='showConfirmModal("{{ route('admin.orders.ghn.create', $order->id) }}", "Bạn có chắc muốn tạo đơn GHN?", "POST")'>
+                                                Tạo đơn GHN
+                                            </a>
+                                        </li>
+                                    @endif
 
+                                    {{-- Các nút chuyển trạng thái --}}
+                                    @foreach ($nextStatuses as $next => $label)
+                                        <li>
+                                            <a class="dropdown-item" href="javascript:void(0);"
+                                                onclick='showConfirmModal("{{ route('admin.orders.change-status', $order->id) }}?status={{ $next }}", "Bạn có chắc muốn chuyển trạng thái sang {{ $label }}?")'>
+                                                {{ $label }}
+                                            </a>
+                                        </li>
+                                    @endforeach
 
-                            {{-- Các nút chuyển trạng thái --}}
-                            @foreach ($nextStatuses as $next => $label)
-                                <button class="btn btn-sm btn-warning"
-                                    onclick='showConfirmModal("{{ route('admin.orders.change-status', $order->id) }}?status={{ $next }}", "Bạn có chắc muốn chuyển trạng thái sang {{ $label }}?")'>
-                                    {{ $label }}
-                                </button>
-                            @endforeach
-
-
-                            {{-- Nút xem chi tiết --}}
-                            <button class="btn btn-sm btn-info" style="position: absolute; right: 3px;bottom: 25%"
-                                data-bs-toggle="modal" data-bs-target="#orderModal{{ $order->id }}">
-                                Xem chi tiết
-                            </button>
+                                    {{-- Nút xem chi tiết --}}
+                                    <li>
+                                        <a class="dropdown-item text-info" href="javascript:void(0);" data-bs-toggle="modal"
+                                            data-bs-target="#orderModal{{ $order->id }}">
+                                            Xem chi tiết
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </td>
+
 
 
 

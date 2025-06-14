@@ -35,10 +35,11 @@ class InventoryController extends Controller
   }
   public function exportHistory()
   {
-      $orders = Order::with(['items.product', 'user'])
-          ->where('status', 'confirmed') // hoặc shipped/delivered tùy bạn định nghĩa
-          ->orderByDesc('created_at')
-          ->get();
+    $orders = Order::with(['items.product', 'user'])
+    ->whereNotIn('status', ['returned', 'cancelled','pending'])
+    ->orderBy('created_at', 'desc')
+    ->get();
+
 
       return view('admin::inventory.export_history', compact('orders'));
   }

@@ -48,8 +48,9 @@
                         <td>{{ $article->is_active ? 'Hiện' : 'Ẩn' }}</td>
                         <td>{{ $article->is_outstanding ? 'Có' : 'Không' }}</td>
                         <td>
-                            <a href="{{ route('admin.articles.edit', $article) }}" class="btn btn-sm btn-warning">Sửa</a>
-                            <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                            <a href="{{ route('admin.articles.edit', $article) }}"
+                                class="btn btn-sm btn-warning m-1">Sửa</a>
+                            <button class="btn btn-sm btn-danger m-1" data-bs-toggle="modal"
                                 data-bs-target="#deleteArticleModal{{ $article->id }}">Xóa</button>
                         </td>
                     </tr>

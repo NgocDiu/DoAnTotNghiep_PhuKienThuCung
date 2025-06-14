@@ -25,7 +25,9 @@
                                 class="d-flex align-items-center gap-2">
                                 @csrf
                                 <input type="number" name="profit_percent" value="{{ $cat->profit_percent }}" min="0"
-                                    max="100" class="form-control form-control-sm" style="width:80px;" required>
+                                    max="100" step="0.01" class="form-control form-control-sm" style="width:80px;"
+                                    required>
+
                         </td>
                         <td>
                             <button class="btn btn-success btn-sm">Lưu</button>

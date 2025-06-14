@@ -23,7 +23,7 @@ return [
     'regex' => 'Định dạng :attribute không hợp lệ.',
 
     'attributes' => [
-        'name' => 'họ tên',
+        'name' => 'tên',
         'email' => 'email',
         'password' => 'mật khẩu',
         'password_confirmation' => 'xác nhận mật khẩu',

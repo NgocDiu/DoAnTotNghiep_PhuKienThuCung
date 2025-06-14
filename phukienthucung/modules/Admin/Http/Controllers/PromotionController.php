@@ -34,13 +34,27 @@ class PromotionController extends Controller
             'discount_value' => 'required|numeric|min:0',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
-            'usage_limit' => 'nullable|integer|min:1',
+            'usage_limit' => 'required|integer|min:1',
             'is_active' => 'boolean'
         ]);
 
         Promotion::create($data);
         return redirect()->route('admin.promotions.index')->with('success', 'Tạo mã khuyến mãi thành công.');
     }
+    // PromotionController.php
+    public function checkCode(Request $request)
+    {
+        $code = $request->query('code');
+
+        if (!$code) {
+            return Response::json(['error' => 'Thiếu mã khuyến mãi'], 400);
+        }
+
+        $exists = \App\Models\Promotion::where('code', $code)->exists();
+
+        return Response::json(['exists' => $exists]);
+    }
+    
 
     public function update(Request $request, $id)
     {

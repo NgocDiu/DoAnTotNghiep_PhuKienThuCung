@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class StockImportDetail extends Model
 {
-    protected $fillable = ['stock_import_id', 'product_id', 'quantity', 'unit_price'];
+    protected $fillable = ['stock_import_id', 'product_id', 'quantity', 'unit_price','total_price'];
 
     public function import()
     {

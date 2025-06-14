@@ -58,9 +58,11 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin')->name('admin.')->group
         ->name('users.roles');    
 
     Route::post('users/roles/{user}', [UserRoleController::class, 'update'])->name('users.roles.update');
+    
     Route::get('/categories/profit-setting', [CategoryController::class, 'profitSetting'])
     ->middleware('permission:categories')
     ->name('categories.profit_setting');
+
     Route::post('/categories/update-profit/{category}', [CategoryController::class, 'updateProfit'])
     ->middleware('permission:categories')
     ->name('categories.update_profit');
@@ -68,21 +70,30 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin')->name('admin.')->group
     Route::resource('categories', CategoryController::class)
         ->middleware('permission:categories')
         ->names('categories');
+    Route::post('/admin/categories/check-slug', [CategoryController::class, 'checkSlug'])->name('categories.checkSlug');
 
     Route::resource('brands', BrandController::class)
         ->except(['show', 'create', 'edit'])
         ->middleware('permission:brand')
         ->names('brands');
+        Route::post('/admin/brands/check-name', [BrandController::class, 'checkName'])->name('brands.checkName');
 
     Route::resource('attributes', AttributeController::class)
         ->except(['show', 'create', 'edit'])
         ->middleware('permission:attribute')
         ->names('attributes');
+    Route::post('/admin/attributes/check-name', [AttributeController::class, 'checkName'])->name('attributes.checkName');
 
     Route::resource('products', ProductController::class)
-        ->except(['show'])    
-        ->middleware('permission:product')
-        ->names('products');
+    ->except(['show', 'destroy'])
+    ->middleware('permission:product')
+    ->names('products');
+
+// Route destroy riêng có middleware khác
+    Route::delete('products/{product}', [ProductController::class, 'destroy'])
+    ->middleware('permission:deleteProduct')
+    ->name('products.destroy');
+    Route::post('/admin/products/check-slug', [ProductController::class, 'checkSlug'])->name('products.checkSlug');
 
     Route::get('products/discounts', [ProductController::class, 'discounts'])
         ->middleware('permission:product')
@@ -158,6 +169,8 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin')->name('admin.')->group
     });
     Route::get('/product-reviews', [ProductReviewController::class, 'index'])->name('reviews.index');
     Route::resource('promotions', PromotionController::class)->middleware('permission:promotion')->names('promotions');
+    // routes/web.php
+
     // web.php
     Route::get('/products/update-price', [ProductController::class, 'showUpdatePrice'])
     ->middleware('permission:product')
@@ -170,3 +183,5 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin')->name('admin.')->group
 
 });
 
+Route::get('admin/promotions/check-code', [PromotionController::class, 'checkCode'])
+    ->name('admin.promotions.checkCode');

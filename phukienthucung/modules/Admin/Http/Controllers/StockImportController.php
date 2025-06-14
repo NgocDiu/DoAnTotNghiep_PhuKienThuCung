@@ -40,34 +40,39 @@ class StockImportController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'note' => 'nullable|string',
-            'products.*.product_id' => 'required|exists:products,id',
-            'products.*.quantity' => 'required|numeric|min:1',
-            'products.*.unit_price' => 'required|numeric|min:0',
+{
+    $request->validate([
+        'note' => 'nullable|string',
+        'products' => 'required|array|min:1',
+        'products.*.product_id' => 'required|exists:products,id',
+        'products.*.quantity' => 'required|numeric|min:1',
+        'products.*.unit_price' => 'required|numeric|min:0',
+    ], [
+        'products.required' => 'Vui lòng thêm ít nhất 1 sản phẩm.',
+        'products.min' => 'Vui lòng thêm ít nhất 1 sản phẩm.'
+    ]);
+
+    DB::transaction(function () use ($request) {
+        $import = StockImport::create([
+            'code' => 'IM' . now()->format('YmdHis'),
+            'user_id' => Auth::id(),
+            'status' => 'pending',
+            'note' => $request->note,
         ]);
 
-        DB::transaction(function () use ($request) {
-            $import = StockImport::create([
-                'code' => 'IM' . now()->format('YmdHis'),
-                'user_id' => Auth::id(),
-                'status' => 'pending',
-                'note' => $request->note,
+        foreach ($request->products as $item) {
+            StockImportDetail::create([
+                'stock_import_id' => $import->id,
+                'product_id' => $item['product_id'],
+                'quantity' => $item['quantity'],
+                'unit_price' => $item['unit_price'],
             ]);
+        }
+    });
 
-            foreach ($request->products as $item) {
-                StockImportDetail::create([
-                    'stock_import_id' => $import->id,
-                    'product_id' => $item['product_id'],
-                    'quantity' => $item['quantity'],
-                    'unit_price' => $item['unit_price'],
-                ]);
-            }
-        });
+    return redirect()->route('admin.stock_imports.index')->with('success', 'Tạo phiếu nhập thành công.');
+}
 
-        return redirect()->route('admin.stock_imports.index')->with('success', 'Tạo phiếu nhập thành công.');
-    }
 
     public function edit($id)
     {

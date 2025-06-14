@@ -20,6 +20,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
         <table class="table table-bordered table-hover" id="employeeTable">
             <thead class="table-light">
                 <tr>
@@ -66,7 +73,7 @@
                                     </div>
                                     <div class="modal-body row g-3">
                                         <div class="col-md-6">
-                                            <label class="form-label">Họ tên</label>
+                                            <label class="form-label">Họ tên <span class="required">*</span></label>
                                             <input type="text" name="name" class="form-control"
                                                 value="{{ $employee->name }}" required>
                                         </div>

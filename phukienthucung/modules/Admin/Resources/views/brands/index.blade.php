@@ -1,6 +1,11 @@
 @extends('admin::layouts.master')
 
 @section('content')
+    <style>
+        .required {
+            color: red;
+        }
+    </style>
     <div class="container">
         <div class="pt-4 d-flex flex-row justify-content-between">
             <h4>Danh sách thương hiệu</h4>
@@ -21,6 +26,12 @@
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
@@ -62,8 +73,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Tên thương hiệu</label>
-                        <input name="name" class="form-control" required>
+                        <label class="form-label">Tên thương hiệu <span class="required">*</span></label>
+                        <input name="name" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Mô tả</label>
@@ -91,8 +102,8 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">Tên thương hiệu</label>
-                            <input name="name" value="{{ $brand->name }}" class="form-control" required>
+                            <label class="form-label">Tên thương hiệu <span class="required">*</span></label>
+                            <input name="name" value="{{ $brand->name }}" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Mô tả</label>
@@ -135,6 +146,51 @@
             $('#brandsTable').DataTable({
                 "language": {
                     "url": "{{ asset('modules/admin/datatable/i18n/vi.json') }}" // nếu bạn có file tiếng Việt local
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const nameInput = document.querySelector('#createModal input[name="name"]');
+            const submitBtn = document.querySelector('#createModal button[type="submit"]');
+
+            nameInput.addEventListener('input', function() {
+                const name = nameInput.value.trim();
+                if (!name) {
+                    removeNameAlert();
+                    submitBtn.disabled = true;
+                    return;
+                }
+
+                fetch("{{ route('admin.brands.checkName') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            name: name
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        removeNameAlert();
+                        if (data.exists) {
+                            const alert = document.createElement('div');
+                            alert.id = 'name-alert';
+                            alert.className = 'text-danger mt-1';
+                            alert.textContent = 'Tên thương hiệu đã tồn tại.';
+                            nameInput.parentElement.appendChild(alert);
+                            submitBtn.disabled = true;
+                        } else {
+                            submitBtn.disabled = false;
+                        }
+                    });
+
+                function removeNameAlert() {
+                    const alert = document.getElementById('name-alert');
+                    if (alert) alert.remove();
                 }
             });
         });

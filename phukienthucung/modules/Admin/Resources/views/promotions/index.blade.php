@@ -53,7 +53,7 @@
                             @if ($promotion->is_active)
                                 <span class="badge bg-success">Kích hoạt</span>
                             @else
-                                <span class="badge bg-secondary">Tạm tắt</span>
+                                <span class="badge bg-secondary">Chưa kích hoạt</span>
                             @endif
                         </td>
                         <td>
@@ -73,11 +73,11 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title">Chỉnh sửa mã khuyến mãi</h5>
-                                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="mb-3">
-                                            <label class="form-label">Mã</label>
+                                            <label class="form-label">Mã <span class="required">*</span></label>
                                             <input name="code" class="form-control" value="{{ $promotion->code }}"
                                                 required>
                                         </div>
@@ -86,7 +86,7 @@
                                             <textarea name="description" class="form-control">{{ $promotion->description }}</textarea>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label">Loại giảm</label>
+                                            <label class="form-label">Loại giảm <span class="required">*</span></label>
                                             <select name="discount_type" class="form-select" required>
                                                 <option value="percent"
                                                     {{ $promotion->discount_type == 'percent' ? 'selected' : '' }}>%
@@ -97,12 +97,12 @@
                                             </select>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label">Giá trị</label>
+                                            <label class="form-label">Giá trị <span class="required">*</span></label>
                                             <input type="number" name="discount_value" class="form-control"
                                                 value="{{ $promotion->discount_value }}" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label">Ngày bắt đầu</label>
+                                            <label class="form-label">Ngày bắt đầu <span class="required">*</span></label>
                                             <input type="date" name="start_date" class="form-control"
                                                 value="{{ \Carbon\Carbon::parse($promotion->start_date)->format('Y-m-d') }}"
                                                 required>
@@ -110,17 +110,20 @@
 
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label">Ngày kết thúc</label>
+                                            <label class="form-label">Ngày kết thúc <span class="required">*</span></label>
                                             <input type="date" name="end_date" class="form-control"
                                                 value="{{ \Carbon\Carbon::parse($promotion->end_date)->format('Y-m-d') }}"
                                                 required>
 
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label">Số lượt sử dụng</label>
+                                            <label class="form-label">Số lượt sử dụng <span
+                                                    class="required">*</span></label>
                                             <input type="number" name="usage_limit" class="form-control"
                                                 value="{{ $promotion->usage_limit }}" required>
                                         </div>
+                                        <input type="hidden" name="is_active" value="0">
+
                                         <div class="form-check mb-3">
                                             <input class="form-check-input" type="checkbox" name="is_active" value="1"
                                                 {{ $promotion->is_active ? 'checked' : '' }}>
@@ -128,7 +131,8 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Hủy</button>
                                         <button class="btn btn-primary">Cập nhật</button>
                                     </div>
                                 </div>
@@ -180,43 +184,48 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">Mã</label>
-                            <input name="code" class="form-control" required>
+                            <label class="form-label">Mã <span class="required">*</span></label>
+                            <input id="promo-code-input" name="code" class="form-control" required>
+                            <div id="code-error" class="invalid-feedback d-none">
+                                Mã khuyến mãi đã tồn tại.
+                            </div>
                         </div>
+
                         <div class="mb-3">
                             <label class="form-label">Mô tả</label>
                             <textarea name="description" class="form-control"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Loại giảm</label>
+                            <label class="form-label">Loại giảm <span class="required">*</span></label>
                             <select name="discount_type" class="form-select" required>
                                 <option value="percent">%</option>
                                 <option value="amount">VND</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Giá trị</label>
+                            <label class="form-label">Giá trị <span class="required">*</span></label>
                             <input type="number" name="discount_value" class="form-control" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Ngày bắt đầu</label>
+                            <label class="form-label">Ngày bắt đầu <span class="required">*</span></label>
                             <input type="date" name="start_date" class="form-control" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Ngày kết thúc</label>
+                            <label class="form-label">Ngày kết thúc <span class="required">*</span></label>
                             <input type="date" name="end_date" class="form-control" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Số lượt sử dụng (nếu có)</label>
-                            <input type="number" name="usage_limit" class="form-control">
+                            <label class="form-label">Số lượt sử dụng <span class="required">*</span></label>
+                            <input type="number" name="usage_limit" class="form-control" required>
                         </div>
                         <div class="form-check mb-3">
+                            <input type="hidden" name="is_active" value="0">
                             <input class="form-check-input" type="checkbox" name="is_active" value="1">
                             <label class="form-check-label">Kích hoạt</label>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                         <button class="btn btn-primary">Tạo</button>
                     </div>
                 </div>
@@ -236,3 +245,4 @@
             });
         });
     </script>
+@endpush

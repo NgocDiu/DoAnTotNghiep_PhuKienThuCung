@@ -57,6 +57,8 @@ class CheckoutController extends Controller
 
 
 
+
+
         return view('publish::checkout.index', [
             'cart' => $cart,
             'selectedItems' => $selectedItems,

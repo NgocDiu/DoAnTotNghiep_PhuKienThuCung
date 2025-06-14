@@ -24,6 +24,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+
         <table id="attributesTable" class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -61,8 +62,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Tên thuộc tính</label>
-                        <input name="name" class="form-control" required>
+                        <label class="form-label">Tên thuộc tính <span class="required">*</span></label>
+                        <input name="name" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -86,7 +87,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">Tên thuộc tính</label>
+                            <label class="form-label">Tên thuộc tính <span class="required">*</span></label>
                             <input name="name" value="{{ $attribute->name }}" class="form-control" required>
                         </div>
                     </div>
@@ -127,6 +128,51 @@
             $('#attributesTable').DataTable({
                 "language": {
                     "url": "{{ asset('modules/admin/datatable/i18n/vi.json') }}" // nếu bạn có file tiếng Việt local
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const nameInput = document.querySelector('#createModal input[name="name"]');
+            const submitBtn = document.querySelector('#createModal button[type="submit"]');
+
+            nameInput.addEventListener('input', function() {
+                const name = nameInput.value.trim();
+                if (!name) {
+                    removeNameAlert();
+                    submitBtn.disabled = true;
+                    return;
+                }
+
+                fetch("{{ route('admin.attributes.checkName') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            name: name
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        removeNameAlert();
+                        if (data.exists) {
+                            const alert = document.createElement('div');
+                            alert.id = 'attribute-name-alert';
+                            alert.className = 'text-danger mt-1';
+                            alert.textContent = 'Tên thuộc tính đã tồn tại.';
+                            nameInput.parentElement.appendChild(alert);
+                            submitBtn.disabled = true;
+                        } else {
+                            submitBtn.disabled = false;
+                        }
+                    });
+
+                function removeNameAlert() {
+                    const alert = document.getElementById('attribute-name-alert');
+                    if (alert) alert.remove();
                 }
             });
         });

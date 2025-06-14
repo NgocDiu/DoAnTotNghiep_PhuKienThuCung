@@ -27,12 +27,12 @@
 
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label class="form-label">Tên sản phẩm</label>
+                    <label class="form-label">Tên sản phẩm <span class="required">*</span></label>
                     <input name="name" class="form-control" required>
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label">Slug (tùy chọn)</label>
-                    <input name="slug" class="form-control">
+                    <label class="form-label">Slug <span class="required">*</span></label>
+                    <input name="slug" class="form-control" required>
                 </div>
             </div>
 
@@ -43,7 +43,7 @@
 
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <label class="form-label">Giá gốc</label>
+                    <label class="form-label">Giá gốc <span class="required">*</span></label>
                     <input name="price" type="number" step="0.01" class="form-control" required>
                 </div>
                 <div class="col-md-4">
@@ -51,14 +51,14 @@
                     <input name="discount_price" type="number" step="0.01" class="form-control">
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label">Số lượng tồn kho</label>
+                    <label class="form-label">Số lượng tồn kho <span class="required">*</span></label>
                     <input name="stock_quantity" type="number" min="0" class="form-control" required>
                 </div>
             </div>
 
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <label class="form-label">Thương hiệu</label>
+                    <label class="form-label">Thương hiệu <span class="required">*</span></label>
                     <select name="brand_id" class="form-select select2" required>
                         <option value="">-- Chọn thương hiệu --</option>
                         @foreach ($brands as $brand)
@@ -68,7 +68,7 @@
                 </div>
 
                 <div class="col-md-8">
-                    <label class="form-label">Danh mục</label>
+                    <label class="form-label">Danh mục <span class="required">*</span></label>
                     <select name="category_ids[]" id="category_ids" class="form-select select2" multiple="multiple"
                         required>
                         @foreach ($categories as $cat)
@@ -101,9 +101,9 @@
             @endforeach
 
             <hr>
-            <h5>Ảnh sản phẩm</h5>
+            <h5>Ảnh sản phẩm <span class="required">*</span></h5>
             <div class="mb-3">
-                <input type="file" name="images[]" class="form-control" multiple>
+                <input type="file" name="images[]" class="form-control" multiple required>
                 <small class="text-muted">Ảnh đầu tiên sẽ là ảnh đại diện (được resize 800x800)</small>
             </div>
 
@@ -128,6 +128,51 @@
                 allowClear: true,
                 width: '100%',
                 minimumResultsForSearch: 0 // luôn hiển thị thanh tìm kiếm
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slugInput = document.querySelector('input[name="slug"]');
+            const submitBtn = document.querySelector('form button[type="submit"]');
+
+            slugInput.addEventListener('input', function() {
+                const slug = slugInput.value.trim();
+                if (!slug) {
+                    removeSlugAlert();
+                    submitBtn.disabled = true;
+                    return;
+                }
+
+                fetch("{{ route('admin.products.checkSlug') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            slug: slug
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        removeSlugAlert();
+                        if (data.exists) {
+                            const alert = document.createElement('div');
+                            alert.id = 'slug-alert';
+                            alert.className = 'text-danger mt-1';
+                            alert.textContent = 'Slug đã tồn tại, vui lòng chọn slug khác.';
+                            slugInput.parentElement.appendChild(alert);
+                            submitBtn.disabled = true;
+                        } else {
+                            submitBtn.disabled = false;
+                        }
+                    });
+
+                function removeSlugAlert() {
+                    const existing = document.getElementById('slug-alert');
+                    if (existing) existing.remove();
+                }
             });
         });
     </script>

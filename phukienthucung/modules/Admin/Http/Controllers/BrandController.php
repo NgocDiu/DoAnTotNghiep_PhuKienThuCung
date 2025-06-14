@@ -41,11 +41,23 @@ class BrandController extends Controller
 
         return redirect()->route('admin.brands.index')->with('success', 'Cập nhật thành công');
     }
-
+    public function checkName(Request $request)
+    {
+        $name = $request->input('name');
+        $exists = \App\Models\Brand::where('name', $name)->exists();
+    
+        return response()->json(['exists' => $exists]);
+    }
+    
 
     public function destroy(Brand $brand)
-    {
-        $brand->delete();
-        return redirect()->route('admin.brands.index')->with('success', 'Đã xóa thương hiệu');
+{
+    if ($brand->products()->exists()) {
+        return redirect()->back()->with('error', 'Không thể xóa thương hiệu vì vẫn còn sản phẩm nằm trong thương hiệu này.');
     }
+
+    $brand->delete();
+    return redirect()->back()->with('success', 'Đã xóa thương hiệu thành công.');
+}
+
 }

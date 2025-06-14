@@ -20,6 +20,14 @@ class AttributeController extends Controller
         return redirect()->route('admin.attributes.index')->with('success', 'Thêm thuộc tính thành công');
     }
 
+    public function checkName(Request $request)
+{
+    $name = $request->input('name');
+    $exists = \App\Models\Attribute::where('name', $name)->exists();
+
+    return response()->json(['exists' => $exists]);
+}
+
     public function update(Request $request, Attribute $attribute)
     {
         $request->validate(['name' => 'required|string|unique:attributes,name,' . $attribute->id]);

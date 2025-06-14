@@ -19,12 +19,12 @@
 
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label class="form-label">Tên sản phẩm</label>
+                    <label class="form-label">Tên sản phẩm <span class="required">*</span></label>
                     <input name="name" class="form-control" value="{{ $product->name }}" required>
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label">Slug</label>
-                    <input name="slug" class="form-control" value="{{ $product->slug }}">
+                    <label class="form-label">Slug <span class="required">*</span></label>
+                    <input name="slug" class="form-control" value="{{ $product->slug }}" required>
                 </div>
 
 
@@ -38,7 +38,7 @@
 
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <label class="form-label">Giá gốc</label>
+                    <label class="form-label">Giá gốc <span class="required">*</span></label>
                     <input name="price" type="number" step="0.01" class="form-control" value="{{ $product->price }}"
                         required>
                 </div>
@@ -48,7 +48,7 @@
                         value="{{ $product->discount_price }}">
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label">Số lượng tồn kho</label>
+                    <label class="form-label">Số lượng tồn kho <span class="required">*</span></label>
                     <input name="stock_quantity" type="number" min="0" class="form-control"
                         value="{{ $product->stock_quantity }}" required>
                 </div>
@@ -56,7 +56,7 @@
 
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <label class="form-label">Thương hiệu</label>
+                    <label class="form-label">Thương hiệu <span class="required">*</span></label>
                     <select name="brand_id" class="form-select select2" required>
                         <option value="">-- Chọn thương hiệu --</option>
                         @foreach ($brands as $brand)
@@ -68,7 +68,7 @@
                 </div>
 
                 <div class="col-md-8">
-                    <label class="form-label">Danh mục</label>
+                    <label class="form-label">Danh mục <span class="required">*</span></label>
                     <select name="category_ids[]" class="form-select select2" multiple required>
                         @foreach ($categories as $cat)
                             <option value="{{ $cat->id }}"

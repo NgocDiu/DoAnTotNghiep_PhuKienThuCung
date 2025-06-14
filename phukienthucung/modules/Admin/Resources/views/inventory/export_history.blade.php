@@ -17,7 +17,7 @@
             <tbody>
                 @foreach ($orders as $order)
                     <tr>
-                        <td>#{{ $order->id }}</td>
+                        <td>{{ $loop->iteration }}</td> {{-- Thay vì #ID --}}
                         <td>{{ $order->user->name ?? '---' }}</td>
                         <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
                         <td class="text-end text-danger">{{ number_format($order->grand_total, 0) }} ₫</td>
@@ -34,11 +34,14 @@
 
         {{-- Modal đặt ngoài bảng --}}
         @foreach ($orders as $order)
+            @if (in_array($order->status, ['cancelled', 'returned', 'pending']))
+                @continue
+            @endif
             <div class="modal fade" id="orderModal{{ $order->id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Chi tiết đơn hàng #{{ $order->id }}</h5>
+                            <h5 class="modal-title">Chi tiết đơn hàng {{ $order->id }}</h5>
                             <button class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">

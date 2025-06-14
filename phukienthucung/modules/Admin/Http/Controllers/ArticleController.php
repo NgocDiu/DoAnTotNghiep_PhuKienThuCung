@@ -24,7 +24,7 @@ class ArticleController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'slug' => 'nullable|unique:articles,slug',
+            'slug' => 'required|unique:articles,slug',
             'description' => 'nullable',
             'content' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120'
@@ -54,7 +54,7 @@ class ArticleController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'slug' => 'nullable|unique:articles,slug,' . $article->id,
+            'slug' => 'required|unique:articles,slug,' . $article->id,
             'description' => 'nullable',
             'content' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120'

@@ -30,24 +30,33 @@ class ProductController extends Controller
         $attributes = Attribute::all();
         return view('admin::products.create', compact('brands', 'categories', 'attributes'));
     }
+    public function checkSlug(Request $request)
+{
+    $slug = $request->input('slug');
+    $exists = \App\Models\Product::where('slug', $slug)->exists();
+
+    return response()->json(['exists' => $exists]);
+}
 
     public function store(Request $request)
     {
 
+        
+    
         $request->validate([
             'name'              => 'required|string|max:150',
             'slug'              => 'nullable|string|max:150|unique:products,slug',
             'description'       => 'nullable|string',
             'price'             => 'required|numeric|min:0',
             'discount_price'    => 'nullable|numeric|min:0',
-            'stock_quantity'    => 'required|integer|min:0',
+            'stock_quantity'    => 'nullable|integer|min:0',
             'brand_id'          => 'required|exists:brands,id',
             'category_ids'      => 'required|array',
             'category_ids.*'    => 'exists:categories,id',
             'attributes'        => 'nullable|array',
             'attributes.*.id'   => 'exists:attributes,id',
             'attributes.*.value'=> 'nullable|string|max:100',
-            'images.*'          => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'images.*'          => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ]);
 
         DB::transaction(function () use ($request) {

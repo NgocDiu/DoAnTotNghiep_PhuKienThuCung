@@ -5,6 +5,10 @@
         .div.dt-container div.dt-length select {
             width: 62px !important;
         }
+
+        .required {
+            color: red;
+        }
     </style>
     <div class="container">
         <div class="pt-4 d-flex flex-row justify-content-between">
@@ -29,51 +33,62 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
 
         @php
-            function renderCategoryRows($categories, $level = 0, $allCategories, &$index = 1)
-            {
-                foreach ($categories as $cat) {
-                    echo '<tr>';
-                    echo '<td>' . $index++ . '</td>';
-                    echo '<td>' . str_repeat('&mdash; ', $level) . e($cat->name) . '</td>';
-                    echo '<td>' . ($cat->parent?->name ?? '-') . '</td>';
-                    echo '<td>' . e($cat->slug) . '</td>';
-                    echo '<td>
-                    <button class="btn btn-sm btn-warning m-1" data-bs-toggle="modal" data-bs-target="#editModal' .
-                        $cat->id .
-                        '">Sửa</button>
-                    <button class="btn btn-sm btn-danger m-1" data-bs-toggle="modal" data-bs-target="#deleteModal' .
-                        $cat->id .
-                        '">Xóa</button>
+            if (!function_exists('renderCategoryRows')) {
+                function renderCategoryRows($categories, $level = 0, $allCategories, &$index = 1)
+                {
+                    foreach ($categories as $cat) {
+                        echo '<tr>';
+                        echo '<td>' . $index++ . '</td>';
+                        echo '<td>' . str_repeat('&mdash; ', $level) . e($cat->name) . '</td>';
+                        echo '<td>' . ($cat->parent?->name ?? '-') . '</td>';
+                        echo '<td>' . e($cat->slug) . '</td>';
+                        echo '<td>
+                <button class="btn btn-sm btn-warning m-1" data-bs-toggle="modal" data-bs-target="#editModal' .
+                            $cat->id .
+                            '">Sửa</button>
+                <button class="btn btn-sm btn-danger m-1" data-bs-toggle="modal" data-bs-target="#deleteModal' .
+                            $cat->id .
+                            '">Xóa</button>
                 </td>';
-                    echo '</tr>';
+                        echo '</tr>';
 
-                    if ($cat->children && $cat->children->count()) {
-                        renderCategoryRows($cat->children, $level + 1, $allCategories, $index);
+                        if ($cat->children && $cat->children->count()) {
+                            renderCategoryRows($cat->children, $level + 1, $allCategories, $index);
+                        }
                     }
                 }
             }
 
-            function renderCategoryOptions($categories, $level = 0, $selectedId = null, $excludeId = null)
-            {
-                foreach ($categories as $cat) {
-                    if ($cat->id == $excludeId) {
-                        continue;
-                    }
+            if (!function_exists('renderCategoryOptions')) {
+                function renderCategoryOptions($categories, $level = 0, $selectedId = null, $excludeId = null)
+                {
+                    foreach ($categories as $cat) {
+                        if ($cat->id == $excludeId) {
+                            continue;
+                        }
 
-                    echo '<option value="' . $cat->id . '"';
-                    if ($cat->id == $selectedId) {
-                        echo ' selected';
-                    }
-                    echo '>' . str_repeat('&mdash; ', $level) . e($cat->name) . '</option>';
+                        echo '<option value="' . $cat->id . '"';
+                        if ($cat->id == $selectedId) {
+                            echo ' selected';
+                        }
+                        echo '>' . str_repeat('&mdash; ', $level) . e($cat->name) . '</option>';
 
-                    if ($cat->children && $cat->children->count()) {
-                        renderCategoryOptions($cat->children, $level + 1, $selectedId, $excludeId);
+                        if ($cat->children && $cat->children->count()) {
+                            renderCategoryOptions($cat->children, $level + 1, $selectedId, $excludeId);
+                        }
                     }
                 }
             }
         @endphp
+
 
         <table id="categoriesTable" class="table table-bordered table-hover">
             <thead>
@@ -103,11 +118,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Tên</label>
-                        <input name="name" class="form-control" required title="Vui lòng điền vào trường này">
+                        <label class="form-label">Tên <span class="required">*</span></label>
+                        <input type="text" name="name" class="form-control" title="Vui lòng điền vào trường này">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Slug</label>
+                        <label class="form-label">Slug <span class="required">*</span></label>
                         <input name="slug" class="form-control">
                     </div>
                     <div class="mb-3">
@@ -138,12 +153,12 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">Tên</label>
-                            <input name="name" value="{{ $cat->name }}" class="form-control" required
+                            <label class="form-label">Tên <span class="required">*</span></label>
+                            <input name="name" value="{{ $cat->name }}" class="form-control"
                                 title="Vui lòng điền vào trường này">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Slug</label>
+                            <label class="form-label">Slug <span class="required">*</span></label>
                             <input name="slug" value="{{ $cat->slug }}" class="form-control">
                         </div>
                         <div class="mb-3">
@@ -191,6 +206,48 @@
                 language: {
                     url: "{{ asset('modules/admin/datatable/i18n/vi.json') }}"
                 }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slugInput = document.querySelector('input[name="slug"]');
+            const submitBtn = document.querySelector('#createModal button[type="submit"]');
+
+            slugInput.addEventListener('input', function() {
+                const slug = slugInput.value.trim();
+                if (!slug) {
+                    submitBtn.disabled = false;
+                    return;
+                }
+
+                fetch("{{ route('admin.categories.checkSlug') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            slug: slug
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const existingAlert = document.getElementById('slug-alert');
+                        if (data.exists) {
+                            if (!existingAlert) {
+                                const alert = document.createElement('div');
+                                alert.id = 'slug-alert';
+                                alert.className = 'text-danger mt-1';
+                                alert.textContent = 'Slug của mỗi danh mục không được trùng nhau.';
+                                slugInput.parentElement.appendChild(alert);
+                            }
+                            submitBtn.disabled = true;
+                        } else {
+                            if (existingAlert) existingAlert.remove();
+                            submitBtn.disabled = false;
+                        }
+                    });
             });
         });
     </script>

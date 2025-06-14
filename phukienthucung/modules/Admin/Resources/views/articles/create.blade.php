@@ -15,11 +15,11 @@
         <form action="{{ route('admin.articles.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
-                <label class="form-label">Tiêu đề</label>
+                <label class="form-label">Tiêu đề <span class="required">*</span></label>
                 <input type="text" name="title" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Slug</label>
+                <label class="form-label">Slug <span class="required">*</span></label>
                 <input type="text" name="slug" class="form-control">
             </div>
             <div class="mb-3">
@@ -31,7 +31,7 @@
                 <input type="file" name="image" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Nội dung</label>
+                <label class="form-label">Nội dung <span class="required">*</span></label>
                 <textarea name="content" class="form-control" id="ckeditor_create" rows="6" required></textarea>
             </div>
             <div class="mb-3">

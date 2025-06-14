@@ -81,6 +81,12 @@ class EmployeeController extends Controller
     {
         $user = User::where('group', 'employee')->with('employee')->findOrFail($id);
     
+        // Không cho phép xóa nếu đang hoạt động
+        if ($user->is_active) {
+            return redirect()->route('admin.employees.index')
+                ->with('error', 'Không thể xóa nhân viên đang hoạt động.');
+        }
+    
         // Xoá employee nếu có
         if ($user->employee) {
             $user->employee->delete();
@@ -89,7 +95,9 @@ class EmployeeController extends Controller
         // Xoá user
         $user->delete();
     
-        return redirect()->route('admin.employees.index')->with('success', 'Xóa nhân viên thành công.');
+        return redirect()->route('admin.employees.index')
+            ->with('success', 'Xóa nhân viên thành công.');
     }
+    
     
 }
