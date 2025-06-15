@@ -1,4 +1,4 @@
-@extends('publish::layouts.2column')
+@extends('admin::layouts.master')
 
 @section('content')
     <div class="container px-5">
