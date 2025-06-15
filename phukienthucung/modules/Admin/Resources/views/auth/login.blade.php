@@ -49,6 +49,11 @@
                             <div class="d-grid mt-4">
                                 <button type="submit" class="btn btn-primary">Đăng nhập</button>
                             </div>
+                            <div class="text-center mt-3" style="margin-bottom: 20px;">
+                                <a href="{{ route('password.request') }}" class="text-decoration-none">
+                                    Quên mật khẩu?
+                                </a>
+                            </div>
                         </form>
 
 
