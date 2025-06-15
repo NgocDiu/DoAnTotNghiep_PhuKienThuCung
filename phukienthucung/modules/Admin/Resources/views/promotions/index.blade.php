@@ -173,9 +173,10 @@
     </div>
 
     <!-- Modal thêm -->
+    <!-- Thêm mã khuyến mãi Modal -->
     <div class="modal fade" id="createModal" tabindex="-1">
         <div class="modal-dialog">
-            <form method="POST" action="{{ route('admin.promotions.store') }}">
+            <form method="POST" action="{{ route('admin.promotions.store') }}" class="needs-validation" novalidate>
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
@@ -185,39 +186,49 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label">Mã <span class="required">*</span></label>
-                            <input id="promo-code-input" name="code" class="form-control" required>
-                            <div id="code-error" class="invalid-feedback d-none">
-                                Mã khuyến mãi đã tồn tại.
-                            </div>
+                            <input name="code" class="form-control" required>
+                            <div class="invalid-feedback">Vui lòng nhập mã khuyến mãi.</div>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Mô tả</label>
                             <textarea name="description" class="form-control"></textarea>
                         </div>
+
                         <div class="mb-3">
                             <label class="form-label">Loại giảm <span class="required">*</span></label>
                             <select name="discount_type" class="form-select" required>
+                                <option value="">-- Chọn loại giảm --</option>
                                 <option value="percent">%</option>
                                 <option value="amount">VND</option>
                             </select>
+                            <div class="invalid-feedback">Vui lòng chọn loại giảm.</div>
                         </div>
+
                         <div class="mb-3">
                             <label class="form-label">Giá trị <span class="required">*</span></label>
                             <input type="number" name="discount_value" class="form-control" required>
+                            <div class="invalid-feedback">Vui lòng nhập giá trị giảm.</div>
                         </div>
+
                         <div class="mb-3">
                             <label class="form-label">Ngày bắt đầu <span class="required">*</span></label>
                             <input type="date" name="start_date" class="form-control" required>
+                            <div class="invalid-feedback">Vui lòng chọn ngày bắt đầu.</div>
                         </div>
+
                         <div class="mb-3">
                             <label class="form-label">Ngày kết thúc <span class="required">*</span></label>
                             <input type="date" name="end_date" class="form-control" required>
+                            <div class="invalid-feedback">Vui lòng chọn ngày kết thúc.</div>
                         </div>
+
                         <div class="mb-3">
                             <label class="form-label">Số lượt sử dụng <span class="required">*</span></label>
                             <input type="number" name="usage_limit" class="form-control" required>
+                            <div class="invalid-feedback">Vui lòng nhập số lượt sử dụng.</div>
                         </div>
+
                         <div class="form-check mb-3">
                             <input type="hidden" name="is_active" value="0">
                             <input class="form-check-input" type="checkbox" name="is_active" value="1">
@@ -232,6 +243,23 @@
             </form>
         </div>
     </div>
+
+    <!-- Validate JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach((form, index) => {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        });
+    </script>
+
 @endsection
 
 @push('scripts')

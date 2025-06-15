@@ -30,16 +30,20 @@
         @endif
 
         {{-- Form thêm quyền --}}
-        <form action="{{ route('admin.permissions.store') }}" method="POST" class="row g-3 mb-4">
+        <form action="{{ route('admin.permissions.store') }}" method="POST" class="row g-3 mb-4 needs-validation"
+            novalidate>
             @csrf
 
             <div class="col-6">
                 <input type="text" name="name" class="form-control" placeholder="Tên quyền mới" required>
+                <div class="invalid-feedback">Vui lòng nhập tên quyền.</div>
             </div>
+
             <div class="col-6 d-flex justify-content-end">
                 <button type="submit" class="btn btn-primary">Thêm quyền</button>
             </div>
         </form>
+
 
         {{-- Danh sách quyền --}}
         <div class="table-responsive">
@@ -81,23 +85,42 @@
     {{-- Modal sửa quyền --}}
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form method="POST" id="editForm" class="modal-content">
+            <form method="POST" id="editForm" class="modal-content needs-validation" novalidate>
                 @csrf
                 @method('PUT')
+
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel">Sửa quyền</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                 </div>
+
                 <div class="modal-body">
                     <input type="text" class="form-control" name="name" id="editPermissionName" required>
+                    <div class="invalid-feedback">Vui lòng nhập tên quyền.</div>
                 </div>
+
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Cập nhật</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                 </div>
             </form>
+
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        });
+    </script>
 
     {{-- Script --}}
     <script>

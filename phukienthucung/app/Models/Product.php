@@ -43,4 +43,13 @@ class Product extends Model
     {
         return $this->hasMany(OrderItem::class, 'product_id');
     }
+    public function latestStockImportDetail()
+    {
+        return $this->hasOne(\App\Models\StockImportDetail::class, 'product_id')
+            ->whereHas('stockImport', function ($query) {
+                $query->where('status', 'confirmed');
+            })
+            ->latest('created_at'); // Hoặc 'created_at' tùy logic
+    }
+    
 }

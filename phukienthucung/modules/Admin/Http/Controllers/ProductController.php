@@ -245,13 +245,36 @@ class ProductController extends Controller
 
   // ProductController.php
 
-public function showUpdatePrice()
-{
-    
-    $products = Product::with('brand', 'categories')->latest()->get();
-    return view('admin::products.update_price', compact('products'));
-}
-
+//   public function showUpdatePriceForm()
+//   {
+//       $products = Product::with('latestStockImportDetail')->get();
+  
+//       // Gán giá nhập mới nhất (hoặc 0 nếu không có)
+//       $products->each(function ($product) {
+//           $product->import_price = $product->latestStockImportDetail->unit_price ?? 0;
+//       });
+  
+//       return view('admin::products.update_price', compact('products'));
+//   }
+  public function showUpdatePrice()
+  {
+      $products = Product::with(['latestStockImportDetail', 'categories.parent'])->get();
+  
+      $products->each(function ($product) {
+          $product->import_price = $product->latestStockImportDetail->unit_price ?? 0;
+  
+          // Tìm category cha nhất
+          $category = $product->categories->first();
+          while ($category && $category->parent) {
+              $category = $category->parent;
+          }
+  
+          $product->profit_percent = $category ? $category->profit_percent : 3;
+      });
+  
+      return view('admin::products.update_price', compact('products'));
+  }
+  
 public function handleUpdatePrice(Request $request, Product $product)
 {
     $request->validate([

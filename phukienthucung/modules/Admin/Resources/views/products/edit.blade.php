@@ -14,26 +14,26 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('admin.products.update', $product->id) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('admin.products.update', $product->id) }}" enctype="multipart/form-data"
+            class="needs-validation" novalidate>
             @csrf @method('PUT')
 
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label class="form-label">Tên sản phẩm <span class="required">*</span></label>
                     <input name="name" class="form-control" value="{{ $product->name }}" required>
+                    <div class="invalid-feedback">Vui lòng nhập tên sản phẩm.</div>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Slug <span class="required">*</span></label>
                     <input name="slug" class="form-control" value="{{ $product->slug }}" required>
+                    <div class="invalid-feedback">Vui lòng nhập slug.</div>
                 </div>
-
-
-
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Mô tả</label>
-                <textarea id="description" rows="6" name="description" class="form-control" rows="4">{{ $product->description }}</textarea>
+                <textarea id="description" rows="6" name="description" class="form-control">{{ $product->description }}</textarea>
             </div>
 
             <div class="row mb-3">
@@ -41,6 +41,7 @@
                     <label class="form-label">Giá gốc <span class="required">*</span></label>
                     <input name="price" type="number" step="0.01" class="form-control" value="{{ $product->price }}"
                         required>
+                    <div class="invalid-feedback">Vui lòng nhập giá sản phẩm.</div>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Giá giảm</label>
@@ -51,6 +52,7 @@
                     <label class="form-label">Số lượng tồn kho <span class="required">*</span></label>
                     <input name="stock_quantity" type="number" min="0" class="form-control"
                         value="{{ $product->stock_quantity }}" required>
+                    <div class="invalid-feedback">Vui lòng nhập tồn kho.</div>
                 </div>
             </div>
 
@@ -61,10 +63,10 @@
                         <option value="">-- Chọn thương hiệu --</option>
                         @foreach ($brands as $brand)
                             <option value="{{ $brand->id }}" {{ $product->brand_id == $brand->id ? 'selected' : '' }}>
-                                {{ $brand->name }}
-                            </option>
+                                {{ $brand->name }}</option>
                         @endforeach
                     </select>
+                    <div class="invalid-feedback">Vui lòng chọn thương hiệu.</div>
                 </div>
 
                 <div class="col-md-8">
@@ -77,9 +79,9 @@
                             </option>
                         @endforeach
                     </select>
+                    <div class="invalid-feedback">Vui lòng chọn ít nhất một danh mục.</div>
                     <small class="text-muted">Chọn nhiều bằng Ctrl (hoặc Cmd trên Mac)</small>
                 </div>
-
             </div>
 
             <div class="form-check form-check-inline mb-3">
@@ -96,9 +98,7 @@
             <hr>
             <h5>Thuộc tính sản phẩm</h5>
             @foreach ($attributes as $attr)
-                @php
-                    $existing = $product->attributeValues->firstWhere('attribute_id', $attr->id);
-                @endphp
+                @php $existing = $product->attributeValues->firstWhere('attribute_id', $attr->id); @endphp
                 <div class="mb-3">
                     <label class="form-label">{{ $attr->name }}</label>
                     <input type="hidden" name="product_attributes[{{ $loop->index }}][id]" value="{{ $attr->id }}">
@@ -109,25 +109,22 @@
 
             <hr>
             <h5>Ảnh sản phẩm hiện tại</h5>
-            <div class="row mb-3">
-                <div class="d-flex flex-wrap gap-3">
-                    @foreach ($product->images as $img)
-                        <div style="position: relative; width: 120px;">
-                            <img src="{{ asset($img->image_url) }}" alt="Ảnh sản phẩm"
-                                style="width: 100%; height: 120px; object-fit: cover; border: 1px solid #ccc; border-radius: 6px;">
-                            @if ($img->is_main)
-                                <span
-                                    style="position: absolute; top: 6px; left: 6px; background: green; color: white; font-size: 12px; padding: 2px 6px; border-radius: 4px;">
-                                    Ảnh chính
-                                </span>
-                            @endif
-                        </div>
-                    @endforeach
-                </div>
+            <div class="row mb-3 d-flex flex-wrap gap-3">
+                @foreach ($product->images as $img)
+                    <div style="position: relative; width: 120px;">
+                        <img src="{{ asset($img->image_url) }}" alt="Ảnh sản phẩm"
+                            style="width: 100%; height: 120px; object-fit: cover; border: 1px solid #ccc; border-radius: 6px;">
+                        @if ($img->is_main)
+                            <span
+                                style="position: absolute; top: 6px; left: 6px; background: green; color: white; font-size: 12px; padding: 2px 6px; border-radius: 4px;">
+                                Ảnh chính
+                            </span>
+                        @endif
+                    </div>
+                @endforeach
             </div>
 
             <p class="text-danger small mt-2">Khi chọn ảnh mới, toàn bộ ảnh cũ sẽ bị xóa!</p>
-
             <div class="mb-4">
                 <label class="form-label">Tải ảnh mới (tùy chọn)</label>
                 <input type="file" name="images[]" class="form-control" multiple>
@@ -138,6 +135,7 @@
                 <a href="{{ route('admin.products.index') }}" class="btn btn-secondary">Hủy</a>
             </div>
         </form>
+
     </div>
     <script src="{{ asset('modules/admin/lib/ckeditor/ckeditor.js') }}"></script>
     <script>
@@ -145,6 +143,21 @@
     </script>
 @endsection
 @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        });
+    </script>
+
     <script src="{{ asset('modules/admin/js/jquery-3.6.0.min.js') }}"></script>
 
     <script src="{{ asset('modules/admin/js/select2.min.js') }}"></script>

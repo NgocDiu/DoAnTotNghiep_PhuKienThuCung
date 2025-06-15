@@ -55,11 +55,14 @@
                             @endif
                         </td>
                         <td>
-                            <button class="btn btn-primary btn-sm btn-update-price" type="button" data-bs-toggle="modal"
+                            <button class="btn btn-primary btn-sm btn-update-price" data-bs-toggle="modal"
                                 data-bs-target="#updatePriceModal" data-product-id="{{ $pro->id }}"
-                                data-product-name="{{ $pro->name }}">
+                                data-product-name="{{ $pro->name }}" data-import-price="{{ $pro->import_price }}"
+                                data-old-price="{{ $pro->price }}"
+                                data-profit-percent="{{ $pro->categories->first()?->parent?->profit_percent ?? ($pro->categories->first()?->profit_percent ?? 3) }}">
                                 Cập nhật giá bán
                             </button>
+
                         </td>
                     </tr>
                 @endforeach
@@ -68,47 +71,111 @@
     </div>
 
     <!-- Modal cập nhật giá bán -->
-    <div class="modal fade" id="updatePriceModal" tabindex="-1" aria-labelledby="updatePriceModalLabel" aria-hidden="true">
+    <!-- Modal cập nhật giá bán -->
+    <div class="modal fade" id="updatePriceModal" tabindex="-1" aria-labelledby="updatePriceModalLabel">
         <div class="modal-dialog modal-dialog-centered">
-            <form id="updatePriceForm" method="POST" action="">
+            <form id="updatePriceForm" method="POST" class="needs-validation" novalidate>
                 @csrf
                 <div class="modal-content" style="border-radius: 14px;">
                     <div class="modal-header border-0 pb-0">
                         <h5 class="modal-title fw-bold" id="updatePriceModalLabel" style="font-size: 1.1rem;">
-                            Cập nhật giá bán cho <span id="modalProductName" class="text-primary"></span>
+                            Xác nhận cập nhật giá bán
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                     </div>
-                    <div class="modal-body">
-                        <input type="hidden" name="product_id" id="modalProductId" value="">
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">Giá nhập</label>
-                            <input type="number" name="import_price" class="form-control form-control-lg" min="0"
-                                required autocomplete="off" style="font-size:1.1rem;">
+
+                    <div class="modal-body" style="padding-right: 50px">
+                        <input type="hidden" name="product_id" id="modalProductId">
+
+                        <div class="mb-2">
+                            <p><strong>Sản phẩm:</strong> <span id="modalProductName" class="text-primary"></span></p>
+                            <p><strong>Giá bán hiện tại:</strong> <span id="modalOldPrice"></span> ₫</p>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Giá nhập mới <span class="required">*</span></label>
+                                <input type="number" class="form-control" name="import_price" id="modalImportPrice"
+                                    min="0" required oninput="updateNewPrice()" />
+                                <div class="invalid-feedback">Vui lòng nhập giá nhập hợp lệ.</div>
+                            </div>
+
+                            <p><strong>Giá bán mới (dự kiến):</strong> <span id="modalNewPrice"></span> ₫</p>
                         </div>
                     </div>
+
                     <div class="modal-footer border-0 pt-0">
-                        <button type="submit" class="btn btn-success px-4">Cập nhật</button>
+                        <button type="submit" class="btn btn-success px-4">Xác nhận cập nhật</button>
                         <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Hủy</button>
                     </div>
                 </div>
             </form>
+
         </div>
     </div>
 @endsection
-
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var updateModal = document.getElementById('updatePriceModal');
-            updateModal.addEventListener('show.bs.modal', function(event) {
-                var button = event.relatedTarget;
-                var productId = button.getAttribute('data-product-id');
-                var productName = button.getAttribute('data-product-name');
-                document.getElementById('modalProductName').textContent = productName;
-                document.getElementById('modalProductId').value = productId;
-                document.getElementById('updatePriceForm').action = '/admin/products/update-price/' +
-                    productId;
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        });
+    </script>
+
+    <script>
+        let profitPercent = 0;
+
+        function updateNewPrice() {
+            const importPrice = parseFloat(document.getElementById('modalImportPrice').value || 0);
+            const newPrice = Math.round(importPrice * (1 + profitPercent / 100));
+            document.getElementById('modalNewPrice').textContent = newPrice.toLocaleString('vi-VN');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.btn-update-price');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = this.dataset.productId;
+                    const productName = this.dataset.productName;
+                    const importPrice = parseFloat(this.dataset.importPrice || 0);
+                    const oldPrice = parseFloat(this.dataset.oldPrice || 0);
+                    profitPercent = parseFloat(this.dataset.profitPercent || 3);
+
+                    const newPrice = Math.round(importPrice * (1 + profitPercent / 100));
+
+                    document.getElementById('modalProductId').value = productId;
+                    document.getElementById('modalProductName').textContent = productName;
+                    document.getElementById('modalOldPrice').textContent = oldPrice.toLocaleString(
+                        'vi-VN');
+                    document.getElementById('modalImportPrice').value = importPrice;
+                    document.getElementById('modalNewPrice').textContent = newPrice.toLocaleString(
+                        'vi-VN');
+
+                    // Mở modal an toàn
+                    const modalEl = document.getElementById('updatePriceModal');
+                    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+
+                    // Đảm bảo không bị lỗi focus
+                    document.activeElement?.blur();
+                    modal.show();
+                });
+            });
+        });
+    </script>
+    <script src="{{ asset('modules/admin/datatable/datatables.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#productsTable').DataTable({
+                "language": {
+                    "url": "{{ asset('modules/admin/datatable/i18n/vi.json') }}" // nếu bạn có file tiếng Việt local
+                }
             });
         });
     </script>

@@ -22,29 +22,33 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('admin.products.store') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('admin.products.store') }}" enctype="multipart/form-data"
+            class="needs-validation" novalidate>
             @csrf
 
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label class="form-label">Tên sản phẩm <span class="required">*</span></label>
                     <input name="name" class="form-control" required>
+                    <div class="invalid-feedback">Vui lòng nhập tên sản phẩm.</div>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Slug <span class="required">*</span></label>
                     <input name="slug" class="form-control" required>
+                    <div class="invalid-feedback">Vui lòng nhập slug.</div>
                 </div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Mô tả</label>
-                <textarea id="description" rows="6" name="description" class="form-control" rows="4"></textarea>
+                <textarea id="description" name="description" rows="6" class="form-control"></textarea>
             </div>
 
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label class="form-label">Giá gốc <span class="required">*</span></label>
                     <input name="price" type="number" step="0.01" class="form-control" required>
+                    <div class="invalid-feedback">Vui lòng nhập giá sản phẩm.</div>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Giá giảm</label>
@@ -53,6 +57,7 @@
                 <div class="col-md-4">
                     <label class="form-label">Số lượng tồn kho <span class="required">*</span></label>
                     <input name="stock_quantity" type="number" min="0" class="form-control" required>
+                    <div class="invalid-feedback">Vui lòng nhập số lượng tồn kho.</div>
                 </div>
             </div>
 
@@ -65,19 +70,18 @@
                             <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                         @endforeach
                     </select>
+                    <div class="invalid-feedback">Vui lòng chọn thương hiệu.</div>
                 </div>
 
                 <div class="col-md-8">
                     <label class="form-label">Danh mục <span class="required">*</span></label>
-                    <select name="category_ids[]" id="category_ids" class="form-select select2" multiple="multiple"
-                        required>
+                    <select name="category_ids[]" id="category_ids" class="form-select select2" multiple required>
                         @foreach ($categories as $cat)
                             <option value="{{ $cat->id }}">{{ $cat->name }}</option>
                         @endforeach
                     </select>
-                    <small class="text-muted">Chọn nhiều bằng Ctrl (hoặc Cmd trên Mac)</small>
+                    <div class="invalid-feedback">Vui lòng chọn ít nhất một danh mục.</div>
                 </div>
-
             </div>
 
             <div class="form-check form-check-inline mb-3">
@@ -104,12 +108,14 @@
             <h5>Ảnh sản phẩm <span class="required">*</span></h5>
             <div class="mb-3">
                 <input type="file" name="images[]" class="form-control" multiple required>
+                <div class="invalid-feedback">Vui lòng chọn ít nhất một ảnh sản phẩm.</div>
                 <small class="text-muted">Ảnh đầu tiên sẽ là ảnh đại diện (được resize 800x800)</small>
             </div>
 
             <button class="btn btn-primary">Thêm sản phẩm</button>
             <a href="{{ route('admin.products.index') }}" class="btn btn-secondary">Quay lại</a>
         </form>
+
     </div>
     <script src="{{ asset('modules/admin/lib/ckeditor/ckeditor.js') }}"></script>
     <script>
@@ -117,6 +123,21 @@
     </script>
 @endsection
 @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        });
+    </script>
+
     <script src="{{ asset('modules/admin/js/jquery-3.6.0.min.js') }}"></script>
 
     <script src="{{ asset('modules/admin/js/select2.min.js') }}"></script>

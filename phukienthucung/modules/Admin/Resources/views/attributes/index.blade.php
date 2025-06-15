@@ -54,23 +54,28 @@
     <!-- Modal Thêm -->
     <div class="modal fade" id="createModal" tabindex="-1">
         <div class="modal-dialog">
-            <form action="{{ route('admin.attributes.store') }}" method="POST" class="modal-content">
+            <form action="{{ route('admin.attributes.store') }}" method="POST" class="modal-content needs-validation"
+                novalidate>
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title">Thêm thuộc tính</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
+
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Tên thuộc tính <span class="required">*</span></label>
-                        <input name="name" class="form-control">
+                        <input name="name" class="form-control" required>
+                        <div class="invalid-feedback">Vui lòng nhập tên thuộc tính.</div>
                     </div>
                 </div>
+
                 <div class="modal-footer">
-                    <button class="btn btn-primary">Thêm</button>
+                    <button class="btn btn-primary" type="submit">Thêm</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                 </div>
             </form>
+
         </div>
     </div>
 
@@ -79,25 +84,31 @@
         <!-- Modal Sửa -->
         <div class="modal fade" id="editModal{{ $attribute->id }}" tabindex="-1">
             <div class="modal-dialog">
-                <form action="{{ route('admin.attributes.update', $attribute->id) }}" method="POST" class="modal-content">
-                    @csrf @method('PUT')
+                <form action="{{ route('admin.attributes.update', $attribute->id) }}" method="POST"
+                    class="modal-content needs-validation" novalidate>
+                    @csrf
+                    @method('PUT')
                     <div class="modal-header">
                         <h5 class="modal-title">Sửa thuộc tính</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
+
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label">Tên thuộc tính <span class="required">*</span></label>
                             <input name="name" value="{{ $attribute->name }}" class="form-control" required>
+                            <div class="invalid-feedback">Vui lòng nhập tên thuộc tính.</div>
                         </div>
                     </div>
+
                     <div class="modal-footer">
-                        <button class="btn btn-primary">Lưu</button>
+                        <button class="btn btn-primary" type="submit">Lưu</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                     </div>
                 </form>
             </div>
         </div>
+
 
         <!-- Modal Xóa -->
         <div class="modal fade" id="deleteModal{{ $attribute->id }}" tabindex="-1">
@@ -122,6 +133,33 @@
     @endforeach
 @endsection
 @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach((form) => {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach((form) => {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        });
+    </script>
+
     <script src="{{ asset('modules/admin/datatable/datatables.min.js') }}"></script>
     <script>
         $(document).ready(function() {

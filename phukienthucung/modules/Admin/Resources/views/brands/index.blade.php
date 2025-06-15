@@ -65,27 +65,33 @@
     <!-- Modal Thêm -->
     <div class="modal fade" id="createModal" tabindex="-1">
         <div class="modal-dialog">
-            <form action="{{ route('admin.brands.store') }}" method="POST" class="modal-content">
+            <form action="{{ route('admin.brands.store') }}" method="POST" class="modal-content needs-validation"
+                novalidate>
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title">Thêm thương hiệu</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
+
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Tên thương hiệu <span class="required">*</span></label>
-                        <input name="name" class="form-control">
+                        <input name="name" class="form-control" required>
+                        <div class="invalid-feedback">Vui lòng nhập tên thương hiệu.</div>
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label">Mô tả</label>
                         <textarea name="description" class="form-control" rows="3"></textarea>
                     </div>
                 </div>
+
                 <div class="modal-footer">
-                    <button class="btn btn-primary">Thêm</button>
+                    <button class="btn btn-primary" type="submit">Thêm</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                 </div>
             </form>
+
         </div>
     </div>
 
@@ -94,27 +100,35 @@
         <!-- Modal Sửa -->
         <div class="modal fade" id="editModal{{ $brand->id }}" tabindex="-1">
             <div class="modal-dialog">
-                <form action="{{ route('admin.brands.update', $brand->id) }}" method="POST" class="modal-content">
-                    @csrf @method('PUT')
+                <form action="{{ route('admin.brands.update', $brand->id) }}" method="POST"
+                    class="modal-content needs-validation" novalidate>
+                    @csrf
+                    @method('PUT')
+
                     <div class="modal-header">
                         <h5 class="modal-title">Sửa thương hiệu</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
+
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label">Tên thương hiệu <span class="required">*</span></label>
-                            <input name="name" value="{{ $brand->name }}" class="form-control">
+                            <input name="name" value="{{ $brand->name }}" class="form-control" required>
+                            <div class="invalid-feedback">Vui lòng nhập tên thương hiệu.</div>
                         </div>
+
                         <div class="mb-3">
                             <label class="form-label">Mô tả</label>
                             <textarea name="description" class="form-control" rows="3">{{ $brand->description }}</textarea>
                         </div>
                     </div>
+
                     <div class="modal-footer">
-                        <button class="btn btn-primary">Lưu</button>
+                        <button class="btn btn-primary" type="submit">Lưu</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                     </div>
                 </form>
+
             </div>
         </div>
 
@@ -140,6 +154,33 @@
     @endforeach
 @endsection
 @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        });
+    </script>
+
     <script src="{{ asset('modules/admin/datatable/datatables.min.js') }}"></script>
     <script>
         $(document).ready(function() {

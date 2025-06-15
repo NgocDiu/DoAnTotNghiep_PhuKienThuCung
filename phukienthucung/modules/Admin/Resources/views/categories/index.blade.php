@@ -110,21 +110,27 @@
     <!-- Modal THÊM -->
     <div class="modal fade" id="createModal" tabindex="-1">
         <div class="modal-dialog">
-            <form method="POST" action="{{ route('admin.categories.store') }}" class="modal-content">
+            <form method="POST" action="{{ route('admin.categories.store') }}" class="modal-content needs-validation"
+                novalidate>
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title">Thêm danh mục</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
+
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Tên <span class="required">*</span></label>
-                        <input type="text" name="name" class="form-control" title="Vui lòng điền vào trường này">
+                        <input type="text" name="name" class="form-control" required>
+                        <div class="invalid-feedback">Vui lòng nhập tên danh mục.</div>
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label">Slug <span class="required">*</span></label>
-                        <input name="slug" class="form-control">
+                        <input name="slug" class="form-control" required>
+                        <div class="invalid-feedback">Vui lòng nhập slug.</div>
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label">Danh mục cha</label>
                         <select name="parent_id" class="form-select">
@@ -133,11 +139,13 @@
                         </select>
                     </div>
                 </div>
+
                 <div class="modal-footer">
-                    <button class="btn btn-primary">Thêm</button>
+                    <button class="btn btn-primary" type="submit">Thêm</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                 </div>
             </form>
+
         </div>
     </div>
 
@@ -145,22 +153,28 @@
     @foreach ($allCategories as $cat)
         <div class="modal fade" id="editModal{{ $cat->id }}" tabindex="-1">
             <div class="modal-dialog">
-                <form method="POST" action="{{ route('admin.categories.update', $cat->id) }}" class="modal-content">
-                    @csrf @method('PUT')
+                <form method="POST" action="{{ route('admin.categories.update', $cat->id) }}"
+                    class="modal-content needs-validation" novalidate>
+                    @csrf
+                    @method('PUT')
                     <div class="modal-header">
                         <h5 class="modal-title">Sửa danh mục</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
+
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label">Tên <span class="required">*</span></label>
-                            <input name="name" value="{{ $cat->name }}" class="form-control"
-                                title="Vui lòng điền vào trường này">
+                            <input name="name" value="{{ $cat->name }}" class="form-control" required>
+                            <div class="invalid-feedback">Vui lòng nhập tên danh mục.</div>
                         </div>
+
                         <div class="mb-3">
                             <label class="form-label">Slug <span class="required">*</span></label>
-                            <input name="slug" value="{{ $cat->slug }}" class="form-control">
+                            <input name="slug" value="{{ $cat->slug }}" class="form-control" required>
+                            <div class="invalid-feedback">Vui lòng nhập slug.</div>
                         </div>
+
                         <div class="mb-3">
                             <label class="form-label">Danh mục cha</label>
                             <select name="parent_id" class="form-select">
@@ -169,11 +183,13 @@
                             </select>
                         </div>
                     </div>
+
                     <div class="modal-footer">
-                        <button class="btn btn-primary">Lưu</button>
+                        <button class="btn btn-primary" type="submit">Lưu</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                     </div>
                 </form>
+
             </div>
         </div>
 
@@ -199,6 +215,21 @@
 @endsection
 
 @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        });
+    </script>
+
     <script src="{{ asset('modules/admin/datatable/datatables.min.js') }}"></script>
     <script>
         $(document).ready(function() {

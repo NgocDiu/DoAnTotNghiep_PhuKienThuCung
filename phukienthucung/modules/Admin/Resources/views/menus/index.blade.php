@@ -58,47 +58,63 @@
         @foreach ($menus as $menu)
             <div class="modal fade" id="editMenuModal{{ $menu->id }}" tabindex="-1">
                 <div class="modal-dialog">
-                    <form action="{{ route('admin.menus.update', $menu) }}" method="POST" class="modal-content">
+                    <form action="{{ route('admin.menus.update', $menu) }}" method="POST"
+                        class="modal-content needs-validation" novalidate>
                         @csrf @method('PUT')
+
                         <div class="modal-header">
                             <h5 class="modal-title">Sửa menu</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
+
                         <div class="modal-body">
-                            <div class="mb-2">
-                                <label>Loại menu</label>
-                                <select name="type" class="form-select"
-                                    onchange="toggleFields(this, {{ $menu->id }})">
-                                    <option value="cate" {{ $menu->type == 'cate' ? 'selected' : '' }}>Danh mục</option>
-                                    <option value="static" {{ $menu->type == 'static' ? 'selected' : '' }}>Tĩnh</option>
-                                    <option value="page" {{ $menu->type == 'page' ? 'selected' : '' }}>Trang</option>
-                                </select>
-                            </div>
-                            <div class="mb-2 cate-field-{{ $menu->id }}"
+                            <label class="form-label">Loại menu <span class="required">*</span></label>
+                            <select name="type" class="form-select" onchange="toggleFields(this, {{ $menu->id }})"
+                                required>
+                                <option value="">-- Chọn loại menu --</option>
+                                <option value="cate" {{ $menu->type == 'cate' ? 'selected' : '' }}>Danh mục</option>
+                                <option value="static" {{ $menu->type == 'static' ? 'selected' : '' }}>Tĩnh</option>
+                                <option value="page" {{ $menu->type == 'page' ? 'selected' : '' }}>Trang</option>
+                            </select>
+                            <div class="invalid-feedback">Vui lòng chọn loại menu.</div>
+
+                            <div class="mt-2 cate-field-{{ $menu->id }}"
                                 style="display: {{ $menu->type == 'cate' ? 'block' : 'none' }}">
-                                <label>Danh mục</label>
-                                <select name="category_id" class="form-select">
+                                <label class="form-label">Danh mục <span class="required">*</span></label>
+                                <select name="category_id" class="form-select"
+                                    {{ $menu->type == 'cate' ? 'required' : '' }}>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}"
                                             {{ $menu->category_id == $category->id ? 'selected' : '' }}>
-                                            {{ $category->name }}</option>
+                                            {{ $category->name }}
+                                        </option>
                                     @endforeach
                                 </select>
+                                <div class="invalid-feedback">Vui lòng chọn danh mục.</div>
                             </div>
-                            <div class="mb-2 static-field-{{ $menu->id }}"
+
+                            <div class="mt-2 static-field-{{ $menu->id }}"
                                 style="display: {{ in_array($menu->type, ['static', 'page']) ? 'block' : 'none' }}">
-                                <label>Tiêu đề</label>
-                                <input name="title" value="{{ $menu->title }}" class="form-control">
-                                <label>URL</label>
-                                <input name="url" value="{{ $menu->url }}" class="form-control">
+                                <label class="form-label">Tiêu đề <span class="required">*</span></label>
+                                <input name="title" value="{{ $menu->title }}" class="form-control"
+                                    {{ in_array($menu->type, ['static', 'page']) ? 'required' : '' }}>
+                                <div class="invalid-feedback">Vui lòng nhập tiêu đề.</div>
+
+                                <label class="form-label mt-2">URL <span class="required">*</span></label>
+                                <input name="url" value="{{ $menu->url }}" class="form-control"
+                                    {{ in_array($menu->type, ['static', 'page']) ? 'required' : '' }}>
+                                <div class="invalid-feedback">Vui lòng nhập URL.</div>
                             </div>
-                            <label>Vị trí</label>
+
+                            <label class="form-label mt-2">Vị trí</label>
                             <input name="position" type="number" value="{{ $menu->position }}" class="form-control">
                         </div>
+
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-success">Cập nhật</button>
                         </div>
                     </form>
+
                 </div>
             </div>
 
@@ -124,40 +140,53 @@
 
         <div class="modal fade" id="addMenuModal" tabindex="-1">
             <div class="modal-dialog">
-                <form action="{{ route('admin.menus.store') }}" method="POST" class="modal-content">
+                <form action="{{ route('admin.menus.store') }}" method="POST" class="modal-content needs-validation"
+                    novalidate>
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title">Thêm menu</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
+
                     <div class="modal-body">
-                        <label>Loại menu</label>
-                        <select name="type" class="form-select" onchange="toggleFields(this)">
+                        <label class="form-label">Loại menu <span class="required">*</span></label>
+                        <select name="type" class="form-select" onchange="toggleFields(this)" required>
+                            <option value="">-- Chọn loại menu --</option>
                             <option value="cate">Danh mục</option>
                             <option value="static">Tĩnh</option>
                             <option value="page">Trang</option>
                         </select>
+                        <div class="invalid-feedback">Vui lòng chọn loại menu.</div>
+
                         <div class="mt-2 cate-field">
-                            <label>Danh mục</label>
+                            <label class="form-label">Danh mục <span class="required">*</span></label>
                             <select name="category_id" class="form-select">
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endforeach
                             </select>
+                            <div class="invalid-feedback">Vui lòng chọn danh mục.</div>
                         </div>
+
                         <div class="mt-2 static-field" style="display:none">
-                            <label>Tiêu đề</label>
+                            <label class="form-label">Tiêu đề <span class="required">*</span></label>
                             <input name="title" class="form-control">
-                            <label>URL</label>
+                            <div class="invalid-feedback">Vui lòng nhập tiêu đề.</div>
+
+                            <label class="form-label mt-2">URL <span class="required">*</span></label>
                             <input name="url" class="form-control">
+                            <div class="invalid-feedback">Vui lòng nhập URL.</div>
                         </div>
-                        <label class="mt-2">Vị trí</label>
+
+                        <label class="form-label mt-2">Vị trí</label>
                         <input name="position" type="number" class="form-control">
                     </div>
+
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Lưu</button>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>
@@ -165,17 +194,51 @@
     <script>
         function toggleFields(select, id = null) {
             const type = select.value;
-            if (id) {
-                document.querySelector('.cate-field-' + id).style.display = (type === 'cate') ? 'block' : 'none';
-                document.querySelector('.static-field-' + id).style.display = (type === 'static' || type === 'page') ?
-                    'block' : 'none';
+
+            const cateField = id ? document.querySelector('.cate-field-' + id) : document.querySelector('.cate-field');
+            const staticField = id ? document.querySelector('.static-field-' + id) : document.querySelector(
+                '.static-field');
+
+            if (!cateField || !staticField) return;
+
+            if (type === 'static' || type === 'page') {
+                cateField.style.display = 'none';
+                staticField.style.display = 'block';
+                staticField.querySelector('[name="title"]').setAttribute('required', 'required');
+                staticField.querySelector('[name="url"]').setAttribute('required', 'required');
+
+                if (cateField.querySelector('[name="category_id"]')) {
+                    cateField.querySelector('[name="category_id"]').removeAttribute('required');
+                }
             } else {
-                document.querySelector('.cate-field').style.display = (type === 'cate') ? 'block' : 'none';
-                document.querySelector('.static-field').style.display = (type === 'static' || type === 'page') ? 'block' :
-                    'none';
+                cateField.style.display = 'block';
+                staticField.style.display = 'none';
+                cateField.querySelector('[name="category_id"]').setAttribute('required', 'required');
+
+                if (staticField.querySelector('[name="title"]')) {
+                    staticField.querySelector('[name="title"]').removeAttribute('required');
+                }
+                if (staticField.querySelector('[name="url"]')) {
+                    staticField.querySelector('[name="url"]').removeAttribute('required');
+                }
             }
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        });
     </script>
+
+
 @endsection
 
 @push('scripts')

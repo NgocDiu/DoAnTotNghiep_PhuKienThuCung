@@ -59,7 +59,8 @@
             <!-- Modal SỬA -->
             <div class="modal fade" id="editRoleModal{{ $role->id }}" tabindex="-1">
                 <div class="modal-dialog">
-                    <form action="{{ route('admin.roles.update', $role->id) }}" method="POST">
+                    <form action="{{ route('admin.roles.update', $role->id) }}" method="POST" class="needs-validation"
+                        novalidate>
                         @csrf
                         @method('PUT')
                         <div class="modal-content">
@@ -67,14 +68,17 @@
                                 <h5 class="modal-title">Sửa Vai trò</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
+
                             <div class="modal-body">
                                 <div class="mb-3">
-                                    <label>Tên vai trò</label>
+                                    <label class="form-label">Tên vai trò <span class="required">*</span></label>
                                     <input type="text" class="form-control" name="name" value="{{ $role->name }}"
                                         required>
+                                    <div class="invalid-feedback">Vui lòng nhập tên vai trò.</div>
                                 </div>
+
                                 <div class="mb-3">
-                                    <label>Gán quyền</label>
+                                    <label class="form-label">Gán quyền</label>
                                     <div class="row">
                                         @foreach ($permissions as $permission)
                                             <div class="col-md-6">
@@ -93,12 +97,14 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="modal-footer">
                                 <button class="btn btn-success">Lưu</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                             </div>
                         </div>
                     </form>
+
                 </div>
             </div>
 
@@ -130,20 +136,23 @@
     {{-- Modal Thêm --}}
     <div class="modal fade" id="addRoleModal" tabindex="-1">
         <div class="modal-dialog">
-            <form action="{{ route('admin.roles.store') }}" method="POST">
+            <form action="{{ route('admin.roles.store') }}" method="POST" class="needs-validation" novalidate>
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Thêm mới Vai trò</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
+
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="roleName">Tên vai trò</label>
+                            <label for="roleName" class="form-label">Tên vai trò <span class="required">*</span></label>
                             <input type="text" class="form-control" name="name" id="roleName" required>
+                            <div class="invalid-feedback">Vui lòng nhập tên vai trò.</div>
                         </div>
+
                         <div class="mb-3">
-                            <label>Gán quyền</label>
+                            <label class="form-label">Gán quyền</label>
                             <div class="row">
                                 @foreach ($permissions->chunk(ceil($permissions->count() / 4)) as $chunk)
                                     <div class="col-md-3">
@@ -161,12 +170,28 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="modal-footer">
                         <button class="btn btn-success">Thêm</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                     </div>
                 </div>
             </form>
+
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('.needs-validation');
+            forms.forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                });
+            });
+        });
+    </script>
 @endsection

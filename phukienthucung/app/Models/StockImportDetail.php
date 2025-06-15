@@ -16,4 +16,9 @@ class StockImportDetail extends Model
     {
         return $this->belongsTo(Product::class);
     }
+    public function stockImport()
+{
+    return $this->belongsTo(\App\Models\StockImport::class, 'stock_import_id');
+}
+
 }

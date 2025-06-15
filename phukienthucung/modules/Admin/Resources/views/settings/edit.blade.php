@@ -22,30 +22,38 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('admin.settings.update') }}">
-            @csrf @method('PUT')
+        <form method="POST" action="{{ route('admin.settings.update') }}" class="needs-validation" novalidate>
+            @csrf
+            @method('PUT')
+
             <div class="mb-3">
-                <label class="form-label">Tên cửa hàng</label>
+                <label class="form-label">Tên cửa hàng <span class="required">*</span></label>
                 <input type="text" name="name" class="form-control" value="{{ old('name', $setting->name ?? '') }}"
                     required>
+                <div class="invalid-feedback">Vui lòng nhập tên cửa hàng.</div>
             </div>
+
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label class="form-label">Token</label>
+                    <label class="form-label">Token <span class="required">*</span></label>
                     <input type="text" name="token" class="form-control"
                         value="{{ old('token', $setting->token ?? '') }}" required>
+                    <div class="invalid-feedback">Vui lòng nhập Token.</div>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label class="form-label">Shop ID</label>
+                    <label class="form-label">Shop ID <span class="required">*</span></label>
                     <input type="number" name="shop_id" class="form-control"
                         value="{{ old('shop_id', $setting->shop_id ?? '') }}" required>
+                    <div class="invalid-feedback">Vui lòng nhập Shop ID.</div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label class="form-label">Số điện thoại</label>
+                    <label class="form-label">Số điện thoại <span class="required">*</span></label>
                     <input type="text" name="phone" class="form-control"
                         value="{{ old('phone', $setting->phone ?? '') }}" required>
+                    <div class="invalid-feedback">Vui lòng nhập số điện thoại.</div>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Địa chỉ cụ thể</label>
@@ -56,22 +64,25 @@
 
             <div class="row">
                 <div class="col-md-4 mb-3">
-                    <label class="form-label">Tỉnh/Thành phố</label>
+                    <label class="form-label">Tỉnh/Thành phố <span class="required">*</span></label>
                     <select id="edit_province" name="province_id" class="form-select" required></select>
                     <input type="hidden" name="province_desc" id="edit_province_desc"
                         value="{{ old('province_desc', $setting->province_name ?? '') }}">
+                    <div class="invalid-feedback">Vui lòng chọn tỉnh/thành phố.</div>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <label class="form-label">Quận/Huyện</label>
+                    <label class="form-label">Quận/Huyện <span class="required">*</span></label>
                     <select id="edit_district" name="district_id" class="form-select" required></select>
                     <input type="hidden" name="district_desc" id="edit_district_desc"
                         value="{{ old('district_desc', $setting->district_name ?? '') }}">
+                    <div class="invalid-feedback">Vui lòng chọn quận/huyện.</div>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <label class="form-label">Phường/Xã</label>
+                    <label class="form-label">Phường/Xã <span class="required">*</span></label>
                     <select id="edit_ward" name="ward_code" class="form-select" required></select>
                     <input type="hidden" name="ward_name" id="edit_ward_name"
                         value="{{ old('ward_name', $setting->ward_name ?? '') }}">
+                    <div class="invalid-feedback">Vui lòng chọn phường/xã.</div>
                 </div>
             </div>
 
@@ -79,7 +90,23 @@
                 <button type="submit" class="btn btn-primary">Cập nhật</button>
             </div>
         </form>
+
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('.needs-validation');
+            forms.forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        });
+    </script>
+
 @endsection
 
 @push('scripts')

@@ -28,7 +28,10 @@ class ArticleController extends Controller
             'description' => 'nullable',
             'content' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120'
-        ]);
+        ],
+    [
+        'content.required' => 'Vui lòng nhập nội dung bài viết.',
+    ]);
 
         $path = $request->file('image')->store('articles', 'public');
 
@@ -58,6 +61,9 @@ class ArticleController extends Controller
             'description' => 'nullable',
             'content' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120'
+        ],
+        [
+            'content.required' => 'Vui lòng nhập nội dung bài viết.',
         ]);
 
         $data = [

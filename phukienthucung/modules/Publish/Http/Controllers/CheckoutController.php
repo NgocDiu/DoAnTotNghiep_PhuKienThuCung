@@ -113,7 +113,17 @@ class CheckoutController extends Controller
     if ($selectedItems->isEmpty()) {
         return redirect()->route('cart.index')->with('error', 'Không tìm thấy sản phẩm đã chọn.');
     }
-
+    foreach ($selectedItems as $item) {
+        $product = $item->product;
+        $available = $product->stock_quantity;
+    
+        if ($item->quantity > $available) {
+            return back()->withErrors([
+                'error' => "Sản phẩm {$product->name} chỉ còn {$available} sản phẩm trong kho."
+            ]);
+        }
+    }
+    
     // Tính tổng
     $total = $selectedItems->sum(function ($item) {
         $price = $item->product->is_discount ? $item->product->discount_price : $item->product->price;
