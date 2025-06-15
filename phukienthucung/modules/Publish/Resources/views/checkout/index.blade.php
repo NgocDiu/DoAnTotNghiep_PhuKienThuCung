@@ -184,7 +184,7 @@
                                     <li>{{ $error }}</li>
                                 @endforeach
                             </ul>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            <button type="button" class="custom-alert-close" data-bs-dismiss="alert">x</button>
                         </div>
                     @endif
 

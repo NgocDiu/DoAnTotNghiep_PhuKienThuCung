@@ -90,6 +90,10 @@ class CheckoutController extends Controller
         'address_id' => 'required|exists:address,id',
         'payment_method' => 'required|string',
         'selected_items' => 'required|array',
+    ],
+    [
+        'address_id.required' => 'Bạn chưa chọn địa chỉ.',
+        'address_id.exists' => 'Địa chỉ không hợp lệ.',
     ]);
 
     $user = Auth::user();

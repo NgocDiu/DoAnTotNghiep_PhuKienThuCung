@@ -44,15 +44,7 @@
                                 <input name="password" type="password" class="form-control" placeholder="Mật khẩu">
                             </div>
 
-                            <div class="d-flex mt-1 justify-content-between">
-                                <div class="form-check">
-                                    <input class="form-check-input input-primary" type="checkbox" id="customCheckc1"
-                                        checked="">
-                                    <label class="form-check-label text-muted" for="customCheckc1">Lưu thông tin đăng
-                                        nhập</label>
-                                </div>
-                                <h5 class="text-secondary f-w-400"></h5>
-                            </div>
+
 
                             <div class="d-grid mt-4">
                                 <button type="submit" class="btn btn-primary">Đăng nhập</button>

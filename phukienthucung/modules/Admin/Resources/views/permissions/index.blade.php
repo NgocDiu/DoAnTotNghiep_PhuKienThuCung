@@ -1,8 +1,25 @@
 @extends('admin::layouts.master')
 
 @section('content')
-    <div class="container mt-4">
-        <h2 class="mb-4">Quản lý quyền (Permissions)</h2>
+    <div class="p-4">
+        <h2 class="pb-4">Quản lý quyền (Permissions)</h2>
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
 
         {{-- Thông báo --}}
         @if (session('success'))

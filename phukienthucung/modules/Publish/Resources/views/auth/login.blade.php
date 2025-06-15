@@ -30,7 +30,16 @@
                         <input class="my-3" type="email" name="email" placeholder="Email" required>
                         <input class="my-3" type="password" name="password" placeholder="Mật khẩu" required>
                         <button class="my-3" type="submit">Đăng nhập</button>
-                        <a style="text-align: end" href="/register">Bạn chưa có tài khoản?Đăng kí</a>
+                        <div class="text-center" style="margin-bottom: 20px;">
+                            <a href="{{ route('password.request') }}" class="text-decoration-none">
+                                Quên mật khẩu?
+                            </a>
+                        </div>
+
+                        <a style="text-align: center;color: rgb(24, 24, 24)" href="/register"> <span class=""
+                                style="text-decoration: none !important; color: rgb(24, 24, 24)">Bạn chưa có tài
+                                khoản?</span> Đăng
+                            kí</a>
 
                     </form>
                     <!-- .entry-header -->

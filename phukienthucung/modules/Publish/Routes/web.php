@@ -11,7 +11,6 @@ use Modules\Publish\Http\Controllers\InformationController;
 use Modules\Publish\Http\Controllers\CheckoutController;
 use Modules\Admin\Http\Controllers\OrderController;
 use Modules\Publish\Http\Controllers\ProductReviewController;
-use Modules\Publish\Http\Controllers\PromotionController;
 
 Route::middleware('web')->group(function () {
 
@@ -73,6 +72,4 @@ Route::middleware('web')->group(function () {
     Route::get('/search', [ProductController::class, 'search'])->name('product.search');
 
 });
-Route::get('/love', function () {
-    return view('love');
-});
+// routes/web.php
