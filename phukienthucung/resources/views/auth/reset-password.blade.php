@@ -21,7 +21,7 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="{{ route('password.update') }}">
+                        <form method="POST" action="{{ route('password.update') }}" class="needs-validation" novalidate>
                             @csrf
                             <input type="hidden" name="token" value="{{ $token }}">
 
@@ -29,16 +29,19 @@
                                 <label class="form-label">Email</label>
                                 <input type="email" name="email" class="form-control" value="{{ old('email', $email) }}"
                                     required>
+                                <div class="invalid-feedback">Vui lòng nhập địa chỉ email hợp lệ.</div>
                             </div>
 
                             <div class="form-group mb-3">
                                 <label class="form-label">Mật khẩu mới</label>
-                                <input type="password" name="password" class="form-control" required>
+                                <input type="password" name="password" class="form-control" minlength="8" required>
+                                <div class="invalid-feedback">Mật khẩu tối thiểu 8 ký tự.</div>
                             </div>
 
                             <div class="form-group mb-3">
                                 <label class="form-label">Xác nhận mật khẩu</label>
                                 <input type="password" name="password_confirmation" class="form-control" required>
+                                <div class="invalid-feedback">Vui lòng xác nhận lại mật khẩu.</div>
                             </div>
 
                             <div class="d-grid mt-3">
@@ -49,9 +52,25 @@
                                 <a href="{{ url()->previous() }}">Quay lại</a>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        });
+    </script>
+
 @endsection

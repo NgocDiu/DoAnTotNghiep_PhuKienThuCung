@@ -15,16 +15,23 @@
                                     aria-label="Close"></button>
                             </div>
                         @endif
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                {{ $errors->first() }}
+                            </div>
+                        @endif
                         @if (session('status'))
                             <div class="alert alert-success">{{ session('status') }}</div>
                         @endif
 
-                        <form method="POST" action="{{ route('password.email') }}">
+                        <form method="POST" action="{{ route('password.email') }}" class="needs-validation" novalidate>
                             @csrf
+
                             <div class="form-group mb-3">
                                 <label class="form-label">Email</label>
                                 <input type="email" name="email" class="form-control" placeholder="Nhập email của bạn"
                                     required>
+                                <div class="invalid-feedback">Vui lòng nhập địa chỉ email hợp lệ.</div>
                             </div>
 
                             <div class="d-grid mt-3">
@@ -35,9 +42,26 @@
                                 <a href="{{ route('publish.login') }}">Quay lại</a>
                             </div>
                         </form>
+
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        });
+    </script>
+
 @endsection
