@@ -104,7 +104,6 @@
                             <tr>
                                 <th>Mã đơn</th>
                                 <th>Ngày đặt</th>
-                                <th>Địa chỉ</th>
                                 <th>Sản phẩm đầu tiên</th>
                                 <th>Tổng tiền</th>
                                 <th>Phương thức</th>
@@ -126,14 +125,7 @@
                                 <tr>
                                     <td class="text-center">{{ $order->id }}</td>
                                     <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
-                                    <td>
-                                        @if (!empty($order->address->full_address))
-                                            <i class="fas fa-map-marker-alt text-danger" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" title="{{ $order->address->full_address }}"></i>
-                                        @else
-                                            <span class="text-muted">Không có địa chỉ</span>
-                                        @endif
-                                    </td>
+
 
                                     <td>
                                         @if ($firstItem)
@@ -280,7 +272,14 @@
                                                                 @endforeach
                                                             </tbody>
                                                         </table>
-
+                                                        <div class="text-start ">
+                                                            Địa chỉ:
+                                                            @if (!empty($order->address->full_address))
+                                                                {{ $order->address->full_address }}
+                                                            @else
+                                                                <span class="text-muted">Không có địa chỉ</span>
+                                                            @endif
+                                                        </div>
                                                         <div class="text-end fw-bold">
                                                             Tổng đơn: {{ number_format($order->grand_total) }} đ
                                                         </div>
