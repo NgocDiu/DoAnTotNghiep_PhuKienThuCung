@@ -12,10 +12,11 @@ class ProductController extends Controller
 {
     public function show($slug)
     {
-        $product = Product::with(['images', 'brand', 'categories'])
-            ->where('slug', $slug)
-            ->where('is_active', 1)
-            ->firstOrFail();
+        $product = Product::with(['images', 'brand', 'categories', 'attributeValues.attribute'])
+        ->where('slug', $slug)
+        ->where('is_active', 1)
+        ->firstOrFail();
+
 
         $reviews = ProductReview::where('product_id', $product->id)
             ->where('status', 'approved')

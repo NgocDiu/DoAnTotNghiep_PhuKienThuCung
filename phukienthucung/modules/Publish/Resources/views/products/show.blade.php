@@ -240,6 +240,18 @@
                                         giỏ hàng</button>
 
                                 </form>
+                                @if ($product->attributeValues->count())
+                                    <div class="mb-3">
+                                        <ul class="list-unstyled" style="list-style: none">
+                                            @foreach ($product->attributeValues as $attrVal)
+                                                <li>
+                                                    <strong>{{ $attrVal->attribute->name ?? '---' }}:</strong>
+                                                    {{ $attrVal->value }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                             </div>
 
 
