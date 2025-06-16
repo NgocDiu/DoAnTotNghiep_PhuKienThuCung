@@ -83,7 +83,16 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin')->name('admin.')->group
         ->middleware('permission:attribute')
         ->names('attributes');
     Route::post('/admin/attributes/check-name', [AttributeController::class, 'checkName'])->name('attributes.checkName');
+    // ✅ Ưu tiên đặt trước resource
+    Route::get('/products/update-price', [ProductController::class, 'showUpdatePrice'])
+    ->middleware('permission:product')
+    ->name('products.update_price');
 
+    Route::post('/products/update-price/{product}', [ProductController::class, 'handleUpdatePrice'])
+    ->middleware('permission:product')
+    ->name('products.handle_update_price');
+
+    // Resource route cần đặt SAU để không bắt nhầm route ở trên
     Route::resource('products', ProductController::class)
     ->except(['show', 'destroy'])
     ->middleware('permission:product')
@@ -172,13 +181,7 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin')->name('admin.')->group
     // routes/web.php
 
     // web.php
-    Route::get('/products/update-price', [ProductController::class, 'showUpdatePrice'])
-    ->middleware('permission:product')
-    ->name('products.update_price');
-    Route::post('/products/update-price/{product}', [ProductController::class, 'handleUpdatePrice'])
-    ->middleware('permission:product')
-    ->name('products.handle_update_price');
-
+ 
 
 
 });

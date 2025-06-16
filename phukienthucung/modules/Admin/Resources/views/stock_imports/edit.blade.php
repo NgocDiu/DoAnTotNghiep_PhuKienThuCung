@@ -56,10 +56,13 @@
                     </div>
                 @endforeach
             </div>
-            <div class="text-end">
-                <button type="button" class="btn btn-sm btn-secondary mb-3" id="add-product">+ Thêm sản phẩm</button>
+            @if ($import->status != 'pending')
+                <div class="text-end">
+                    <button type="button" class="btn btn-sm btn-secondary mb-3" id="add-product">+ Thêm sản phẩm</button>
 
-            </div>
+                </div>
+            @endif
+
             <div class="my-3">
                 <label for="note" class="form-label font-bold">Ghi chú</label>
                 <input type="text" class="form-control" name="note" value="{{ old('note', $import->note) }}">

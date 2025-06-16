@@ -139,6 +139,7 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             const buttons = document.querySelectorAll('.btn-update-price');
+            const form = document.getElementById('updatePriceForm'); // 👈 Thêm dòng này
 
             buttons.forEach(button => {
                 button.addEventListener('click', function() {
@@ -150,6 +151,9 @@
 
                     const newPrice = Math.round(importPrice * (1 + profitPercent / 100));
 
+                    // 👇 Sửa ở đây: cập nhật form action đúng
+                    form.action = `/admin/products/update-price/${productId}`;
+
                     document.getElementById('modalProductId').value = productId;
                     document.getElementById('modalProductName').textContent = productName;
                     document.getElementById('modalOldPrice').textContent = oldPrice.toLocaleString(
@@ -158,11 +162,8 @@
                     document.getElementById('modalNewPrice').textContent = newPrice.toLocaleString(
                         'vi-VN');
 
-                    // Mở modal an toàn
                     const modalEl = document.getElementById('updatePriceModal');
                     const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-
-                    // Đảm bảo không bị lỗi focus
                     document.activeElement?.blur();
                     modal.show();
                 });
