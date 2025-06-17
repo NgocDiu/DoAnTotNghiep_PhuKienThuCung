@@ -37,7 +37,15 @@ class AttributeController extends Controller
 
     public function destroy(Attribute $attribute)
     {
+        // Nếu có sản phẩm đang dùng thuộc tính này
+        if ($attribute->productAttributeValues()->exists()) {
+            return redirect()->route('admin.attributes.index')
+                ->with('error', 'Không thể xóa: thuộc tính này đang được sử dụng trong sản phẩm.');
+        }
+
         $attribute->delete();
-        return redirect()->route('admin.attributes.index')->with('success', 'Xóa thành công');
+
+        return redirect()->route('admin.attributes.index')->with('success', '✅ Xóa thuộc tính thành công.');
     }
+
 }
