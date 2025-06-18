@@ -116,7 +116,12 @@ public function search(Request $request)
 
     // Base query tìm theo tên sản phẩm
     $baseProductQuery = Product::where('is_active', 1)
-        ->where('name', 'like', '%' . $keyword . '%');
+    ->where(function ($query) use ($keyword) {
+        $query->where('name', 'like', '%' . $keyword . '%')
+              ->orWhereHas('categories', function ($catQuery) use ($keyword) {
+                  $catQuery->where('name', 'like', '%' . $keyword . '%');
+              });
+    });
 
     // Clone để tính min/max giá TRƯỚC khi lọc
     $priceQueryClone = (clone $baseProductQuery);
