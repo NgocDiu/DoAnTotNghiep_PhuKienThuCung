@@ -16,6 +16,7 @@
                     <th>Hành động</th>
                 </tr>
             </thead>
+
             <tbody>
                 @foreach ($categories as $cat)
                     <tr>

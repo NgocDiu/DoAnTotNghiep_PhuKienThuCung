@@ -64,10 +64,9 @@
                                                         phẩm:</label>
 
                                                     <div class="input-container">
-                                                        <input type="search" id="woocommerce-product-search-field-2785"
-                                                            class="search-field" placeholder="Nhập từ cần tìm kiếm…"
-                                                            name="q" value="{{ request('q') }}"
-                                                            autocomplete="off">
+                                                        <input type="search" id="" class="search-field"
+                                                            placeholder="Nhập từ cần tìm kiếm…" name="q"
+                                                            value="{{ request('q') }}" autocomplete="off">
                                                         <div class="loader-container" style="display:none"><i
                                                                 class="loader"></i></div>
                                                     </div>
@@ -82,9 +81,7 @@
                                                     </button>
                                                 </form>
 
-                                                <div class="search-results" style="display:none">
-                                                    <div class="search-data" id="datafetch"></div>
-                                                </div>
+
                                             </div>
                                         </div>
                                         <!-- data-section="header_search_advanced" -->
@@ -108,8 +105,8 @@
                                                         data-set-focus=".cart-toggle-close"><span
                                                             class="base-svg-iconset"><svg
                                                                 class="thebase-svg-icon thebase-shopping-bag-svg"
-                                                                fill="currentColor" id="Layer_1"
-                                                                data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
+                                                                fill="currentColor" id="Layer_1" data-name="Layer 1"
+                                                                xmlns="http://www.w3.org/2000/svg"
                                                                 viewBox="0 0 762.47 673.5">
                                                                 <path
                                                                     d="M603.22,492.58A91.82,91.82,0,1,0,695,584.4,91.82,91.82,0,0,0,603.22,492.58Zm-.05,142.93a51.11,51.11,0,1,1,51.11-51.11A51.11,51.11,0,0,1,603.17,635.51Z"
@@ -872,13 +869,12 @@
             </button>
         </div>
         <div class="drawer-content">
-            <form role="search" method="get" class="woocommerce-product-search"
-                action="{{ route('product.search') }}">
+            <form role="search" method="get" class="" action="{{ route('product.search') }}">
 
                 <label class="screen-reader-text" for="woocommerce-product-search-field-0">Tìm kiếm sản phẩm:</label>
 
-                <input type="search" id="woocommerce-product-search-field-0" class="search-field"
-                    placeholder="Tìm kiếm…" name="q" value="{{ request('q') }}" />
+                <input type="search" id="" class="" placeholder="Tìm kiếm…" name="q"
+                    value="{{ request('q') }}" />
 
                 <button type="submit">Tìm</button>
 
