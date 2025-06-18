@@ -71,6 +71,8 @@ Route::middleware(['web', 'auth:admin'])->prefix('admin')->name('admin.')->group
         ->middleware('permission:categories')
         ->names('categories');
     Route::post('/admin/categories/check-slug', [CategoryController::class, 'checkSlug'])->name('categories.checkSlug');
+    // routes/web.php hoặc api.php
+    Route::post('/admin/roles/check-name', [RoleController::class, 'checkName'])->name('roles.checkName');
 
     Route::resource('brands', BrandController::class)
         ->except(['show', 'create', 'edit'])

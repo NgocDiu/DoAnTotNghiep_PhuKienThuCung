@@ -50,6 +50,11 @@ public function update(Request $request, Role $role)
 
     return redirect()->back()->with('success', 'Cập nhật vai trò thành công');
 }
+public function checkName(Request $request)
+{
+    $exists = Role::where('name', $request->name)->exists();
+    return response()->json(['exists' => $exists]);
+}
 
 
     public function destroy(Role $role)

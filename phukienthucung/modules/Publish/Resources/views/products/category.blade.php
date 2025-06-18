@@ -69,8 +69,10 @@
                         </div>
                         <div class="base-shop-top-item base-woo-results-count">
                             <p class="woocommerce-result-count">
-                                Hiển thị tất cả <span class="result">8</span> kết quả</p>
+                                Hiển thị tất cả <span class="result">{{ $products->count() }}</span> kết quả
+                            </p>
                         </div>
+
                         <div class="base-shop-top-item base-woo-ordering">
                             <form class="woocommerce-ordering" method="get">
                                 <select name="orderby" class="orderby" aria-label="Shop order"

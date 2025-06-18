@@ -158,8 +158,9 @@
                         <div class="mb-3">
                             <label for="roleName" class="form-label">Tên vai trò <span class="required">*</span></label>
                             <input type="text" class="form-control" name="name" id="roleName" required>
-                            <div class="invalid-feedback">Vui lòng nhập tên vai trò.</div>
+                            <div id="roleNameFeedback" class="invalid-feedback">Vui lòng nhập tên vai trò.</div>
                         </div>
+
 
                         <div class="mb-3">
                             <label class="form-label">Gán quyền</label>
@@ -201,6 +202,46 @@
                     }
                     form.classList.add('was-validated');
                 });
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const roleNameInput = document.getElementById('roleName');
+            const feedback = document.getElementById('roleNameFeedback');
+
+            if (!roleNameInput) return;
+
+            // Có thể dùng blur hoặc change hoặc input tuỳ ý:
+            roleNameInput.addEventListener('input', function() {
+                roleNameInput.classList.remove('is-invalid', 'is-valid');
+                const name = roleNameInput.value.trim();
+                if (!name) {
+                    roleNameInput.classList.add('is-invalid');
+                    feedback.textContent = 'Vui lòng nhập tên vai trò.';
+                    return;
+                }
+
+                fetch("{{ route('admin.roles.checkName') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            name
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        roleNameInput.classList.remove('is-valid', 'is-invalid');
+                        if (data.exists) {
+                            roleNameInput.classList.add('is-invalid');
+                            feedback.textContent = 'Tên vai trò đã tồn tại!';
+                        } else {
+                            // Nếu bạn muốn tick xanh thì:
+                            // roleNameInput.classList.add('is-valid');
+                            feedback.textContent = '';
+                        }
+                    });
             });
         });
     </script>
