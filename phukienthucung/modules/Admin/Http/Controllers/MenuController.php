@@ -56,6 +56,7 @@ class MenuController extends Controller
         $menu->type = $request->type;
         $menu->position = $request->position;
         $menu->category_id = null;
+        $menu->is_active = $request->has('is_active') ? 1 : 0;
 
         if ($request->type === 'cate') {
             $category = Category::find($request->category_id);

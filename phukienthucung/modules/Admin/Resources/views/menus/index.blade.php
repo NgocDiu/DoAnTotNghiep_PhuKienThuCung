@@ -108,6 +108,15 @@
 
                             <label class="form-label mt-2">Vị trí</label>
                             <input name="position" type="number" value="{{ $menu->position }}" class="form-control">
+
+                            <label class="form-label mt-2">Kích hoạt</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="is_active" value="1"
+                                    id="is_active_{{ $menu->id }}" {{ $menu->is_active ? 'checked' : '' }}>
+                                <label class="form-check-label" for="is_active_{{ $menu->id }}">
+                                    Hiển thị menu này
+                                </label>
+                            </div>
                         </div>
 
                         <div class="modal-footer">
