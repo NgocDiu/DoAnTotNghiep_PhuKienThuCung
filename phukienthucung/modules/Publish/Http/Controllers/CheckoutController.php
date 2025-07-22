@@ -240,8 +240,8 @@ class CheckoutController extends Controller
 
     public function redirectToVnpay(Order $order)
     {
-        $grandTotal = $order->total_amount + $order->ship_fee;
-
+        // $grandTotal = $order->grand_total + $order->ship_fee;
+        $grandTotal = $order->grand_total;
         $vnp_Url = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
         $vnp_TmnCode = config('vnpay.tmn_code');
         $vnp_HashSecret = config('vnpay.hash_secret');

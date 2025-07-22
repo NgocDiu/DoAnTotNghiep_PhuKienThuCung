@@ -193,6 +193,59 @@
                                 </li>
                             @endforeach
                         </ul>
+                        <style>
+                            .pagination {
+                                display: flex;
+                                justify-content: center;
+                                gap: 0;
+                                list-style: none;
+                                padding-left: 0;
+                            }
+
+                            .pagination li {
+                                display: inline-block;
+                                border: 2px solid #dee2e6;
+                                margin: 2px;
+                            }
+
+                            .pagination li a,
+                            .pagination li span {
+                                padding: 6px 12px;
+
+                                color: #007bff;
+                                text-decoration: none;
+                                border-radius: 0;
+                                margin-left: -1px;
+                                /* tránh bị double border */
+                            }
+
+                            .pagination li:first-child a,
+                            .pagination li:first-child span {
+                                border-top-left-radius: 4px;
+                                border-bottom-left-radius: 4px;
+                            }
+
+                            .pagination li:last-child a,
+                            .pagination li:last-child span {
+                                border-top-right-radius: 4px;
+                                border-bottom-right-radius: 4px;
+                            }
+
+                            .pagination li.active span {
+                                background-color: #007bff;
+                                color: #fff;
+                                border-color: #007bff;
+                            }
+
+                            .pagination li.disabled span {
+                                color: #6c757d;
+                                pointer-events: none;
+                                background-color: #f8f9fa;
+                            }
+                        </style>
+                        <div class="d-flex justify-content-center">
+                            {{ $products->links('pagination::bootstrap-4') }}
+                        </div>
                     @endif
 
 

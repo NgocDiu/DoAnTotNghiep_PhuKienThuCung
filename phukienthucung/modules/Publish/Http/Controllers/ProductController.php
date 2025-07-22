@@ -92,7 +92,7 @@ class ProductController extends Controller
     }
 
     // Lấy sản phẩm sau khi lọc và sắp xếp
-    $products = $baseProductQuery->get();
+    $products = $baseProductQuery->paginate(12)->withQueryString();
 
     // Tìm cha cấp cao nhất
     $topParent = $category;
@@ -162,7 +162,7 @@ public function search(Request $request)
             break;
     }
 
-    $products = $baseProductQuery->get();
+    $products = $baseProductQuery->paginate(12)->withQueryString();
 
     return view('publish::products.search', compact(
         'keyword',
